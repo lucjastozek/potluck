@@ -1,0 +1,207 @@
+.colorPaletteGrid {
+  --swatch-orange: #ea8644;
+  --swatch-orange-rgb: 234, 134, 68;
+  --swatch-green: #56c876;
+  --swatch-green-rgb: 86, 200, 118;
+}
+
+.colorPaletteGrid.lightMode {
+  --swatch-orange: #913c03;
+  --swatch-orange-rgb: 145, 60, 3;
+  --swatch-green: #205b33;
+  --swatch-green-rgb: 32, 91, 51;
+}
+
+.colorSwatch {
+  position: relative;
+  flex-direction: column;
+  text-align: center;
+  background: var(--black) !important;
+}
+
+.colorPaletteGrid.lightMode .colorSwatch {
+  background: var(--white) !important;
+}
+
+.colorPreview {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-md);
+  border: 3px solid rgba(var(--whiteRgb), 0.2);
+  box-shadow: var(--shadow-sm);
+}
+
+.colorPaletteGrid.lightMode .colorPreview {
+  border: 3px solid rgba(var(--blackRgb), 0.2);
+  box-shadow: var(--shadow-sm);
+}
+
+.colorInfo h4 {
+  margin: 0 0 var(--space-sm) 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white) !important;
+}
+
+.colorPaletteGrid.lightMode .colorInfo h4 {
+  color: var(--black) !important;
+}
+
+.colorInfo code {
+  display: block;
+  font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Code", monospace;
+  font-size: 0.85rem;
+  color: var(--swatch-orange);
+  margin-bottom: var(--space-sm);
+  background: rgba(var(--swatch-orange-rgb), 0.1);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(var(--swatch-orange-rgb), 0.2);
+}
+
+.colorPaletteGrid.lightMode .colorInfo code {
+  background: rgba(var(--swatch-orange-rgb), 0.1);
+  border: 1px solid rgba(var(--swatch-orange-rgb), 0.2);
+  color: var(--swatch-orange);
+}
+
+.contrastRatio {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: var(--space-xs) 0.6rem;
+  border-radius: 20px;
+  font-weight: 600;
+  background: rgba(var(--swatch-green-rgb), 0.2);
+  color: var(--swatch-green);
+  border: 1px solid rgba(var(--swatch-green-rgb), 0.3);
+}
+
+.colorPaletteGrid.lightMode .contrastRatio {
+  background: rgba(var(--swatch-green-rgb), 0.15);
+  color: var(--swatch-green);
+  border: 1px solid rgba(var(--swatch-green-rgb), 0.25);
+}
+
+.colorModeToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.toggleLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--fg);
+  opacity: 0.8;
+}
+
+.toggleButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(var(--fgRgb), 0.1);
+  border: 2px solid rgba(var(--fgRgb), 0.2);
+  border-radius: var(--radius-2xl);
+  padding: 0.3rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 140px;
+  height: 40px;
+  overflow: hidden;
+}
+
+.toggleButton:hover {
+  border-color: rgba(var(--orangeRgb), 0.4);
+}
+
+.toggleButton:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+.toggleOption {
+  position: relative;
+  flex: 1;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1.5rem;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.toggleSlider {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  background: var(--orange);
+  border-radius: 1.5rem;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.toggleButton.darkActive .toggleSlider {
+  transform: translateX(0);
+}
+
+.toggleButton.lightActive .toggleSlider {
+  transform: translateX(100%);
+}
+
+.toggleButton.darkActive .toggleOption:nth-child(1) {
+  color: var(--bg);
+}
+
+.toggleButton.darkActive .toggleOption:nth-child(2) {
+  color: rgba(var(--fgRgb), 0.6);
+}
+
+.toggleButton.lightActive .toggleOption:nth-child(1) {
+  color: rgba(var(--fgRgb), 0.6);
+}
+
+.toggleButton.lightActive .toggleOption:nth-child(2) {
+  color: var(--bg);
+}
+
+@media (max-width: 768px) {
+  .colorPreview {
+    width: 50px;
+    height: 50px;
+  }
+
+  .colorSwatch {
+    padding: 0.8rem;
+  }
+
+  .colorModeToggle {
+    flex-direction: column;
+    gap: var(--space-sm);
+    align-items: center;
+  }
+
+  .toggleLabel {
+    font-size: 0.8rem;
+  }
+
+  .toggleButton {
+    min-width: 120px;
+    height: 36px;
+  }
+
+  .toggleOption {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .colorPreview {
+    width: 40px;
+    height: 40px;
+  }
+}
