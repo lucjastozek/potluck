@@ -1,0 +1,6 @@
+.strikeText {
+  display: inline;
+  text-decoration: line-through;
+  text-decoration-color: var(--strike-color, currentColor);
+  text-decoration-thickness: var(--strike-width, 2px);
+}

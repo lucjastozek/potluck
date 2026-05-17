@@ -1,10 +1,10 @@
-import HomePage from "@/pages/home-page/HomePage";
+import RendererPage from "@/pages/renderer/RendererPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: <RendererPage />,
   },
 ]);
 

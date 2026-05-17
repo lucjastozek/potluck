@@ -1,0 +1,41 @@
+.neonText {
+  display: inline;
+  color: white;
+  text-shadow: 0 0 0.15em var(--neon-color, #ff00ff);
+  animation: neonFlicker 3s infinite;
+  -webkit-text-stroke: 0.015em var(--neon-color, #ff00ff);
+  font-weight: 600;
+}
+
+@keyframes neonFlicker {
+  0%,
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 0.15em var(--neon-color, #ff00ff);
+  }
+
+  92% {
+    opacity: 1;
+    text-shadow: 0 0 0.15em var(--neon-color, #ff00ff);
+  }
+
+  93% {
+    opacity: 0.4;
+    text-shadow: 0 0 0.06em var(--neon-color, #ff00ff);
+  }
+
+  94% {
+    opacity: 1;
+    text-shadow: 0 0 0.15em var(--neon-color, #ff00ff);
+  }
+
+  96% {
+    opacity: 0.6;
+    text-shadow: 0 0 0.09em var(--neon-color, #ff00ff);
+  }
+
+  97% {
+    opacity: 1;
+    text-shadow: 0 0 0.11em var(--neon-color, #ff00ff);
+  }
+}
