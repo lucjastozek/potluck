@@ -14,7 +14,7 @@ export interface EffectComponentProps {
 export type ImageComponentProps = {
   url: string;
   attrs: Record<string, string>;
-  adjacentText?: string; // ← add this
+  adjacentText?: string;
 };
 
 export type EffectComponent = React.ComponentType<EffectComponentProps>;

@@ -13,7 +13,6 @@ import SizedText from "@/components/renderer/effects/SizedText/SizedText";
 import ColorText from "@/components/renderer/effects/ColorText/ColorText";
 import Spoiler from "@/components/renderer/effects/Spoiler/Spoiler";
 import Typewriter from "@/components/renderer/effects/Typewriter/Typewriter";
-import GlitchText from "@/components/renderer/effects/GlitchText/GlitchText";
 import Bold from "@/components/renderer/effects/Bold/Bold";
 import Italic from "@/components/renderer/effects/Italic/Italic";
 import Code from "@/components/renderer/effects/Code/Code";
@@ -39,7 +38,6 @@ export const EFFECT_REGISTRY: EffectRegistry = {
   color: ColorText,
   spoiler: Spoiler,
   typewriter: Typewriter,
-  glitch: GlitchText,
   bold: Bold,
   italic: Italic,
   code: Code,
