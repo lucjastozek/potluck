@@ -1,0 +1,7 @@
+.highlight {
+  display: inline;
+  background-color: var(--highlight-color, #ffff00);
+  color: var(--highlight-text-color, inherit);
+  padding: 0 0.1875rem;
+  border-radius: 0.125rem;
+}

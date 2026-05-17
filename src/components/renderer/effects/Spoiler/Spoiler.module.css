@@ -1,0 +1,26 @@
+.spoilerButton {
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  border-radius: 0.1875rem;
+  transition:
+    filter 0.2s,
+    background-color 0.2s;
+  display: inline;
+  vertical-align: baseline;
+}
+
+.spoilerHidden {
+  filter: blur(0.1em);
+  background-color: currentColor;
+  user-select: none;
+}
+
+.spoilerRevealed {
+  filter: none;
+  background-color: transparent;
+  user-select: auto;
+}

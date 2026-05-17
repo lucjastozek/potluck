@@ -1,0 +1,8 @@
+.rainbowText {
+  display: inline;
+}
+
+.rainbowLetter {
+  display: inline-block;
+  color: hsl(var(--rainbow-hue, 0) 100% 50%);
+}

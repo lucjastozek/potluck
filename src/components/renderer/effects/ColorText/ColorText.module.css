@@ -1,0 +1,4 @@
+.colorText {
+  display: inline;
+  color: var(--text-color, inherit);
+}

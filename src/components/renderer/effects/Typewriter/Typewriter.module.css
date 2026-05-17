@@ -1,0 +1,19 @@
+.typewriterText {
+  display: inline;
+  font-family: monospace;
+}
+
+.typewriterCursor {
+  animation: cursorBlink 1s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  from,
+  to {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
