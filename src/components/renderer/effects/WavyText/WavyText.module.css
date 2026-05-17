@@ -1,0 +1,19 @@
+.wavyText {
+  display: inline;
+}
+
+.wavyLetter {
+  display: inline-block;
+  animation: wavyBounce 0.6s ease-in-out var(--wavy-delay, 0s) infinite
+    alternate;
+}
+
+@keyframes wavyBounce {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-6px);
+  }
+}

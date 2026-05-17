@@ -1,0 +1,46 @@
+.imageFigure {
+  margin: 1.5em 0;
+  text-align: left;
+}
+
+.imageCentered {
+  text-align: center;
+}
+
+.imageCentered .imageWrap {
+  margin: 0 auto;
+}
+
+.imageWrap {
+  display: block;
+  max-width: 100%;
+  width: var(--image-width, 300px);
+}
+
+.imageFloatLeft {
+  float: left;
+  margin: 0 1.5em 1em 0;
+}
+
+.imageFloatRight {
+  float: right;
+  margin: 0 0 1em 1.5em;
+}
+
+.imageAuto {
+  shape-outside: var(--image-shape-outside);
+  shape-margin: 1em;
+}
+
+.imageCircle {
+  border-radius: 50%;
+  shape-outside: circle();
+  shape-margin: 1em;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.imageBreak {
+  display: block;
+  max-width: 100%;
+}

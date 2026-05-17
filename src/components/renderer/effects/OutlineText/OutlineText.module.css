@@ -1,0 +1,4 @@
+.outlineText {
+  display: inline;
+  -webkit-text-stroke: var(--outline-width, 2px) var(--outline-color, #ff0000);
+}
