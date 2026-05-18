@@ -12,9 +12,7 @@ export default function Highlight({
       className={styles.highlight}
       style={{
         ["--highlight-color" as string]: String(attrs.color ?? "#ffff00"),
-        ["--highlight-text-color" as string]: String(
-          attrs.textColor ?? "inherit",
-        ),
+        ["--highlight-text-color" as string]: String(attrs.color ?? "inherit"),
       }}
     >
       {children}
