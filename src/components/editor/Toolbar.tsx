@@ -1,4 +1,4 @@
-import type { Editor } from "@tiptap/react";
+import { useEditorState, type Editor } from "@tiptap/react";
 import { useState } from "react";
 import styles from "@/components/editor/Toolbar.module.css";
 import ColorPopover from "@/components/editor/popovers/ColorPopover";
@@ -10,6 +10,15 @@ export default function Toolbar({
   editor: Editor | null;
 }): JSX.Element | null {
   const [openPopover, setOpenPopover] = useState<string | null>(null);
+  useEditorState({
+    editor,
+    selector: (ctx) => {
+      if (ctx.editor) {
+        return ctx.editor.state;
+      }
+    },
+  });
+
   if (!editor) return null;
 
   const toggle = (name: string) =>
@@ -19,6 +28,11 @@ export default function Toolbar({
     editor.isActive(name, attrs)
       ? `${styles.toolbarButton} ${styles.toolbarButtonActive}`
       : styles.toolbarButton;
+
+  const applyRainbow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    editor.chain().focus().setRainbow().run();
+  };
 
   return (
     <div className={styles.toolbar} role="toolbar" aria-label="Text formatting">
@@ -69,7 +83,13 @@ export default function Toolbar({
       <div className={styles.popoverAnchor}>
         <button
           className={btn("color")}
-          onClick={() => toggle("color")}
+          onClick={() => {
+            if (editor.isActive("color")) {
+              editor.chain().focus().unsetColor().run();
+            } else {
+              toggle("color");
+            }
+          }}
           aria-expanded={openPopover === "color"}
           title="Color"
         >
@@ -79,6 +99,16 @@ export default function Toolbar({
           <ColorPopover editor={editor} onClose={() => setOpenPopover(null)} />
         )}
       </div>
+
+      <button
+        className={btn("rainbow")}
+        onClick={(e) => {
+          applyRainbow(e);
+        }}
+        title="Rainbow"
+      >
+        🌈
+      </button>
     </div>
   );
 }

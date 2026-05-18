@@ -5,12 +5,9 @@ import { serializeToMarkup } from "@/utils/serializer";
 import styles from "@/components/editor/PostEditor.module.css";
 import { ColorMark } from "@/components/editor/extensions/ColorMark";
 import { useState } from "react";
+import { RainbowNode } from "@/components/editor/extensions/RainbowNode";
 
-const EXTENSIONS = [
-  StarterKit,
-  ColorMark,
-  // ...
-];
+const EXTENSIONS = [StarterKit, ColorMark, RainbowNode];
 
 interface PostEditorProps {
   onSubmit: (markup: string) => void;
