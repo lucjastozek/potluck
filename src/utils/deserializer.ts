@@ -55,6 +55,17 @@ function buildNodes(
         continue;
       }
 
+      if (name === "rainbow") {
+        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
+        const text = children
+          .filter((n) => n.type === "text")
+          .map((n) => n.text ?? "")
+          .join("");
+        nodes.push({ type: "rainbow", attrs: { text } });
+        i = next;
+        continue;
+      }
+
       const mark = tagToMark(name, attrs as Record<string, unknown>);
       if (mark) {
         const [children, next] = buildNodes(tokens, i + 1, name, [
@@ -132,8 +143,6 @@ function tagToMark(
       return { type: "strike" };
     case "wavy":
       return { type: "wavy" };
-    case "rainbow":
-      return { type: "rainbow" };
     case "shake":
       return { type: "shake" };
     case "spoiler":

@@ -32,6 +32,9 @@ function serializeNode(node: JSONContent): string {
       return `![${src}]{wrap=${wrap},shape=${shape},width=${width},alt=${alt}}`;
     }
 
+    case "rainbow":
+      return `[rainbow]${node.attrs?.text ?? ""}[/rainbow]`;
+
     case "text":
       return applyMarks(node.marks ?? [], node.text ?? "");
 
@@ -75,8 +78,6 @@ function wrapMark(
       return `[outline color=${a.color ?? "red"} width=${a.width ?? "2"}]${inner}[/outline]`;
     case "wavy":
       return `[wavy]${inner}[/wavy]`;
-    case "rainbow":
-      return `[rainbow]${inner}[/rainbow]`;
     case "shake":
       return `[shake]${inner}[/shake]`;
     case "highlight":

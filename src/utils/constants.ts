@@ -12,7 +12,6 @@ custom effects:
   [shadow color=#333 x=3px y=3px blur=2px]...[/shadow]
   [outline color=red width=2]...[/outline]
   [wavy]...[/wavy]              (plain text children only)
-  [rainbow]...[/rainbow]        (plain text children only)
   [shake]...[/shake]
   [strike color=red]...[/strike]
   [highlight color=yellow]...[/highlight]

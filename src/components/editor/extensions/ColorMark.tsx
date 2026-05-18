@@ -15,7 +15,7 @@ export const ColorMark = Mark.create({
   addAttributes() {
     return {
       color: {
-        default: "var(--fg)",
+        default: null,
         parseHTML: (el) => el.getAttribute("data-text-color"),
         renderHTML: (attrs) => {
           const color = attrs.color ?? "gold";
