@@ -1,10 +1,10 @@
-import RendererPage from "@/pages/renderer/RendererPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import CreatePostPage from "@/components/editor/CreatePostPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RendererPage />,
+    element: <CreatePostPage />,
   },
 ]);
 
