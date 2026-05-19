@@ -24,6 +24,6 @@ tags can be nested:
   [outline color=blue width=2][shadow color=#00f x=4px y=4px][h2]Heading[/h2][/shadow][/outline]
 
 images:
-  ![url]{wrap=left,shape=auto,width=300px,alt=description}
-  wrap: left | right | center | break
-  shape: auto | circle | polygon(x1 y1,x2 y2,...) | none`;
+  ![url]{wrap=none,widthPercent=50,alt=description}
+  wrap: left | right | none
+  widthPercent: 10-100`;
