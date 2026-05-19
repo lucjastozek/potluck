@@ -9,6 +9,7 @@ import { RainbowNode } from "@/components/editor/extensions/RainbowNode";
 import { GlitterNode } from "@/components/editor/extensions/GlitterNode";
 import { HighlightMark } from "@/components/editor/extensions/HighlightMark";
 import { OutlineMark } from "@/components/editor/extensions/OutlineMark";
+import { NeonMark } from "@/components/editor/extensions/NeonMark";
 
 const EXTENSIONS = [
   StarterKit,
@@ -17,6 +18,7 @@ const EXTENSIONS = [
   GlitterNode,
   HighlightMark,
   OutlineMark,
+  NeonMark,
 ];
 
 interface PostEditorProps {
