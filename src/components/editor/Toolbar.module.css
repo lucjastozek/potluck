@@ -128,3 +128,48 @@
   min-width: 2rem;
   text-align: center;
 }
+
+.adjusterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.adjusterRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.adjusterLabel {
+  font-size: 0.7rem;
+  font-family: "Intel One Mono", monospace;
+  color: var(--fg);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.colorSwatchActive {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+.applyBtn {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.3rem 0;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(var(--fgRgb), 0.2);
+  background: transparent;
+  color: var(--fg);
+  font-size: 0.75rem;
+  font-family: "Intel One Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.applyBtn:hover {
+  background: var(--oppblue);
+}
