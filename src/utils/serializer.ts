@@ -27,8 +27,13 @@ function serializeNode(node: JSONContent): string {
         alt = "",
         wrap = "none",
         widthPercent = 50,
+        framePreset = "",
+        frameShape = "rectangle",
       } = node.attrs ?? {};
-      return `![${src}]{wrap=${wrap},widthPercent=${widthPercent},alt=${alt}}`;
+      const framePart = framePreset
+        ? `,framePreset=${framePreset},frameShape=${frameShape}`
+        : "";
+      return `![${src}]{wrap=${wrap},widthPercent=${widthPercent},alt=${alt}${framePart}}`;
     }
 
     case "rainbow":

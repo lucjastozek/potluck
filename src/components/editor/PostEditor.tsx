@@ -80,7 +80,7 @@ export default function PostEditor({
           onClick={handleSubmit}
           disabled={disabled}
         >
-          Send
+          Post
         </button>
       </div>
     </div>

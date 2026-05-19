@@ -4,6 +4,7 @@
   font-weight: 400;
 
   --red: #ee7563;
+  --redRgb: 238, 117, 99;
   --orange: #ea8644;
   --orangeRgb: 234, 134, 68;
   --yellow: #ebcd47;
@@ -11,14 +12,21 @@
   --green: #56c876;
   --greenRgb: 86, 200, 118;
   --darkGreen: #4fb561;
+  --darkGreenRgb: 79, 181, 97;
   --blue: #6dc5e2;
   --blueRgb: 109, 197, 226;
   --darkBlue: #3ac2de;
+  --darkBlueRgb: 58, 194, 222;
   --purple: #a990b6;
+  --purpleRgb: 169, 144, 182;
   --darkPurple: #b186d5;
+  --darkPurpleRgb: 177, 134, 213;
   --cherry: #de7c8e;
+  --cherryRgb: 222, 124, 142;
   --pink: #e47792;
+  --pinkRgb: 228, 119, 146;
   --peach: #e97967;
+  --peachRgb: 233, 121, 103;
 
   --absred: #ee7563;
   --absorange: #ea8644;

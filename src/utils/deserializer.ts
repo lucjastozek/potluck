@@ -156,6 +156,8 @@ function buildNodes(
           alt: attrs.alt ?? "",
           wrap: attrs.wrap ?? "none",
           widthPercent: Number.isFinite(widthPercent) ? widthPercent : 50,
+          framePreset: attrs.framePreset ?? null,
+          frameShape: attrs.frameShape ?? "rectangle",
         },
       });
       i++;
