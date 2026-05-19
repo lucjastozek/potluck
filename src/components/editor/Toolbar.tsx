@@ -15,6 +15,7 @@ import ShadowPopover from "@/components/editor/popovers/ShadowPopover";
 import ShadowIcon from "@mui/icons-material/Tonality";
 import ShakePopover from "@/components/editor/popovers/ShakePopover";
 import ShakeIcon from "@mui/icons-material/Animation";
+import SpoilerIcon from "@mui/icons-material/VisibilityOff";
 
 export default function Toolbar({
   editor,
@@ -44,6 +45,11 @@ export default function Toolbar({
   const applyRainbow = (e: React.MouseEvent) => {
     e.preventDefault();
     editor.chain().focus().setRainbow().run();
+  };
+
+  const applySpoiler = (e: React.MouseEvent) => {
+    e.preventDefault();
+    editor.chain().focus().setSpoiler().run();
   };
 
   return (
@@ -250,6 +256,16 @@ export default function Toolbar({
           <ShakePopover editor={editor} onClose={() => setOpenPopover(null)} />
         )}
       </div>
+
+      <button
+        className={btn("spoiler")}
+        onClick={(e) => {
+          applySpoiler(e);
+        }}
+        title="Spoiler"
+      >
+        <SpoilerIcon fontSize="inherit" />
+      </button>
     </div>
   );
 }
