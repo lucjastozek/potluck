@@ -197,7 +197,10 @@ function tagToMark(
       };
 
     case "highlight":
-      return { type: "highlight", attrs: { color: attrs.color ?? "yellow" } };
+      return {
+        type: "highlight",
+        attrs: { color: attrs.color ?? "var(--yellow)" },
+      };
 
     case "size":
       return { type: "sizedText", attrs: { size: attrs.size ?? "1.5em" } };

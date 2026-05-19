@@ -354,3 +354,7 @@ button:disabled:hover:before {
     saturate(var(--glitter-saturation, 1))
     brightness(var(--glitter-brightness, 1));
 }
+
+.highlight {
+  color: var(--bg);
+}
