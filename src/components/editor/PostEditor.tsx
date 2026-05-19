@@ -11,6 +11,7 @@ import { HighlightMark } from "@/components/editor/extensions/HighlightMark";
 import { OutlineMark } from "@/components/editor/extensions/OutlineMark";
 import { NeonMark } from "@/components/editor/extensions/NeonMark";
 import { ShadowMark } from "@/components/editor/extensions/ShadowMark";
+import { ShakeNode } from "@/components/editor/extensions/ShakeNode";
 
 const EXTENSIONS = [
   StarterKit,
@@ -21,6 +22,7 @@ const EXTENSIONS = [
   OutlineMark,
   NeonMark,
   ShadowMark,
+  ShakeNode,
 ];
 
 interface PostEditorProps {

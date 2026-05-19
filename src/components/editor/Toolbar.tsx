@@ -13,6 +13,8 @@ import NeonPopover from "@/components/editor/popovers/NeonPopover";
 import NeonIcon from "@mui/icons-material/Flare";
 import ShadowPopover from "@/components/editor/popovers/ShadowPopover";
 import ShadowIcon from "@mui/icons-material/Tonality";
+import ShakePopover from "@/components/editor/popovers/ShakePopover";
+import ShakeIcon from "@mui/icons-material/Animation";
 
 export default function Toolbar({
   editor,
@@ -226,6 +228,26 @@ export default function Toolbar({
         </button>
         {openPopover === "shadow" && (
           <ShadowPopover editor={editor} onClose={() => setOpenPopover(null)} />
+        )}
+      </div>
+
+      <div className={styles.popoverAnchor}>
+        <button
+          className={btn("shake")}
+          onClick={() => {
+            if (editor.isActive("shake")) {
+              editor.chain().focus().unsetShake().run();
+            } else {
+              toggle("shake");
+            }
+          }}
+          aria-expanded={openPopover === "shake"}
+          title="Shake"
+        >
+          <ShakeIcon fontSize="inherit" />
+        </button>
+        {openPopover === "shake" && (
+          <ShakePopover editor={editor} onClose={() => setOpenPopover(null)} />
         )}
       </div>
     </div>
