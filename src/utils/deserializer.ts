@@ -97,6 +97,17 @@ function buildNodes(
         continue;
       }
 
+      if (name === "spoiler") {
+        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
+        const text = children
+          .filter((n) => n.type === "text")
+          .map((n) => n.text ?? "")
+          .join("");
+        nodes.push({ type: "spoiler", attrs: { text } });
+        i = next;
+        continue;
+      }
+
       const mark = tagToMark(name, attrs as Record<string, unknown>);
       if (mark) {
         const [children, next] = buildNodes(tokens, i + 1, name, [
@@ -180,7 +191,10 @@ function tagToMark(
       return { type: "spoiler" };
 
     case "glitter":
-      return { type: "glitter", attrs: { color: attrs.color ?? "gold" } };
+      return {
+        type: "glitter",
+        attrs: { color: attrs.color ?? "var(--pink)" },
+      };
 
     case "gradient":
       return {

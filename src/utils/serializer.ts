@@ -41,6 +41,9 @@ function serializeNode(node: JSONContent): string {
     case "shake":
       return `[shake intensity=${node.attrs?.intensity ?? "low"}]${node.attrs?.text ?? ""}[/shake]`;
 
+    case "spoiler":
+      return `[spoiler]${node.attrs?.text ?? ""}[/spoiler]`;
+
     case "text":
       return applyMarks(node.marks ?? [], node.text ?? "");
 
