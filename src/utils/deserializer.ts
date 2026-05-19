@@ -1,6 +1,7 @@
 import type { JSONContent } from "@tiptap/core";
 import { tokenize } from "@/utils/renderer";
 import type { Token } from "@/types";
+import { cssVarToHue } from "@/utils/colorToHue";
 
 export function deserializeFromMarkup(markup: string): JSONContent {
   if (!markup.trim()) {
@@ -62,6 +63,19 @@ function buildNodes(
           .map((n) => n.text ?? "")
           .join("");
         nodes.push({ type: "rainbow", attrs: { text } });
+        i = next;
+        continue;
+      }
+
+      if (name === "glitter") {
+        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
+        const text = children
+          .filter((n) => n.type === "text")
+          .map((n) => n.text ?? "")
+          .join("");
+        const color = (attrs as Record<string, string>).color ?? "var(--fg)";
+        const hue = cssVarToHue(color);
+        nodes.push({ type: "glitter", attrs: { text, color, hue } });
         i = next;
         continue;
       }

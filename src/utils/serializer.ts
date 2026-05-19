@@ -35,6 +35,9 @@ function serializeNode(node: JSONContent): string {
     case "rainbow":
       return `[rainbow]${node.attrs?.text ?? ""}[/rainbow]`;
 
+    case "glitter":
+      return `[glitter color=${node.attrs?.color ?? "var(--fg)"}]${node.attrs?.text ?? ""}[/glitter]`;
+
     case "text":
       return applyMarks(node.marks ?? [], node.text ?? "");
 
@@ -66,8 +69,6 @@ function wrapMark(
       return `[code]${inner}[/code]`;
     case "strike":
       return `[strike]${inner}[/strike]`;
-    case "glitter":
-      return `[glitter color=${a.color ?? "gold"}]${inner}[/glitter]`;
     case "gradient":
       return `[gradient colors=${Array.isArray(a.colors) ? a.colors.join(",") : (a.colors ?? "red,blue")} direction=${a.direction ?? "90deg"}]${inner}[/gradient]`;
     case "neon":

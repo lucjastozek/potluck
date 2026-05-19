@@ -339,3 +339,18 @@ button:disabled:hover:before {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+.glitter {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: url(/assets/glitter.gif);
+  background-size: 100%;
+  background-position: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: hue-rotate(var(--glitter-hue, 45deg))
+    saturate(var(--glitter-saturation, 1))
+    brightness(var(--glitter-brightness, 1));
+}
