@@ -8,6 +8,7 @@ import { useState } from "react";
 import { RainbowNode } from "@/components/editor/extensions/RainbowNode";
 import { GlitterNode } from "@/components/editor/extensions/GlitterNode";
 import { HighlightMark } from "@/components/editor/extensions/HighlightMark";
+import { OutlineMark } from "@/components/editor/extensions/OutlineMark";
 
 const EXTENSIONS = [
   StarterKit,
@@ -15,6 +16,7 @@ const EXTENSIONS = [
   RainbowNode,
   GlitterNode,
   HighlightMark,
+  OutlineMark,
 ];
 
 interface PostEditorProps {
