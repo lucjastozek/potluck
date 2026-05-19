@@ -17,6 +17,8 @@ import ShakePopover from "@/components/editor/popovers/ShakePopover";
 import ShakeIcon from "@mui/icons-material/Animation";
 import SpoilerIcon from "@mui/icons-material/VisibilityOff";
 import WaveIcon from "@mui/icons-material/Water";
+import TypewriterPopover from "@/components/editor/popovers/TypewriterPopover";
+import TypewriterIcon from "@mui/icons-material/Keyboard";
 
 export default function Toolbar({
   editor,
@@ -282,6 +284,29 @@ export default function Toolbar({
       >
         <WaveIcon fontSize="inherit" />
       </button>
+
+      <div className={styles.popoverAnchor}>
+        <button
+          className={btn("typewriter")}
+          onClick={() => {
+            if (editor.isActive("typewriter")) {
+              editor.chain().focus().unsetTypewriter().run();
+            } else {
+              toggle("typewriter");
+            }
+          }}
+          aria-expanded={openPopover === "typewriter"}
+          title="Typewriter"
+        >
+          <TypewriterIcon fontSize="inherit" />
+        </button>
+        {openPopover === "typewriter" && (
+          <TypewriterPopover
+            editor={editor}
+            onClose={() => setOpenPopover(null)}
+          />
+        )}
+      </div>
     </div>
   );
 }
