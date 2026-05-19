@@ -25,11 +25,10 @@ function serializeNode(node: JSONContent): string {
       const {
         src,
         alt = "",
-        wrap = "break",
-        shape = "none",
-        width = "300px",
+        wrap = "none",
+        widthPercent = 50,
       } = node.attrs ?? {};
-      return `![${src}]{wrap=${wrap},shape=${shape},width=${width},alt=${alt}}`;
+      return `![${src}]{wrap=${wrap},widthPercent=${widthPercent},alt=${alt}}`;
     }
 
     case "rainbow":

@@ -15,6 +15,7 @@ import { ShakeNode } from "@/components/editor/extensions/ShakeNode";
 import { SpoilerNode } from "@/components/editor/extensions/SpoilerNode";
 import { WavyNode } from "@/components/editor/extensions/WavyNode";
 import { TypewriterNode } from "@/components/editor/extensions/TypewriterNode";
+import { ImageNode } from "@/components/editor/extensions/ImageNode";
 
 const EXTENSIONS = [
   StarterKit,
@@ -29,6 +30,7 @@ const EXTENSIONS = [
   SpoilerNode,
   WavyNode,
   TypewriterNode,
+  ImageNode,
 ];
 
 interface PostEditorProps {

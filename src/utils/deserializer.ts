@@ -147,14 +147,15 @@ function buildNodes(
     }
 
     if (token.type === "image") {
+      const attrs = token.attrs as Record<string, string>;
+      const widthPercent = Number(attrs.widthPercent ?? attrs.width ?? 50);
       nodes.push({
         type: "image",
         attrs: {
           src: token.url,
-          alt: (token.attrs as Record<string, string>).alt ?? "",
-          wrap: (token.attrs as Record<string, string>).wrap ?? "break",
-          shape: (token.attrs as Record<string, string>).shape ?? "none",
-          width: (token.attrs as Record<string, string>).width ?? "300px",
+          alt: attrs.alt ?? "",
+          wrap: attrs.wrap ?? "none",
+          widthPercent: Number.isFinite(widthPercent) ? widthPercent : 50,
         },
       });
       i++;

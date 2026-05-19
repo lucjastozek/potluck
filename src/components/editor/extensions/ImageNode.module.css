@@ -1,0 +1,116 @@
+.figure {
+  position: relative;
+  border-radius: 0.25rem;
+  transition: outline 0.1s;
+  clear: none;
+}
+
+.selected {
+  outline: 2px solid var(--blue);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0.25rem;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.3rem;
+}
+
+.controlGroup {
+  display: flex;
+  gap: 0.2rem;
+  justify-content: center;
+}
+
+.controlBtn {
+  font-size: 0.6rem;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid rgba(var(--fgRgb), 0.2);
+  border-radius: 0.2rem;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font-family: "Intel One Mono", monospace;
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  transition: background 0.1s;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.controlBtn:hover {
+  background: rgba(var(--fgRgb), 0.08);
+}
+
+.controlBtnActive {
+  background: rgba(var(--fgRgb), 0.15);
+  border-color: rgba(var(--fgRgb), 0.4);
+}
+
+.controlSelect {
+  font-size: 0.6rem;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid rgba(var(--fgRgb), 0.2);
+  border-radius: 0.2rem;
+  background: rgba(var(--fgRgb), 0.05);
+  color: var(--fg);
+  cursor: pointer;
+  font-family: "Intel One Mono", monospace;
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  transition: background 0.1s;
+  flex: 1;
+}
+
+.controlSelect option {
+  background: var(--bg);
+  color: var(--fg);
+  padding: 0.5rem;
+}
+
+.controlSelect:hover {
+  background: rgba(var(--fgRgb), 0.08);
+  border-color: rgba(var(--fgRgb), 0.3);
+}
+
+.controlSelect:focus {
+  outline: none;
+  background: rgba(var(--fgRgb), 0.1);
+  border-color: rgba(var(--fgRgb), 0.4);
+}
+
+.resizeHandle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: linear-gradient(135deg, transparent 50%, var(--blue) 50%);
+  cursor: se-resize;
+  border: none;
+  border-radius: 0 0.25rem 0 0;
+  opacity: 0.7;
+  transition: opacity 0.1s;
+  padding: 0;
+  margin: 0;
+}
+
+.resizeHandle:hover {
+  opacity: 1;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
