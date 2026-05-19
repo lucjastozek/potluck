@@ -16,6 +16,7 @@ import ShadowIcon from "@mui/icons-material/Tonality";
 import ShakePopover from "@/components/editor/popovers/ShakePopover";
 import ShakeIcon from "@mui/icons-material/Animation";
 import SpoilerIcon from "@mui/icons-material/VisibilityOff";
+import WaveIcon from "@mui/icons-material/Water";
 
 export default function Toolbar({
   editor,
@@ -50,6 +51,11 @@ export default function Toolbar({
   const applySpoiler = (e: React.MouseEvent) => {
     e.preventDefault();
     editor.chain().focus().setSpoiler().run();
+  };
+
+  const applyWave = (e: React.MouseEvent) => {
+    e.preventDefault();
+    editor.chain().focus().setWavy().run();
   };
 
   return (
@@ -265,6 +271,16 @@ export default function Toolbar({
         title="Spoiler"
       >
         <SpoilerIcon fontSize="inherit" />
+      </button>
+
+      <button
+        className={btn("wave")}
+        onClick={(e) => {
+          applyWave(e);
+        }}
+        title="wave"
+      >
+        <WaveIcon fontSize="inherit" />
       </button>
     </div>
   );
