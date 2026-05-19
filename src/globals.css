@@ -20,6 +20,23 @@
   --pink: #e47792;
   --peach: #e97967;
 
+  --absred: #ee7563;
+  --absorange: #ea8644;
+  --absorangeRgb: 234, 134, 68;
+  --absyellow: #ebcd47;
+  --absyellowRgb: 235, 205, 71;
+  --absgreen: #56c876;
+  --absgreenRgb: 86, 200, 118;
+  --absdarkGreen: #4fb561;
+  --absblue: #6dc5e2;
+  --absblueRgb: 109, 197, 226;
+  --absdarkBlue: #3ac2de;
+  --abspurple: #a990b6;
+  --absdarkPurple: #b186d5;
+  --abscherry: #de7c8e;
+  --abspink: #e47792;
+  --abspeach: #e97967;
+
   --oppbg: #fffbe6;
   --oppbgRgb: 255, 251, 230;
   --oppfg: #050505;
@@ -357,4 +374,46 @@ button:disabled:hover:before {
 
 .highlight {
   color: var(--bg);
+}
+
+.neonText {
+  display: inline;
+  color: white;
+  text-shadow: 0 0 0.15em var(--neon-color, #ff00ff);
+  animation: neonFlicker 3s infinite;
+  -webkit-text-stroke: 0.015em var(--neon-color, #ff00ff);
+  font-weight: 600;
+}
+
+@keyframes neonFlicker {
+  0%,
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 0.15em var(--neon-color, #ff00ff);
+  }
+
+  92% {
+    opacity: 1;
+    text-shadow: 0 0 0.15em var(--neon-color, #ff00ff);
+  }
+
+  93% {
+    opacity: 0.4;
+    text-shadow: 0 0 0.06em var(--neon-color, #ff00ff);
+  }
+
+  94% {
+    opacity: 1;
+    text-shadow: 0 0 0.15em var(--neon-color, #ff00ff);
+  }
+
+  96% {
+    opacity: 0.6;
+    text-shadow: 0 0 0.09em var(--neon-color, #ff00ff);
+  }
+
+  97% {
+    opacity: 1;
+    text-shadow: 0 0 0.11em var(--neon-color, #ff00ff);
+  }
 }

@@ -72,7 +72,7 @@ function wrapMark(
     case "gradient":
       return `[gradient colors=${Array.isArray(a.colors) ? a.colors.join(",") : (a.colors ?? "red,blue")} direction=${a.direction ?? "90deg"}]${inner}[/gradient]`;
     case "neon":
-      return `[neon color=${a.color ?? "#ff00ff"}]${inner}[/neon]`;
+      return `[neon color=${a.color ?? "var(--abspink)"}]${inner}[/neon]`;
     case "shadow":
       return `[shadow color=${a.color ?? "#000"} x=${a.x ?? "4px"} y=${a.y ?? "4px"} blur=${a.blur ?? "0"}]${inner}[/shadow]`;
     case "outline":

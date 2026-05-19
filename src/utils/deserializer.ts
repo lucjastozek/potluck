@@ -177,7 +177,10 @@ function tagToMark(
       };
 
     case "neon":
-      return { type: "neon", attrs: { color: attrs.color ?? "#ff00ff" } };
+      return {
+        type: "neon",
+        attrs: { color: attrs.color ?? "var(--abspink)" },
+      };
 
     case "shadow":
       return {

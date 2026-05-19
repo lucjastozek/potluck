@@ -9,6 +9,8 @@ import HighlightIcon from "@mui/icons-material/DriveFileRenameOutline";
 import HighlightPopover from "@/components/editor/popovers/HighlightPopover";
 import OutlineIcon from "@mui/icons-material/Vignette";
 import OutlinePopover from "@/components/editor/popovers/OutlinePopover";
+import NeonPopover from "@/components/editor/popovers/NeonPopover";
+import NeonIcon from "@mui/icons-material/Flare";
 
 export default function Toolbar({
   editor,
@@ -182,6 +184,26 @@ export default function Toolbar({
             editor={editor}
             onClose={() => setOpenPopover(null)}
           />
+        )}
+      </div>
+
+      <div className={styles.popoverAnchor}>
+        <button
+          className={btn("neon")}
+          onClick={() => {
+            if (editor.isActive("neon")) {
+              editor.chain().focus().unsetNeon().run();
+            } else {
+              toggle("neon");
+            }
+          }}
+          aria-expanded={openPopover === "neon"}
+          title="Neon"
+        >
+          <NeonIcon fontSize="inherit" />
+        </button>
+        {openPopover === "neon" && (
+          <NeonPopover editor={editor} onClose={() => setOpenPopover(null)} />
         )}
       </div>
     </div>
