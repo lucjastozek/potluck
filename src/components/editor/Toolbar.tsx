@@ -11,6 +11,8 @@ import OutlineIcon from "@mui/icons-material/Vignette";
 import OutlinePopover from "@/components/editor/popovers/OutlinePopover";
 import NeonPopover from "@/components/editor/popovers/NeonPopover";
 import NeonIcon from "@mui/icons-material/Flare";
+import ShadowPopover from "@/components/editor/popovers/ShadowPopover";
+import ShadowIcon from "@mui/icons-material/Tonality";
 
 export default function Toolbar({
   editor,
@@ -204,6 +206,26 @@ export default function Toolbar({
         </button>
         {openPopover === "neon" && (
           <NeonPopover editor={editor} onClose={() => setOpenPopover(null)} />
+        )}
+      </div>
+
+      <div className={styles.popoverAnchor}>
+        <button
+          className={btn("shadow")}
+          onClick={() => {
+            if (editor.isActive("shadow")) {
+              editor.chain().focus().unsetShadow().run();
+            } else {
+              toggle("shadow");
+            }
+          }}
+          aria-expanded={openPopover === "shadow"}
+          title="Shadow"
+        >
+          <ShadowIcon fontSize="inherit" />
+        </button>
+        {openPopover === "shadow" && (
+          <ShadowPopover editor={editor} onClose={() => setOpenPopover(null)} />
         )}
       </div>
     </div>
