@@ -119,6 +119,18 @@ function buildNodes(
         continue;
       }
 
+      if (name === "typewriter") {
+        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
+        const text = children
+          .filter((n) => n.type === "text")
+          .map((n) => n.text ?? "")
+          .join("");
+        const speed = Number((attrs as Record<string, string>).speed ?? 50);
+        nodes.push({ type: "typewriter", attrs: { text, speed } });
+        i = next;
+        continue;
+      }
+
       const mark = tagToMark(name, attrs as Record<string, unknown>);
       if (mark) {
         const [children, next] = buildNodes(tokens, i + 1, name, [
