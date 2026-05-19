@@ -108,6 +108,17 @@ function buildNodes(
         continue;
       }
 
+      if (name === "wavy") {
+        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
+        const text = children
+          .filter((n) => n.type === "text")
+          .map((n) => n.text ?? "")
+          .join("");
+        nodes.push({ type: "wavy", attrs: { text } });
+        i = next;
+        continue;
+      }
+
       const mark = tagToMark(name, attrs as Record<string, unknown>);
       if (mark) {
         const [children, next] = buildNodes(tokens, i + 1, name, [
@@ -183,8 +194,6 @@ function tagToMark(
       return { type: "code" };
     case "strike":
       return { type: "strike" };
-    case "wavy":
-      return { type: "wavy" };
     case "shake":
       return { type: "shake" };
     case "spoiler":

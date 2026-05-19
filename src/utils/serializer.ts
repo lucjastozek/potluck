@@ -44,6 +44,9 @@ function serializeNode(node: JSONContent): string {
     case "spoiler":
       return `[spoiler]${node.attrs?.text ?? ""}[/spoiler]`;
 
+    case "wavy":
+      return `[wavy]${node.attrs?.text ?? ""}[/wavy]`;
+
     case "text":
       return applyMarks(node.marks ?? [], node.text ?? "");
 
