@@ -1,7 +1,6 @@
 .shell {
   border-radius: 0.5rem;
   background: rgba(var(--fgRgb), 0.1);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 100%;

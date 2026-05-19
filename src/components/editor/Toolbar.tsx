@@ -7,6 +7,8 @@ import GlitterIcon from "@mui/icons-material/AutoAwesome";
 import GlitterPopover from "@/components/editor/popovers/GlitterPopover";
 import HighlightIcon from "@mui/icons-material/DriveFileRenameOutline";
 import HighlightPopover from "@/components/editor/popovers/HighlightPopover";
+import OutlineIcon from "@mui/icons-material/Vignette";
+import OutlinePopover from "@/components/editor/popovers/OutlinePopover";
 
 export default function Toolbar({
   editor,
@@ -154,6 +156,29 @@ export default function Toolbar({
         </button>
         {openPopover === "highlight" && (
           <HighlightPopover
+            editor={editor}
+            onClose={() => setOpenPopover(null)}
+          />
+        )}
+      </div>
+
+      <div className={styles.popoverAnchor}>
+        <button
+          className={btn("outline")}
+          onClick={() => {
+            if (editor.isActive("outline")) {
+              editor.chain().focus().unsetOutline().run();
+            } else {
+              toggle("outline");
+            }
+          }}
+          aria-expanded={openPopover === "outline"}
+          title="Outline"
+        >
+          <OutlineIcon fontSize="inherit" />
+        </button>
+        {openPopover === "outline" && (
+          <OutlinePopover
             editor={editor}
             onClose={() => setOpenPopover(null)}
           />
