@@ -80,6 +80,23 @@ function buildNodes(
         continue;
       }
 
+      if (name === "shake") {
+        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
+        const text = children
+          .filter((n) => n.type === "text")
+          .map((n) => n.text ?? "")
+          .join("");
+        nodes.push({
+          type: "shake",
+          attrs: {
+            text,
+            intensity: (attrs as Record<string, string>).intensity ?? "low",
+          },
+        });
+        i = next;
+        continue;
+      }
+
       const mark = tagToMark(name, attrs as Record<string, unknown>);
       if (mark) {
         const [children, next] = buildNodes(tokens, i + 1, name, [

@@ -38,6 +38,9 @@ function serializeNode(node: JSONContent): string {
     case "glitter":
       return `[glitter color=${node.attrs?.color ?? "var(--fg)"}]${node.attrs?.text ?? ""}[/glitter]`;
 
+    case "shake":
+      return `[shake intensity=${node.attrs?.intensity ?? "low"}]${node.attrs?.text ?? ""}[/shake]`;
+
     case "text":
       return applyMarks(node.marks ?? [], node.text ?? "");
 
@@ -79,8 +82,6 @@ function wrapMark(
       return `[outline color=${a.color ?? "red"} width=${a.width ?? "2"}]${inner}[/outline]`;
     case "wavy":
       return `[wavy]${inner}[/wavy]`;
-    case "shake":
-      return `[shake]${inner}[/shake]`;
     case "highlight":
       return `[highlight color=${a.color ?? "var(--yellow)"}]${inner}[/highlight]`;
     case "sizedText":
