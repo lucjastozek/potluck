@@ -6,8 +6,9 @@ import styles from "@/components/editor/PostEditor.module.css";
 import { ColorMark } from "@/components/editor/extensions/ColorMark";
 import { useState } from "react";
 import { RainbowNode } from "@/components/editor/extensions/RainbowNode";
+import { GlitterNode } from "@/components/editor/extensions/GlitterNode";
 
-const EXTENSIONS = [StarterKit, ColorMark, RainbowNode];
+const EXTENSIONS = [StarterKit, ColorMark, RainbowNode, GlitterNode];
 
 interface PostEditorProps {
   onSubmit: (markup: string) => void;

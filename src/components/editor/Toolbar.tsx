@@ -3,6 +3,8 @@ import { useState } from "react";
 import styles from "@/components/editor/Toolbar.module.css";
 import ColorPopover from "@/components/editor/popovers/ColorPopover";
 import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
+import GlitterIcon from "@mui/icons-material/AutoAwesome";
+import GlitterPopover from "@/components/editor/popovers/GlitterPopover";
 
 export default function Toolbar({
   editor,
@@ -109,6 +111,29 @@ export default function Toolbar({
       >
         🌈
       </button>
+
+      <div className={styles.popoverAnchor}>
+        <button
+          className={btn("glitter")}
+          onClick={() => {
+            if (editor.isActive("glitter")) {
+              editor.chain().focus().unsetGlitter().run();
+            } else {
+              toggle("glitter");
+            }
+          }}
+          aria-expanded={openPopover === "glitter"}
+          title="Glitter"
+        >
+          <GlitterIcon fontSize="inherit" />
+        </button>
+        {openPopover === "glitter" && (
+          <GlitterPopover
+            editor={editor}
+            onClose={() => setOpenPopover(null)}
+          />
+        )}
+      </div>
     </div>
   );
 }
