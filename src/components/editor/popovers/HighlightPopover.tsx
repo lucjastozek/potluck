@@ -1,10 +1,8 @@
 import type { Editor } from "@tiptap/react";
 import { useRef, useEffect } from "react";
 import styles from "@/components/editor/Toolbar.module.css";
-import { cssVarToHue } from "@/utils/colorToHue";
 
 const PRESETS = [
-  { label: "Default", value: "var(--fg)" },
   { label: "Red", value: "var(--red)" },
   { label: "Orange", value: "var(--orange)" },
   { label: "Yellow", value: "var(--yellow)" },
@@ -18,7 +16,7 @@ const PRESETS = [
   { label: "Peach", value: "var(--peach)" },
 ];
 
-export default function ColorPopover({
+export default function HighlightPopover({
   editor,
   onClose,
 }: {
@@ -35,10 +33,9 @@ export default function ColorPopover({
     return () => document.removeEventListener("mousedown", handler);
   }, [onClose]);
 
-  const apply = (cssVar: string, e: React.MouseEvent) => {
+  const apply = (color: string, e: React.MouseEvent) => {
     e.preventDefault();
-    const hue = cssVarToHue(cssVar);
-    editor.chain().focus().setGlitter({ hue, color: cssVar }).run();
+    editor.chain().focus().setHighlight({ color }).run();
     onClose();
   };
 
@@ -49,7 +46,7 @@ export default function ColorPopover({
       role="dialog"
       aria-label="Text colour"
     >
-      <p className={styles.popoverLabel}>Glitter colour</p>
+      <p className={styles.popoverLabel}>Highlight colour</p>
       <div className={styles.colorGrid}>
         {PRESETS.map(({ label, value }) => (
           <button

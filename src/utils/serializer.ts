@@ -82,7 +82,7 @@ function wrapMark(
     case "shake":
       return `[shake]${inner}[/shake]`;
     case "highlight":
-      return `[highlight color=${a.color ?? "yellow"}]${inner}[/highlight]`;
+      return `[highlight color=${a.color ?? "var(--yellow)"}]${inner}[/highlight]`;
     case "sizedText":
       return `[size size=${a.size ?? "1.5em"}]${inner}[/size]`;
     case "color":

@@ -5,6 +5,8 @@ import ColorPopover from "@/components/editor/popovers/ColorPopover";
 import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
 import GlitterIcon from "@mui/icons-material/AutoAwesome";
 import GlitterPopover from "@/components/editor/popovers/GlitterPopover";
+import HighlightIcon from "@mui/icons-material/DriveFileRenameOutline";
+import HighlightPopover from "@/components/editor/popovers/HighlightPopover";
 
 export default function Toolbar({
   editor,
@@ -129,6 +131,29 @@ export default function Toolbar({
         </button>
         {openPopover === "glitter" && (
           <GlitterPopover
+            editor={editor}
+            onClose={() => setOpenPopover(null)}
+          />
+        )}
+      </div>
+
+      <div className={styles.popoverAnchor}>
+        <button
+          className={btn("highlight")}
+          onClick={() => {
+            if (editor.isActive("highlight")) {
+              editor.chain().focus().unsetHighlight().run();
+            } else {
+              toggle("highlight");
+            }
+          }}
+          aria-expanded={openPopover === "highlight"}
+          title="Highlight"
+        >
+          <HighlightIcon fontSize="inherit" />
+        </button>
+        {openPopover === "highlight" && (
+          <HighlightPopover
             editor={editor}
             onClose={() => setOpenPopover(null)}
           />
