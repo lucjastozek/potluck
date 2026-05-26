@@ -10,12 +10,81 @@
 .pageTitle {
   font-size: 1.3rem;
   color: rgba(var(--fgRgb), 0.9);
-  width: 100%;
+  margin: 0;
+}
+
+.pageSubtitle {
+  margin: 0.35rem 0 0;
+  color: rgba(var(--fgRgb), 0.54);
+  font-size: 0.92rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.createLink,
+.emptyLink {
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--fgRgb), 0.12);
+  background: rgba(var(--fgRgb), 0.04);
+  color: rgba(var(--fgRgb), 0.9);
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.createLink:hover,
+.emptyLink:hover {
+  background: rgba(var(--fgRgb), 0.08);
+  color: var(--fg);
+}
+
+.emptyState {
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(var(--fgRgb), 0.1);
+  background: rgba(var(--fgRgb), 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.emptyTitle {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.emptyText {
+  margin: 0;
+  color: rgba(var(--fgRgb), 0.64);
 }
 
 .feed {
-  max-width: 60rem;
+  max-width: 40rem;
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
+}
+
+@media (max-width: 600px) {
+  .main {
+    padding: 1.5rem 1rem;
+  }
+
+  .createLink,
+  .emptyLink {
+    width: 100%;
+  }
 }

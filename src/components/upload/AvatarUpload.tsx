@@ -1,13 +1,14 @@
 import { useRef, useState } from "react";
 import { uploadImage } from "@/api/uploads";
 import { useAuth } from "@/context/AuthContext";
-import { getAvatarInitials } from "@/utils/avatarInitials";
+import { getAvatarHueRotation } from "@/utils/avatarHue";
 import styles from "./AvatarUpload.module.css";
 
 interface Props {
-  /** Current avatar URL — falls back to initials if null */
+  /** Current avatar URL — falls back to the shared SVG if null */
   avatarUrl: string | null;
   displayName: string;
+  username?: string;
   size?: number;
   /** Called after a successful upload with the new public URL */
   onUploaded?: (url: string) => void;
@@ -16,6 +17,7 @@ interface Props {
 export default function AvatarUpload({
   avatarUrl,
   displayName,
+  username,
   size = 80,
   onUploaded,
 }: Props): JSX.Element {
@@ -26,7 +28,8 @@ export default function AvatarUpload({
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
-  const initials = getAvatarInitials(displayName);
+  const avatarSeed = username ?? displayName;
+  const avatarHue = getAvatarHueRotation(avatarSeed);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -66,7 +69,12 @@ export default function AvatarUpload({
         {src ? (
           <img src={src} alt={displayName} className={styles.img} />
         ) : (
-          <span className={styles.initials}>{initials}</span>
+          <img
+            src="/assets/avatar.svg"
+            alt={displayName}
+            className={styles.img}
+            style={{ filter: `hue-rotate(${avatarHue})` }}
+          />
         )}
 
         <span className={styles.overlay}>

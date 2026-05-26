@@ -15,7 +15,7 @@ export interface Comment {
   id: string;
   body: string;
   createdAt: string;
-  author: Pick<User, "id" | "displayName" | "avatarUrl">;
+  author: Pick<User, "id" | "username" | "displayName" | "avatarUrl">;
 }
 
 export async function getFeed(page = 1, limit = 20) {

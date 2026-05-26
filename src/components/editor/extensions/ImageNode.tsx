@@ -29,7 +29,12 @@ declare module "@tiptap/core" {
   }
 }
 
-function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
+function ImageView({
+  node,
+  updateAttributes,
+  selected,
+  editor,
+}: NodeViewProps) {
   const {
     src,
     alt,
@@ -41,9 +46,23 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
 
   const figureRef = useRef<HTMLDivElement>(null);
   const isFloat = wrap === "left" || wrap === "right";
+  const canEdit = editor.isEditable;
 
   const handleFigureClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (!canEdit) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+
     if (selected && e.currentTarget === e.target) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
+  const handleFigureMouseDown = (e: React.MouseEvent<HTMLElement>) => {
+    if (!canEdit) {
       e.preventDefault();
       e.stopPropagation();
     }
@@ -112,6 +131,7 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
       style={figureStyle}
       className={`${styles.figure} ${selected ? styles.selected : ""}`}
       contentEditable={false}
+      onMouseDown={handleFigureMouseDown}
       onClick={handleFigureClick}
     >
       <div
@@ -135,7 +155,7 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
         )}
       </div>
 
-      {selected && (
+      {selected && canEdit && (
         <>
           <button
             className={styles.resizeHandle}

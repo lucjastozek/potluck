@@ -2,7 +2,7 @@
   border-radius: 0.5rem;
   padding: 1rem;
   padding-bottom: 0;
-  background: rgba(var(--fgRgb, 31, 41, 55), 0.06);
+  background: rgba(var(--fgRgb), 0.06);
 }
 
 .header {
@@ -69,4 +69,140 @@
 
 .liked {
   color: rgba(var(--fgRgb), 0.9);
+}
+
+.comments {
+  border-top: 0.1em solid rgba(var(--fgRgb), 0.1);
+  margin-top: 0.25rem;
+  padding: 0.9rem 0 0.25rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.commentStatus {
+  margin: 0;
+  color: rgba(var(--fgRgb), 0.65);
+  font-size: 0.92rem;
+}
+
+.commentList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.commentItem {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.commentAvatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(var(--fgRgb), 0.12);
+  color: rgba(var(--fgRgb), 0.9);
+  object-fit: cover;
+}
+
+.commentBody {
+  min-width: 0;
+}
+
+.commentMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.75rem;
+  align-items: baseline;
+  font-size: 0.86rem;
+  margin-bottom: 0.25rem;
+}
+
+.commentMeta strong {
+  font-weight: 700;
+}
+
+.commentMeta time {
+  color: rgba(var(--fgRgb), 0.55);
+}
+
+.commentBody p {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.commentForm {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.commentInput {
+  width: 100%;
+  resize: vertical;
+  min-height: 5.5rem;
+  border-radius: 0.75rem;
+  border: 0.1em solid rgba(var(--fgRgb), 0.14);
+  background: rgba(var(--bgRgb), 0.55);
+  color: rgba(var(--fgRgb), 0.95);
+  padding: 0.75rem 0.85rem;
+  font: inherit;
+}
+
+.commentInput::placeholder {
+  color: rgba(var(--fgRgb), 0.45);
+}
+
+.commentInput:focus {
+  outline: none;
+  border-color: rgba(var(--fgRgb), 0.35);
+}
+
+.commentInput:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
+
+.commentFormFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.commentHint {
+  margin: 0;
+  color: rgba(var(--fgRgb), 0.55);
+  font-size: 0.85rem;
+}
+
+.commentSubmit {
+  border: none;
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(var(--bgRgb), 1);
+  background: rgba(var(--fgRgb), 0.88);
+  cursor: pointer;
+}
+
+.commentSubmit:hover:not(:disabled) {
+  background: rgba(var(--fgRgb), 1);
+}
+
+.commentSubmit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

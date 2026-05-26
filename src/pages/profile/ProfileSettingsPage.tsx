@@ -41,6 +41,7 @@ export default function ProfileSettingsPage(): JSX.Element {
           <AvatarUpload
             avatarUrl={user.avatarUrl}
             displayName={user.displayName}
+            username={user.username}
             size={88}
           />
         </section>
@@ -52,7 +53,9 @@ export default function ProfileSettingsPage(): JSX.Element {
             <span className={styles.atSign}>@</span>
             <span>{user.username}</span>
           </div>
-          <p className={styles.hint}>Usernames can't be changed after account creation.</p>
+          <p className={styles.hint}>
+            Usernames can't be changed after account creation.
+          </p>
         </section>
 
         {/* Display name — editable */}
@@ -68,7 +71,11 @@ export default function ProfileSettingsPage(): JSX.Element {
               maxLength={64}
               disabled={saving}
             />
-            <button type="submit" className={styles.saveBtn} disabled={saving || !displayName.trim()}>
+            <button
+              type="submit"
+              className={styles.saveBtn}
+              disabled={saving || !displayName.trim()}
+            >
               {saving ? "Saving…" : savedMsg ? "Saved ✓" : "Save"}
             </button>
           </form>

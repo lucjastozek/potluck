@@ -22,7 +22,7 @@ interface AuthContextValue {
     email: string,
     password: string,
     displayName: string,
-    username: string
+    username: string,
   ) => Promise<void>;
   logout: () => void;
   updateDisplayName: (displayName: string) => Promise<void>;
@@ -42,7 +42,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) { setIsLoading(false); return; }
+    if (!token) {
+      setIsLoading(false);
+      return;
+    }
     fetchMe()
       .catch(() => localStorage.removeItem("token"))
       .finally(() => setIsLoading(false));
@@ -55,12 +58,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const register = useCallback(
-    async (email: string, password: string, displayName: string, username: string) => {
-      const { user, token } = await apiRegister(email, password, displayName, username);
+    async (
+      email: string,
+      password: string,
+      displayName: string,
+      username: string,
+    ) => {
+      const { user, token } = await apiRegister(
+        email,
+        password,
+        displayName,
+        username,
+      );
       localStorage.setItem("token", token);
       setUser(user);
     },
-    []
+    [],
   );
 
   const logout = useCallback(() => {
@@ -79,13 +92,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, isLoading, login, register, logout, updateDisplayName, refreshUser }}
+      value={{
+        user,
+        isLoading,
+        login,
+        register,
+        logout,
+        updateDisplayName,
+        refreshUser,
+      }}
     >
       {children}
     </AuthContext.Provider>
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>");

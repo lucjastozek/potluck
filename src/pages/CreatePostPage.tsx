@@ -6,7 +6,7 @@ export default function CreatePostPage(): JSX.Element {
   const navigate = useNavigate();
   const handleSubmit = async (markup: string) => {
     await createPost(markup);
-    navigate("/");
+    navigate("/feed");
   };
 
   return (
