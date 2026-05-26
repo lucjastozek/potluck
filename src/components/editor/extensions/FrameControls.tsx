@@ -1,6 +1,5 @@
 import BlurOnIcon from "@mui/icons-material/BlurOn";
 import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
-import CloseIcon from "@mui/icons-material/Close";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import type { ComponentType } from "react";
@@ -25,70 +24,65 @@ const FRAME_SHAPE_OPTIONS: {
 
 export function FramePresetControls({
   activePreset,
+  activeShape,
   onSelectPreset,
   onRemovePreset,
-}: {
-  activePreset: FramePreset | null;
-  onSelectPreset: (preset: FramePreset) => void;
-  onRemovePreset: () => void;
-}) {
-  return (
-    <div className={`${styles.controlGroup} ${styles.framePresetGroup}`}>
-      {(Object.entries(FRAME_PRESETS) as [FramePreset, PresetDef][]).map(
-        ([presetKey, preset]) => {
-          const Icon = preset.icon;
-
-          return (
-            <button
-              key={presetKey}
-              className={`${styles.controlBtn} ${styles.framePresetButton} ${activePreset === presetKey ? styles.controlBtnActive : ""}`}
-              onClick={() => onSelectPreset(presetKey)}
-              title={preset.label}
-              type="button"
-            >
-              <Icon fontSize="small" />
-              <span className={styles.framePresetButtonText}>
-                {preset.label}
-              </span>
-            </button>
-          );
-        },
-      )}
-
-      {activePreset && (
-        <button
-          className={`${styles.controlBtn} ${styles.frameRemoveButton}`}
-          onClick={onRemovePreset}
-          title="Remove frame"
-          type="button"
-        >
-          <CloseIcon fontSize="small" />
-        </button>
-      )}
-    </div>
-  );
-}
-
-export function FrameShapeControls({
-  activeShape,
   onSelectShape,
 }: {
+  activePreset: FramePreset | null;
   activeShape: FrameShape;
+  onSelectPreset: (preset: FramePreset) => void;
+  onRemovePreset: () => void;
   onSelectShape: (shape: FrameShape) => void;
 }) {
   return (
-    <div className={`${styles.controlGroup} ${styles.frameShapeGroup}`}>
-      {FRAME_SHAPE_OPTIONS.map(({ label, value, icon: Icon }) => (
-        <button
-          key={value}
-          className={`${styles.controlBtn} ${styles.frameShapeButton} ${activeShape === value ? styles.controlBtnActive : ""}`}
-          onClick={() => onSelectShape(value)}
-          title={label}
-          type="button"
-        >
-          <Icon fontSize="small" />
-        </button>
-      ))}
+    <div className={styles.frameSection}>
+      <span className={styles.frameLabel}>Frame</span>
+
+      <div className={styles.framePresetRow}>
+        {(Object.entries(FRAME_PRESETS) as [FramePreset, PresetDef][]).map(
+          ([presetKey, preset]) => {
+            const Icon = preset.icon;
+            const isActive = activePreset === presetKey;
+
+            return (
+              <button
+                key={presetKey}
+                className={`${styles.presetPill} ${isActive ? styles.presetPillActive : ""}`}
+                onClick={() =>
+                  isActive ? onRemovePreset() : onSelectPreset(presetKey)
+                }
+                title={isActive ? `Remove ${preset.label}` : preset.label}
+                type="button"
+              >
+                <Icon fontSize="inherit" />
+                <span>{preset.label}</span>
+                {isActive && <span className={styles.presetPillX}>×</span>}
+              </button>
+            );
+          },
+        )}
+      </div>
+
+      {activePreset && (
+        <div className={styles.frameShapeRow}>
+          <span className={styles.frameShapeLabel}>Shape</span>
+          <div className={styles.frameShapeOptions}>
+            {FRAME_SHAPE_OPTIONS.map(({ label, value, icon: Icon }) => (
+              <button
+                key={value}
+                className={`${styles.shapePill} ${activeShape === value ? styles.shapePillActive : ""}`}
+                onClick={() => onSelectShape(value)}
+                title={label}
+                type="button"
+              >
+                <Icon fontSize="inherit" />
+                <span>{label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -14,10 +14,7 @@ import {
   type FramePreset,
   type FrameShape,
 } from "@/components/renderer/effects/WrappedImage/FramedImage";
-import {
-  FramePresetControls,
-  FrameShapeControls,
-} from "@/components/editor/extensions/FrameControls";
+import { FramePresetControls } from "@/components/editor/extensions/FrameControls";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -179,20 +176,15 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
 
             <FramePresetControls
               activePreset={framePreset}
+              activeShape={frameShape as FrameShape}
               onSelectPreset={(nextPreset) =>
                 updateAttributes({ framePreset: nextPreset })
               }
               onRemovePreset={() => updateAttributes({ framePreset: null })}
+              onSelectShape={(nextShape) =>
+                updateAttributes({ frameShape: nextShape })
+              }
             />
-
-            {framePreset && (
-              <FrameShapeControls
-                activeShape={frameShape}
-                onSelectShape={(nextShape) =>
-                  updateAttributes({ frameShape: nextShape })
-                }
-              />
-            )}
           </div>
         </>
       )}
