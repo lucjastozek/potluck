@@ -5,12 +5,10 @@ import { getAvatarHueRotation } from "@/utils/avatarHue";
 import styles from "./AvatarUpload.module.css";
 
 interface Props {
-  /** Current avatar URL — falls back to the shared SVG if null */
   avatarUrl: string | null;
   displayName: string;
   username?: string;
   size?: number;
-  /** Called after a successful upload with the new public URL */
   onUploaded?: (url: string) => void;
 }
 
@@ -42,14 +40,13 @@ export default function AvatarUpload({
 
     try {
       const url = await uploadImage(file, "avatar", setProgress);
-      await refreshUser(); // updates user.avatarUrl in context
+      await refreshUser();
       onUploaded?.(url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
       setPreview(null);
     } finally {
       setUploading(false);
-      // Reset so re-selecting the same file still fires onChange
       if (inputRef.current) inputRef.current.value = "";
     }
   };

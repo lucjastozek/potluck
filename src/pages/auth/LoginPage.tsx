@@ -7,7 +7,8 @@ export default function LoginPage(): JSX.Element {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = (location.state as { from?: Location })?.from?.pathname ?? "/feed";
+  const from =
+    (location.state as { from?: Location })?.from?.pathname ?? "/feed";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -74,7 +75,11 @@ export default function LoginPage(): JSX.Element {
             />
           </div>
 
-          <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>
+          <button
+            type="submit"
+            className={styles.submitBtn}
+            disabled={isSubmitting}
+          >
             {isSubmitting && <span className={styles.spinner} />}
             {isSubmitting ? "Signing in…" : "Sign in"}
           </button>

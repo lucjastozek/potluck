@@ -35,7 +35,6 @@ export default function ProfileSettingsPage(): JSX.Element {
       <div className={styles.card}>
         <h1 className={styles.heading}>Profile settings</h1>
 
-        {/* Avatar */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Avatar</h2>
           <AvatarUpload
@@ -46,7 +45,6 @@ export default function ProfileSettingsPage(): JSX.Element {
           />
         </section>
 
-        {/* Username — read-only */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Username</h2>
           <div className={styles.readOnly}>
@@ -58,7 +56,6 @@ export default function ProfileSettingsPage(): JSX.Element {
           </p>
         </section>
 
-        {/* Display name — editable */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Display name</h2>
           <form onSubmit={handleSubmit} className={styles.form}>
@@ -82,7 +79,6 @@ export default function ProfileSettingsPage(): JSX.Element {
           {error && <p className={styles.error}>{error}</p>}
         </section>
 
-        {/* Email — read-only */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Email</h2>
           <div className={styles.readOnly}>{user.email}</div>

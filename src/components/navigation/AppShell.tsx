@@ -54,7 +54,6 @@ function AppShell() {
   useEffect(() => {
     if (user) {
       setAvatarHue(getAvatarHueRotation(user.username));
-      console.log(getAvatarHueRotation(user.username));
     }
   }, [user]);
 

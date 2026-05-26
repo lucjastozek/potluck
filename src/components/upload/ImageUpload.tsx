@@ -4,17 +4,9 @@ import styles from "./ImageUpload.module.css";
 import AddPhotoIcon from "@mui/icons-material/AddPhotoAlternate";
 
 interface Props {
-  /** Called with the public URL once the upload succeeds */
   onUploaded: (url: string) => void;
 }
 
-/**
- * A toolbar button that triggers an image upload for post content.
- * Drop this into your PostEditor toolbar.
- *
- * After a successful upload, call `editor.chain().setImage({ src: url }).run()`
- * (or however your editor inserts images) inside onUploaded.
- */
 export default function ImageUpload({ onUploaded }: Props): JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);

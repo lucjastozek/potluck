@@ -3,8 +3,8 @@ import { api } from "./client";
 export interface User {
   id: string;
   email: string;
-  username: string;       // immutable
-  displayName: string;    // editable
+  username: string;
+  displayName: string;
   avatarUrl: string | null;
 }
 
@@ -17,7 +17,7 @@ export async function register(
   email: string,
   password: string,
   displayName: string,
-  username: string
+  username: string,
 ): Promise<AuthResponse> {
   return api.post<AuthResponse>("/api/auth/register", {
     email,
@@ -27,7 +27,10 @@ export async function register(
   });
 }
 
-export async function login(email: string, password: string): Promise<AuthResponse> {
+export async function login(
+  email: string,
+  password: string,
+): Promise<AuthResponse> {
   return api.post<AuthResponse>("/api/auth/login", { email, password });
 }
 

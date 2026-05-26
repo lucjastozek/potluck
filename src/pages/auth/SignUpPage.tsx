@@ -18,14 +18,15 @@ function validate(
   displayName: string,
   email: string,
   password: string,
-  confirmPassword: string
+  confirmPassword: string,
 ): FieldErrors {
   const errors: FieldErrors = {};
 
   if (!username) {
     errors.username = "Username is required";
   } else if (!USERNAME_RE.test(username)) {
-    errors.username = "3–32 characters: lowercase letters, numbers, underscores only";
+    errors.username =
+      "3–32 characters: lowercase letters, numbers, underscores only";
   }
 
   if (!displayName.trim()) {
@@ -73,7 +74,13 @@ export default function SignUpPage(): JSX.Element {
     e.preventDefault();
     setGlobalError(null);
 
-    const errors = validate(username, displayName, email, password, confirmPassword);
+    const errors = validate(
+      username,
+      displayName,
+      email,
+      password,
+      confirmPassword,
+    );
     setFieldErrors(errors);
     if (Object.keys(errors).length > 0) return;
 
@@ -138,7 +145,9 @@ export default function SignUpPage(): JSX.Element {
               disabled={isSubmitting}
             />
             {fieldErrors.displayName && (
-              <span className={styles.fieldError}>{fieldErrors.displayName}</span>
+              <span className={styles.fieldError}>
+                {fieldErrors.displayName}
+              </span>
             )}
           </div>
 
@@ -195,11 +204,17 @@ export default function SignUpPage(): JSX.Element {
               disabled={isSubmitting}
             />
             {fieldErrors.confirmPassword && (
-              <span className={styles.fieldError}>{fieldErrors.confirmPassword}</span>
+              <span className={styles.fieldError}>
+                {fieldErrors.confirmPassword}
+              </span>
             )}
           </div>
 
-          <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>
+          <button
+            type="submit"
+            className={styles.submitBtn}
+            disabled={isSubmitting}
+          >
             {isSubmitting && <span className={styles.spinner} />}
             {isSubmitting ? "Creating account…" : "Create account"}
           </button>
