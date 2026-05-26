@@ -5,6 +5,9 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import { deserializeFromMarkup } from "@/utils/deserializer";
 import { EDITOR_EXTENSIONS } from "@/components/editor/editorExtensions";
 import editorStyles from "@/components/editor/PostEditor.module.css";
+import LikeIcon from "@mui/icons-material/FavoriteBorder";
+import LikedIcon from "@mui/icons-material/Favorite";
+import CommentIcon from "@mui/icons-material/Message";
 
 interface Props {
   post: Post;
@@ -51,12 +54,18 @@ export default function PostCard({ post }: Props): JSX.Element {
           onClick={() => setLiked((v) => !v)}
           aria-pressed={liked}
         >
-          <span>{liked ? "❤️" : "🤍"}</span>
-          <span>{liked ? "Liked" : "Like"}</span>
+          {liked ? (
+            <LikedIcon fontSize="inherit" className={styles.liked} />
+          ) : (
+            <LikeIcon fontSize="inherit" />
+          )}
+          <span className={liked ? styles.liked : ""}>
+            {liked ? "Liked" : "Like"}
+          </span>
         </button>
 
         <button className={styles.actionBtn}>
-          <span>💬</span>
+          <CommentIcon fontSize="inherit" />
           <span>Comment</span>
         </button>
       </div>

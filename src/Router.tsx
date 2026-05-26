@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CreatePostPage from "@/pages/CreatePostPage";
-import FeedPage from "@/pages/FeedPage";
+import FeedPage from "@/pages/feed/FeedPage";
 
 const router = createBrowserRouter([
   {

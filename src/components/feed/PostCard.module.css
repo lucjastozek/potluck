@@ -19,7 +19,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--bg, #fff);
   font-weight: 700;
 }
 
@@ -35,7 +34,7 @@
 
 .date {
   font-size: 0.75rem;
-  color: var(--muted, #6b7280);
+  color: rgba(var(--fgRgb), 0.5);
 }
 
 .body {
@@ -45,9 +44,8 @@
 .actions {
   display: flex;
   gap: 1rem;
-  margin-top: 0.75rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.04);
   padding-top: 0.5rem;
+  border-top: 0.1em solid rgba(var(--fgRgb), 0.1);
   align-items: center;
 }
 
@@ -55,13 +53,20 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  color: var(--muted, #6b7280);
+  color: rgba(var(--fgRgb), 0.4);
   display: inline-flex;
   gap: 0.5rem;
   align-items: center;
+  justify-content: start;
   font-size: 0.95rem;
+  min-width: 7rem;
+  padding: 0.2em 0.4em;
 }
 
 .actionBtn:hover {
-  color: var(--fg, #111827);
+  color: rgba(var(--fgRgb), 0.8);
+}
+
+.liked {
+  color: rgba(var(--fgRgb), 0.9);
 }
