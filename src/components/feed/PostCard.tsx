@@ -1,4 +1,3 @@
-import type { Post } from "@/data/samplePosts";
 import styles from "@/components/feed/PostCard.module.css";
 import { useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
@@ -8,6 +7,9 @@ import editorStyles from "@/components/editor/PostEditor.module.css";
 import LikeIcon from "@mui/icons-material/FavoriteBorder";
 import LikedIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Message";
+import { Post, toggleLike } from "@/api/posts";
+import { getAvatarInitials } from "@/utils/avatarInitials";
+import { formatTimestamp } from "@/utils/formatTimestamp";
 
 interface Props {
   post: Post;
@@ -15,6 +17,8 @@ interface Props {
 
 export default function PostCard({ post }: Props): JSX.Element {
   const [liked, setLiked] = useState(false);
+  const avatarInitials = getAvatarInitials(post.author.displayName);
+  const createdAt = formatTimestamp(post.createdAt);
 
   const content = deserializeFromMarkup(post.markup);
   const editor = useEditor({
@@ -26,20 +30,31 @@ export default function PostCard({ post }: Props): JSX.Element {
     },
   });
 
+  const handleLike = async () => {
+    const { liked } = await toggleLike(post.id);
+    setLiked(liked);
+  };
+
   return (
     <article className={styles.card}>
       <header className={styles.header}>
-        <img
-          src={`/assets/avatar-${post.id}.png`}
-          alt=""
-          className={styles.avatar}
-          aria-hidden
-        />
+        {post.author.avatarUrl ? (
+          <img
+            src={post.author.avatarUrl}
+            alt={post.author.displayName}
+            className={styles.avatar}
+          />
+        ) : (
+          <span className={styles.avatar} aria-hidden="true">
+            {avatarInitials}
+          </span>
+        )}
 
         <div className={styles.meta}>
-          <h4 className={styles.author}>{post.authorHeader}</h4>
+          <h4 className={styles.author}>{post.author.displayName}</h4>
           <div className={styles.date}>
-            {post.author} • {post.date}
+            {post.author.username} •{" "}
+            <time dateTime={post.createdAt}>{createdAt}</time>
           </div>
         </div>
       </header>
@@ -51,7 +66,7 @@ export default function PostCard({ post }: Props): JSX.Element {
       <div className={styles.actions}>
         <button
           className={styles.actionBtn}
-          onClick={() => setLiked((v) => !v)}
+          onClick={handleLike}
           aria-pressed={liked}
         >
           {liked ? (

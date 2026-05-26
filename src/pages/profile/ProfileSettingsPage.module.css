@@ -1,0 +1,121 @@
+.page {
+  width: 100%;
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 36rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.heading {
+  font-size: 1.3rem;
+  color: rgba(var(--fgRgb), 0.9);
+  margin: 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(var(--fgRgb), 0.08);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.sectionTitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(var(--fgRgb), 0.4);
+  margin: 0;
+}
+
+.readOnly {
+  font-size: 0.95rem;
+  color: rgba(var(--fgRgb), 0.7);
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.atSign {
+  color: rgba(var(--fgRgb), 0.35);
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: rgba(var(--fgRgb), 0.35);
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.input {
+  flex: 1;
+  background: rgba(var(--fgRgb), 0.05);
+  border: 1px solid rgba(var(--fgRgb), 0.12);
+  border-radius: 0.4rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.95rem;
+  color: rgba(var(--fgRgb), 0.9);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input:focus {
+  border-color: rgba(var(--fgRgb), 0.35);
+  box-shadow: 0 0 0 3px rgba(var(--fgRgb), 0.06);
+}
+
+.saveBtn {
+  padding: 0.55rem 1.1rem;
+  background: rgba(var(--fgRgb), 0.9);
+  color: rgba(var(--bgRgb, 255, 255, 255), 1);
+  border: none;
+  border-radius: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.saveBtn:hover:not(:disabled) {
+  opacity: 0.82;
+}
+
+.saveBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.error {
+  font-size: 0.82rem;
+  color: #ef4444;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 1.5rem 1rem;
+  }
+
+  .form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

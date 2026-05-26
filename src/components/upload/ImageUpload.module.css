@@ -1,0 +1,45 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgba(var(--fgRgb), 0.5);
+  font-size: 1.15rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2em 0.3em;
+  border-radius: 0.3rem;
+  transition: color 0.15s, background 0.15s;
+}
+
+.btn:hover:not(:disabled) {
+  color: rgba(var(--fgRgb), 0.85);
+  background: rgba(var(--fgRgb), 0.06);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.progress {
+  font-size: 0.72rem;
+  color: rgba(var(--fgRgb), 0.5);
+}
+
+.hidden {
+  display: none;
+}
+
+.error {
+  font-size: 0.72rem;
+  color: #ef4444;
+  white-space: nowrap;
+}

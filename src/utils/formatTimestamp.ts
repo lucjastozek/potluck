@@ -1,0 +1,27 @@
+import { DateTime } from "luxon";
+
+function formatRelativeTime(dateTime: DateTime): string {
+  const relative = dateTime.toRelative();
+
+  if (!relative) {
+    return dateTime.toLocaleString(DateTime.DATETIME_MED);
+  }
+
+  const secondsSinceCreation = Math.abs(dateTime.diffNow("seconds").seconds);
+
+  if (secondsSinceCreation < 60) {
+    return "just now";
+  }
+
+  return `${dateTime.toLocaleString(DateTime.DATETIME_MED)} • ${relative}`;
+}
+
+export function formatTimestamp(timestamp: string): string {
+  const parsed = DateTime.fromISO(timestamp, { setZone: true });
+
+  if (!parsed.isValid) {
+    return timestamp;
+  }
+
+  return formatRelativeTime(parsed.toLocal());
+}

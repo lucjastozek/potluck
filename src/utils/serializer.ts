@@ -37,22 +37,40 @@ function serializeNode(node: JSONContent): string {
     }
 
     case "rainbow":
-      return `[rainbow]${node.attrs?.text ?? ""}[/rainbow]`;
+      return applyMarks(
+        node.marks ?? [],
+        `[rainbow]${node.attrs?.text ?? ""}[/rainbow]`,
+      );
 
     case "glitter":
-      return `[glitter color=${node.attrs?.color ?? "var(--fg)"}]${node.attrs?.text ?? ""}[/glitter]`;
+      return applyMarks(
+        node.marks ?? [],
+        `[glitter color=${node.attrs?.color ?? "var(--fg)"}]${node.attrs?.text ?? ""}[/glitter]`,
+      );
 
     case "shake":
-      return `[shake intensity=${node.attrs?.intensity ?? "low"}]${node.attrs?.text ?? ""}[/shake]`;
+      return applyMarks(
+        node.marks ?? [],
+        `[shake intensity=${node.attrs?.intensity ?? "low"}]${node.attrs?.text ?? ""}[/shake]`,
+      );
 
     case "spoiler":
-      return `[spoiler]${node.attrs?.text ?? ""}[/spoiler]`;
+      return applyMarks(
+        node.marks ?? [],
+        `[spoiler]${node.attrs?.text ?? ""}[/spoiler]`,
+      );
 
     case "wavy":
-      return `[wavy]${node.attrs?.text ?? ""}[/wavy]`;
+      return applyMarks(
+        node.marks ?? [],
+        `[wavy]${node.attrs?.text ?? ""}[/wavy]`,
+      );
 
     case "typewriter":
-      return `[typewriter speed=${node.attrs?.speed ?? 50}]${node.attrs?.text ?? ""}[/typewriter]`;
+      return applyMarks(
+        node.marks ?? [],
+        `[typewriter speed=${node.attrs?.speed ?? 50}]${node.attrs?.text ?? ""}[/typewriter]`,
+      );
 
     case "text":
       return applyMarks(node.marks ?? [], node.text ?? "");
@@ -102,7 +120,7 @@ function wrapMark(
     case "sizedText":
       return `[size size=${a.size ?? "1.5em"}]${inner}[/size]`;
     case "color":
-      return `[color value=${a.color ?? "inherit"}]${inner}[/color]`;
+      return `[color value=${a.color ?? a.value ?? "inherit"}]${inner}[/color]`;
     case "shake":
       return a.intensity && a.intensity !== "low"
         ? `[shake intensity=${a.intensity}]${inner}[/shake]`

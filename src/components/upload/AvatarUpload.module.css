@@ -1,0 +1,71 @@
+.wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.trigger {
+  position: relative;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  background: rgba(var(--fgRgb), 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.trigger:disabled {
+  cursor: default;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.initials {
+  font-weight: 700;
+  color: rgba(var(--fgRgb), 0.6);
+  user-select: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.trigger:hover .overlay,
+.trigger:disabled .overlay {
+  opacity: 1;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.error {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.72rem;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem;
+}

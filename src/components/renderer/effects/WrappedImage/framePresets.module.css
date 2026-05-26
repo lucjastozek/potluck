@@ -13,6 +13,7 @@
 }
 
 .circle {
+  aspect-ratio: 1 / 1;
   clip-path: polygon(
     50% 3%,
     59% 4%,
@@ -48,6 +49,7 @@
 }
 
 .star {
+  aspect-ratio: 1 / 1;
   clip-path: polygon(
     50% 2%,
     61.3% 37%,
@@ -63,6 +65,7 @@
 }
 
 .blob {
+  aspect-ratio: 1 / 1;
   clip-path: polygon(
     54% 3%,
     63% 5%,

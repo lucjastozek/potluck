@@ -20,8 +20,7 @@ import SpoilerIcon from "@mui/icons-material/VisibilityOff";
 import WaveIcon from "@mui/icons-material/Water";
 import TypewriterPopover from "@/components/editor/popovers/TypewriterPopover";
 import TypewriterIcon from "@mui/icons-material/Keyboard";
-import ImageIcon from "@mui/icons-material/Image";
-import ImagePopover from "@/components/editor/popovers/ImagePopover";
+import ImageUpload from "@/components/upload/ImageUpload";
 import StrikethroughSIcon from "@mui/icons-material/StrikethroughS";
 import CodeIcon from "@mui/icons-material/Code";
 import ItalicIcon from "@mui/icons-material/FormatItalic";
@@ -400,19 +399,20 @@ export default function Toolbar({
         )}
       </div>
       <span className={styles.divider} aria-hidden="true" />
-      <div className={styles.popoverAnchor}>
-        <button
-          className={btn("image")}
-          onClick={() => toggle("image")}
-          aria-expanded={openPopover === "image"}
-          title="Add Image"
-        >
-          <ImageIcon fontSize="inherit" />
-        </button>
-        {openPopover === "image" && (
-          <ImagePopover editor={editor} onClose={() => setOpenPopover(null)} />
-        )}
-      </div>
+      <ImageUpload
+        onUploaded={(url) => {
+          editor
+            .chain()
+            .focus()
+            .insertImage({
+              src: url,
+              alt: "",
+              widthPercent: 50,
+              wrap: "none",
+            })
+            .run();
+        }}
+      />
     </div>
   );
 }
