@@ -6,7 +6,7 @@ export default function CreatePostPage(): JSX.Element {
   };
 
   return (
-    <main style={{ maxWidth: 680, margin: "2rem auto", padding: "0 1rem" }}>
+    <main>
       <PostEditor onSubmit={handleSubmit} />
     </main>
   );

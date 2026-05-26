@@ -84,7 +84,9 @@ function wrapMark(
     case "code":
       return `[code]${inner}[/code]`;
     case "strike":
-      return `[strike]${inner}[/strike]`;
+      return a.color && a.color !== "currentColor"
+        ? `[strike color=${a.color}]${inner}[/strike]`
+        : `[strike]${inner}[/strike]`;
     case "gradient":
       return `[gradient colors=${Array.isArray(a.colors) ? a.colors.join(",") : (a.colors ?? "red,blue")} direction=${a.direction ?? "90deg"}]${inner}[/gradient]`;
     case "neon":
@@ -101,6 +103,10 @@ function wrapMark(
       return `[size size=${a.size ?? "1.5em"}]${inner}[/size]`;
     case "color":
       return `[color value=${a.color ?? "inherit"}]${inner}[/color]`;
+    case "shake":
+      return a.intensity && a.intensity !== "low"
+        ? `[shake intensity=${a.intensity}]${inner}[/shake]`
+        : `[shake]${inner}[/shake]`;
     case "spoiler":
       return `[spoiler]${inner}[/spoiler]`;
     case "typewriter":

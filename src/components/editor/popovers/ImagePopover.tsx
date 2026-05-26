@@ -58,7 +58,6 @@ export default function ImagePopover({
       })
       .run();
 
-    // Reset and close
     setAltText("");
     setPreview(null);
     setFileName("");
@@ -67,20 +66,6 @@ export default function ImagePopover({
 
   return (
     <div className={styles.popover} ref={popoverRef}>
-      <div className={styles.section}>
-        <label htmlFor="image-alt-text" className={styles.label}>
-          Alt Text
-        </label>
-        <input
-          id="image-alt-text"
-          type="text"
-          className={styles.input}
-          placeholder="Describe the image..."
-          value={altText}
-          onChange={(e) => setAltText(e.target.value)}
-        />
-      </div>
-
       <div className={styles.section}>
         <button
           className={styles.uploadButton}
@@ -106,6 +91,20 @@ export default function ImagePopover({
           </div>
         </>
       )}
+
+      <div className={styles.section}>
+        <label htmlFor="image-alt-text" className={styles.label}>
+          Alt Text
+        </label>
+        <input
+          id="image-alt-text"
+          type="text"
+          className={styles.input}
+          placeholder="Describe the image..."
+          value={altText}
+          onChange={(e) => setAltText(e.target.value)}
+        />
+      </div>
 
       <div className={styles.actions}>
         <button

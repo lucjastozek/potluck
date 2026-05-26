@@ -1,14 +1,35 @@
-import type { FrameShape } from "./FramedImage";
+import type { ReactNode } from "react";
+import type { FrameShape } from "@/components/renderer/effects/WrappedImage/FramedImage";
+import styles from "@/components/renderer/effects/WrappedImage/framePresets.module.css";
+
+function wobbleClassName(scale: number): string {
+  switch (scale) {
+    case 5:
+      return styles.wobble5;
+    case 6:
+      return styles.wobble6;
+    case 7:
+      return styles.wobble7;
+    case 8:
+      return styles.wobble8;
+    case 9:
+      return styles.wobble9;
+    case 10:
+      return styles.wobble10;
+    default:
+      return "";
+  }
+}
 
 export function WobbleFilter({
-  uid,
+  id,
   scale = 7,
 }: {
-  uid: string;
+  id: string;
   scale?: number;
 }) {
   return (
-    <filter id={`wobble-${uid}`} x="-20%" y="-20%" width="140%" height="140%">
+    <filter id={id} x="-20%" y="-20%" width="140%" height="140%">
       <feTurbulence
         type="fractalNoise"
         baseFrequency="0.045"
@@ -28,38 +49,95 @@ export function WobbleFilter({
 }
 
 export function FrameShell({
-  uid,
   shape,
-  style,
+  className,
   children,
 }: {
-  uid: string;
   shape: FrameShape;
-  style: React.CSSProperties;
-  children?: React.ReactNode;
+  className?: string;
+  children?: ReactNode;
 }) {
-  const shapeStyle: Record<FrameShape, React.CSSProperties> = {
-    rectangle: { borderRadius: "6px" },
-    circle: { borderRadius: "50%" },
-    star: {
-      clipPath:
-        "polygon(50% 2%, 61.3% 37%, 98% 37%, 68.5% 59%, 79.9% 94%, 50% 72%, 20.1% 94%, 31.5% 59%, 2% 37%, 38.7% 37%)",
-    },
-    blob: { borderRadius: "42% 58% 55% 45% / 48% 42% 58% 52%" },
-  };
-
   return (
     <div
-      style={{
-        position: "absolute",
-        inset: "-12px",
-        filter: `url(#wobble-${uid})`,
-        zIndex: 0,
-        ...shapeStyle[shape],
-        ...style,
-      }}
+      className={`${styles.shellBase} ${styles[shape]} ${className ?? ""}`.trim()}
     >
       {children}
     </div>
+  );
+}
+
+export function FrameCanvas({
+  shape,
+  wobbleScale,
+  shellClassName,
+  children,
+}: {
+  shape: FrameShape;
+  wobbleScale: number;
+  shellClassName?: string;
+  children?: ReactNode;
+}) {
+  return (
+    <>
+      <svg width="0" height="0" className={styles.hiddenSvg}>
+        <defs>
+          <WobbleFilter id={`wobble-${wobbleScale}`} scale={wobbleScale} />
+        </defs>
+      </svg>
+      <FrameShell
+        shape={shape}
+        className={`${wobbleClassName(wobbleScale)} ${shellClassName ?? ""}`.trim()}
+      >
+        {children}
+      </FrameShell>
+    </>
+  );
+}
+
+export function PatternFrame({
+  shape,
+  wobbleScale,
+  shellClassName,
+  viewBox,
+  patternId,
+  patternWidth,
+  patternHeight,
+  children,
+}: {
+  shape: FrameShape;
+  wobbleScale: number;
+  shellClassName?: string;
+  viewBox: string;
+  patternId: string;
+  patternWidth: string;
+  patternHeight: string;
+  children: ReactNode;
+}) {
+  return (
+    <FrameCanvas
+      shape={shape}
+      wobbleScale={wobbleScale}
+      shellClassName={shellClassName}
+    >
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        viewBox={viewBox}
+        preserveAspectRatio="none"
+        className={styles.patternSvg}
+      >
+        <defs>
+          <pattern
+            id={patternId}
+            width={patternWidth}
+            height={patternHeight}
+            patternUnits="userSpaceOnUse"
+          >
+            {children}
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${patternId})`} />
+      </svg>
+    </FrameCanvas>
   );
 }

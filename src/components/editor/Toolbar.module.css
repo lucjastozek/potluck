@@ -42,6 +42,26 @@
   background: rgba(var(--fgRgb), 1);
 }
 
+.headingSelect {
+  height: 2rem;
+  padding: 0 0.5rem;
+  width: fit-content;
+  border-radius: 0.25rem;
+  border: 1px solid transparent;
+  background: rgba(var(--fgRgb), 0.1);
+  color: var(--fg);
+  font-size: 0.8rem;
+  font-family: monospace;
+  cursor: pointer;
+}
+
+.headingSelect:hover,
+.headingSelect:focus-visible {
+  background: var(--oppblue);
+  border-color: #d1d5db;
+  outline: none;
+}
+
 .divider {
   width: 1px;
   height: 1.25rem;

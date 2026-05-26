@@ -8,7 +8,9 @@ export function deserializeFromMarkup(markup: string): JSONContent {
     return { type: "doc", content: [{ type: "paragraph" }] };
   }
 
-  const tokens = tokenize(markup);
+  const sanitized = markup.replace(/\[\/?gradient[^\]]*\]/g, "");
+
+  const tokens = tokenize(sanitized);
   const [nodes] = buildNodes(tokens, 0, null);
 
   const content = groupIntoParagraphs(nodes);
@@ -76,23 +78,6 @@ function buildNodes(
         const color = (attrs as Record<string, string>).color ?? "var(--fg)";
         const hue = cssVarToHue(color);
         nodes.push({ type: "glitter", attrs: { text, color, hue } });
-        i = next;
-        continue;
-      }
-
-      if (name === "shake") {
-        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
-        const text = children
-          .filter((n) => n.type === "text")
-          .map((n) => n.text ?? "")
-          .join("");
-        nodes.push({
-          type: "shake",
-          attrs: {
-            text,
-            intensity: (attrs as Record<string, string>).intensity ?? "low",
-          },
-        });
         i = next;
         continue;
       }
@@ -208,16 +193,21 @@ function tagToMark(
     case "code":
       return { type: "code" };
     case "strike":
-      return { type: "strike" };
+      return {
+        type: "strike",
+        attrs: { color: attrs.color ?? null },
+      };
     case "shake":
-      return { type: "shake" };
+      return {
+        type: "shake",
+        attrs: { intensity: attrs.intensity ?? "low" },
+      };
     case "spoiler":
       return { type: "spoiler" };
-
-    case "glitter":
+    case "typewriter":
       return {
-        type: "glitter",
-        attrs: { color: attrs.color ?? "var(--pink)" },
+        type: "typewriter",
+        attrs: { speed: attrs.speed ?? 50 },
       };
 
     case "gradient":
@@ -265,9 +255,6 @@ function tagToMark(
 
     case "color":
       return { type: "color", attrs: { value: attrs.value ?? "inherit" } };
-
-    case "typewriter":
-      return { type: "typewriter", attrs: { speed: attrs.speed ?? "50" } };
 
     default:
       return null;

@@ -1,37 +1,9 @@
 import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "@/components/editor/Toolbar";
 import { serializeToMarkup } from "@/utils/serializer";
 import styles from "@/components/editor/PostEditor.module.css";
-import { ColorMark } from "@/components/editor/extensions/ColorMark";
 import { useState } from "react";
-import { RainbowNode } from "@/components/editor/extensions/RainbowNode";
-import { GlitterNode } from "@/components/editor/extensions/GlitterNode";
-import { HighlightMark } from "@/components/editor/extensions/HighlightMark";
-import { OutlineMark } from "@/components/editor/extensions/OutlineMark";
-import { NeonMark } from "@/components/editor/extensions/NeonMark";
-import { ShadowMark } from "@/components/editor/extensions/ShadowMark";
-import { ShakeNode } from "@/components/editor/extensions/ShakeNode";
-import { SpoilerNode } from "@/components/editor/extensions/SpoilerNode";
-import { WavyNode } from "@/components/editor/extensions/WavyNode";
-import { TypewriterNode } from "@/components/editor/extensions/TypewriterNode";
-import { ImageNode } from "@/components/editor/extensions/ImageNode";
-
-const EXTENSIONS = [
-  StarterKit,
-  ColorMark,
-  RainbowNode,
-  GlitterNode,
-  HighlightMark,
-  OutlineMark,
-  NeonMark,
-  ShadowMark,
-  ShakeNode,
-  SpoilerNode,
-  WavyNode,
-  TypewriterNode,
-  ImageNode,
-];
+import { EDITOR_EXTENSIONS } from "@/components/editor/editorExtensions";
 
 interface PostEditorProps {
   onSubmit: (markup: string) => void;
@@ -43,7 +15,7 @@ export default function PostEditor({
   placeholder = "What's on your mind?",
 }: PostEditorProps): JSX.Element {
   const editor = useEditor({
-    extensions: EXTENSIONS,
+    extensions: EDITOR_EXTENSIONS,
     content: "",
     editorProps: {
       attributes: {

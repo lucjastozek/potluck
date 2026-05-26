@@ -2,6 +2,7 @@ import { useEditorState, type Editor } from "@tiptap/react";
 import { useState } from "react";
 import styles from "@/components/editor/Toolbar.module.css";
 import ColorPopover from "@/components/editor/popovers/ColorPopover";
+import StrikeColorPopover from "@/components/editor/popovers/StrikeColorPopover";
 import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
 import GlitterIcon from "@mui/icons-material/AutoAwesome";
 import GlitterPopover from "@/components/editor/popovers/GlitterPopover";
@@ -21,6 +22,12 @@ import TypewriterPopover from "@/components/editor/popovers/TypewriterPopover";
 import TypewriterIcon from "@mui/icons-material/Keyboard";
 import ImageIcon from "@mui/icons-material/Image";
 import ImagePopover from "@/components/editor/popovers/ImagePopover";
+import StrikethroughSIcon from "@mui/icons-material/StrikethroughS";
+import CodeIcon from "@mui/icons-material/Code";
+import ItalicIcon from "@mui/icons-material/FormatItalic";
+import BoldIcon from "@mui/icons-material/FormatBold";
+
+const HEADING_LEVELS = [1, 2, 3, 4, 5, 6];
 
 export default function Toolbar({
   editor,
@@ -47,70 +54,127 @@ export default function Toolbar({
       ? `${styles.toolbarButton} ${styles.toolbarButtonActive}`
       : styles.toolbarButton;
 
-  const applyRainbow = (e: React.MouseEvent) => {
-    e.preventDefault();
-    editor.chain().focus().setRainbow().run();
+  const activeEffects = {
+    color: editor.isActive("color"),
+    rainbow: editor.isActive("rainbow"),
+    glitter: editor.isActive("glitter"),
+    highlight: editor.isActive("highlight"),
+    code: editor.isActive("code"),
+    spoiler: editor.isActive("spoiler"),
+    outline: editor.isActive("outline"),
+    neon: editor.isActive("neon"),
+    shadow: editor.isActive("shadow"),
+    shake: editor.isActive("shake"),
+    wavy: editor.isActive("wavy"),
+    typewriter: editor.isActive("typewriter"),
   };
 
-  const applySpoiler = (e: React.MouseEvent) => {
-    e.preventDefault();
-    editor.chain().focus().setSpoiler().run();
-  };
+  const isEffectDisabled = (
+    effect: keyof typeof activeEffects,
+    conflicts: Array<keyof typeof activeEffects>,
+  ) => !activeEffects[effect] && conflicts.some((name) => activeEffects[name]);
 
-  const applyWave = (e: React.MouseEvent) => {
-    e.preventDefault();
-    editor.chain().focus().setWavy().run();
-  };
+  const currentHeadingLevel =
+    HEADING_LEVELS.find((level) => editor.isActive("heading", { level })) ?? 0;
+  let previousHeadingLevel = 0;
+  const selectionFrom = editor.state.selection.from;
+  editor.state.doc.descendants((node, pos) => {
+    const nodeEnd = pos + node.nodeSize;
+    const selectionInsideNode = pos <= selectionFrom && selectionFrom < nodeEnd;
+
+    if (
+      node.type.name === "heading" &&
+      pos < selectionFrom &&
+      !selectionInsideNode
+    ) {
+      previousHeadingLevel = Number(node.attrs.level) || 0;
+    }
+  });
+  const maxHeadingLevel =
+    previousHeadingLevel === 0 ? 1 : Math.min(previousHeadingLevel + 1, 6);
+  const headingOptions = HEADING_LEVELS.filter(
+    (level) => level <= maxHeadingLevel,
+  );
+  const headingValue = currentHeadingLevel
+    ? String(currentHeadingLevel)
+    : "paragraph";
 
   return (
     <div className={styles.toolbar} role="toolbar" aria-label="Text formatting">
+      <select
+        className={styles.headingSelect}
+        aria-label="Heading level"
+        title="Heading level"
+        value={headingValue}
+        onChange={(e) => {
+          const value = e.target.value;
+          if (value === "paragraph") {
+            editor.chain().focus().setParagraph().run();
+            return;
+          }
+
+          const level = Number(value) as 1 | 2 | 3 | 4 | 5 | 6;
+          editor.chain().focus().toggleHeading({ level }).run();
+        }}
+      >
+        <option value="paragraph">Paragraph</option>
+        {currentHeadingLevel &&
+          !headingOptions.includes(currentHeadingLevel) && (
+            <option value={String(currentHeadingLevel)} disabled>
+              Heading {currentHeadingLevel}
+            </option>
+          )}
+        {headingOptions.map((level) => (
+          <option key={level} value={level}>
+            Heading {level}
+          </option>
+        ))}
+      </select>
+      <span className={styles.divider} aria-hidden="true" />
       <button
         className={btn("bold")}
         onClick={() => editor.chain().focus().toggleBold().run()}
         title="Bold"
       >
-        <b>B</b>
+        <BoldIcon fontSize="inherit" />
       </button>
       <button
         className={btn("italic")}
         onClick={() => editor.chain().focus().toggleItalic().run()}
         title="Italic"
       >
-        <i>I</i>
+        <ItalicIcon fontSize="inherit" />
       </button>
-      <button
-        className={btn("code")}
-        onClick={() => editor.chain().focus().toggleCode().run()}
-        title="Code"
-      >
-        {"</>"}
-      </button>
-      <button
-        className={btn("strike")}
-        onClick={() => editor.chain().focus().toggleStrike().run()}
-        title="Strikethrough"
-      >
-        <s>S</s>
-      </button>
-
-      <span className={styles.divider} aria-hidden="true" />
-
-      {([1, 2, 3, 4, 5, 6] as const).map((level) => (
+      <div className={styles.popoverAnchor}>
         <button
-          key={level}
-          className={btn("heading", { level })}
-          onClick={() => editor.chain().focus().toggleHeading({ level }).run()}
-          title={`Heading ${level}`}
+          className={btn("strike")}
+          onClick={(e) => {
+            e.preventDefault();
+            if (editor.isActive("strike")) {
+              editor.chain().focus().unsetMark("strike").run();
+              setOpenPopover(null);
+            } else {
+              toggle("strikeColor");
+            }
+          }}
+          aria-expanded={openPopover === "strikeColor"}
+          title="Strikethrough color"
         >
-          H{level}
+          <StrikethroughSIcon fontSize="inherit" />
         </button>
-      ))}
 
+        {openPopover === "strikeColor" && (
+          <StrikeColorPopover
+            editor={editor}
+            onClose={() => setOpenPopover(null)}
+          />
+        )}
+      </div>
       <span className={styles.divider} aria-hidden="true" />
-
       <div className={styles.popoverAnchor}>
         <button
           className={btn("color")}
+          disabled={isEffectDisabled("color", ["rainbow", "glitter"])}
           onClick={() => {
             if (editor.isActive("color")) {
               editor.chain().focus().unsetColor().run();
@@ -127,20 +191,25 @@ export default function Toolbar({
           <ColorPopover editor={editor} onClose={() => setOpenPopover(null)} />
         )}
       </div>
-
       <button
         className={btn("rainbow")}
+        disabled={isEffectDisabled("rainbow", ["color", "glitter"])}
         onClick={(e) => {
-          applyRainbow(e);
+          e.preventDefault();
+          if (editor.isActive("rainbow")) {
+            editor.chain().focus().unsetRainbow().run();
+          } else {
+            editor.chain().focus().setRainbow().run();
+          }
         }}
         title="Rainbow"
       >
         🌈
       </button>
-
       <div className={styles.popoverAnchor}>
         <button
           className={btn("glitter")}
+          disabled={isEffectDisabled("glitter", ["color", "rainbow"])}
           onClick={() => {
             if (editor.isActive("glitter")) {
               editor.chain().focus().unsetGlitter().run();
@@ -160,10 +229,11 @@ export default function Toolbar({
           />
         )}
       </div>
-
+      <span className={styles.divider} aria-hidden="true" />
       <div className={styles.popoverAnchor}>
         <button
           className={btn("highlight")}
+          disabled={isEffectDisabled("highlight", ["code", "spoiler"])}
           onClick={() => {
             if (editor.isActive("highlight")) {
               editor.chain().focus().unsetHighlight().run();
@@ -183,10 +253,34 @@ export default function Toolbar({
           />
         )}
       </div>
-
+      <button
+        className={btn("code")}
+        disabled={isEffectDisabled("code", ["highlight", "spoiler"])}
+        onClick={() => editor.chain().focus().toggleCode().run()}
+        title="Code"
+      >
+        <CodeIcon fontSize="inherit" />
+      </button>
+      <button
+        className={btn("spoiler")}
+        disabled={isEffectDisabled("spoiler", ["highlight", "code"])}
+        onClick={(e) => {
+          e.preventDefault();
+          if (editor.isActive("spoiler")) {
+            editor.chain().focus().unsetSpoiler().run();
+          } else {
+            editor.chain().focus().setSpoiler().run();
+          }
+        }}
+        title="Spoiler"
+      >
+        <SpoilerIcon fontSize="inherit" />
+      </button>
+      <span className={styles.divider} aria-hidden="true" />
       <div className={styles.popoverAnchor}>
         <button
           className={btn("outline")}
+          disabled={isEffectDisabled("outline", ["neon"])}
           onClick={() => {
             if (editor.isActive("outline")) {
               editor.chain().focus().unsetOutline().run();
@@ -206,10 +300,10 @@ export default function Toolbar({
           />
         )}
       </div>
-
       <div className={styles.popoverAnchor}>
         <button
           className={btn("neon")}
+          disabled={isEffectDisabled("neon", ["outline", "shadow"])}
           onClick={() => {
             if (editor.isActive("neon")) {
               editor.chain().focus().unsetNeon().run();
@@ -226,10 +320,10 @@ export default function Toolbar({
           <NeonPopover editor={editor} onClose={() => setOpenPopover(null)} />
         )}
       </div>
-
       <div className={styles.popoverAnchor}>
         <button
           className={btn("shadow")}
+          disabled={isEffectDisabled("shadow", ["neon"])}
           onClick={() => {
             if (editor.isActive("shadow")) {
               editor.chain().focus().unsetShadow().run();
@@ -246,10 +340,11 @@ export default function Toolbar({
           <ShadowPopover editor={editor} onClose={() => setOpenPopover(null)} />
         )}
       </div>
-
+      <span className={styles.divider} aria-hidden="true" />
       <div className={styles.popoverAnchor}>
         <button
           className={btn("shake")}
+          disabled={isEffectDisabled("shake", ["wavy", "typewriter"])}
           onClick={() => {
             if (editor.isActive("shake")) {
               editor.chain().focus().unsetShake().run();
@@ -266,30 +361,25 @@ export default function Toolbar({
           <ShakePopover editor={editor} onClose={() => setOpenPopover(null)} />
         )}
       </div>
-
       <button
-        className={btn("spoiler")}
+        className={btn("wavy")}
+        disabled={isEffectDisabled("wavy", ["shake", "typewriter"])}
         onClick={(e) => {
-          applySpoiler(e);
+          e.preventDefault();
+          if (editor.isActive("wavy")) {
+            editor.chain().focus().unsetWavy().run();
+          } else {
+            editor.chain().focus().setWavy().run();
+          }
         }}
-        title="Spoiler"
-      >
-        <SpoilerIcon fontSize="inherit" />
-      </button>
-
-      <button
-        className={btn("wave")}
-        onClick={(e) => {
-          applyWave(e);
-        }}
-        title="wave"
+        title="Wave"
       >
         <WaveIcon fontSize="inherit" />
       </button>
-
       <div className={styles.popoverAnchor}>
         <button
           className={btn("typewriter")}
+          disabled={isEffectDisabled("typewriter", ["shake", "wavy"])}
           onClick={() => {
             if (editor.isActive("typewriter")) {
               editor.chain().focus().unsetTypewriter().run();
@@ -309,7 +399,7 @@ export default function Toolbar({
           />
         )}
       </div>
-
+      <span className={styles.divider} aria-hidden="true" />
       <div className={styles.popoverAnchor}>
         <button
           className={btn("image")}

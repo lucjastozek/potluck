@@ -3,7 +3,7 @@
   background: rgba(var(--fgRgb), 0.1);
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: auto;
 }
 
 .editorBody div:focus-visible {
@@ -11,14 +11,12 @@
 }
 
 .editorBody {
-  flex: 1;
   padding: 1.25rem;
-  height: 100%;
 }
 
 .editorContent {
   outline: none;
-  min-height: 200px;
+  min-height: 0;
   font-size: 1rem;
   line-height: 1.7;
   color: var(--fg);

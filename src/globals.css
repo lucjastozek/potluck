@@ -180,6 +180,11 @@ a {
   position: relative;
 }
 
+main {
+  padding-inline: 4rem;
+  padding-block: 2rem;
+}
+
 a::after {
   content: "";
   position: absolute;
@@ -314,8 +319,26 @@ button:disabled:hover:before {
 }
 
 ::selection {
-  background: rgba(var(--yellowRgb), 0.3);
-  color: var(--fg);
+  background: rgba(var(--yellowRgb), 0.2);
+}
+
+.glitter::selection,
+.typewriterText::selection,
+.shakeText::selection {
+  background: rgba(var(--blueRgb), 0.35);
+  color: var(--bg);
+  -webkit-text-fill-color: var(--bg);
+}
+
+.glitter::selection {
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  filter: none;
+}
+
+.typewriterText::selection,
+.shakeText::selection {
+  text-shadow: none;
 }
 
 .app {

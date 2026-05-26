@@ -29,6 +29,15 @@
   justify-content: center;
 }
 
+.framePresetGroup {
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.frameShapeGroup {
+  justify-content: center;
+}
+
 .controlBtn {
   font-size: 0.6rem;
   padding: 0.15rem 0.4rem;
@@ -45,6 +54,38 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.framePresetButton {
+  font-size: 0.55rem;
+  padding: 0.1rem 0.3rem;
+  aspect-ratio: unset;
+  white-space: nowrap;
+  gap: 0.25rem;
+}
+
+.framePresetButtonActive {
+  background: rgba(var(--fgRgb), 0.15);
+  border-color: rgba(var(--fgRgb), 0.4);
+}
+
+.framePresetButtonText {
+  line-height: 1;
+}
+
+.frameRemoveButton {
+  font-size: 0.55rem;
+  padding: 0.1rem 0.3rem;
+  aspect-ratio: unset;
+  margin-left: 0.3rem;
+  color: var(--red);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.frameShapeButton {
+  gap: 0;
 }
 
 .controlBtn:hover {

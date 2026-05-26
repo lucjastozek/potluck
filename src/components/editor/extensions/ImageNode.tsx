@@ -13,9 +13,11 @@ import {
   FramedImage,
   type FramePreset,
   type FrameShape,
-  type PresetDef,
 } from "@/components/renderer/effects/WrappedImage/FramedImage";
-import { FRAME_PRESETS } from "@/components/renderer/effects/WrappedImage/framePresets";
+import {
+  FramePresetControls,
+  FrameShapeControls,
+} from "@/components/editor/extensions/FrameControls";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -29,13 +31,6 @@ declare module "@tiptap/core" {
     };
   }
 }
-
-const FRAME_SHAPES: { label: string; value: FrameShape; icon: string }[] = [
-  { label: "Rectangle", value: "rectangle", icon: "▭" },
-  { label: "Circle", value: "circle", icon: "◯" },
-  { label: "Star", value: "star", icon: "✦" },
-  { label: "Blob", value: "blob", icon: "⬡" },
-];
 
 function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
   const {
@@ -51,9 +46,7 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
   const isFloat = wrap === "left" || wrap === "right";
 
   const handleFigureClick = (e: React.MouseEvent<HTMLElement>) => {
-    // Allow deselecting by clicking on the figure background (outside the image and controls)
     if (selected && e.currentTarget === e.target) {
-      // Click is on the figure itself, not a child element - deselect
       e.preventDefault();
       e.stopPropagation();
     }
@@ -64,7 +57,6 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        // Click elsewhere in the editor to deselect
         const editor = figureRef.current?.closest(
           ".ProseMirror",
         ) as HTMLElement;
@@ -185,64 +177,21 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
 
             <div className={styles.divider} />
 
-            {/* Frame preset buttons */}
-            <div
-              className={styles.controlGroup}
-              style={{ flexWrap: "wrap", gap: "0.3rem" }}
-            >
-              {(
-                Object.entries(FRAME_PRESETS) as [FramePreset, PresetDef][]
-              ).map(([key, { label }]) => (
-                <button
-                  key={key}
-                  className={`${styles.controlBtn} ${framePreset === key ? styles.controlBtnActive : ""}`}
-                  onClick={() => updateAttributes({ framePreset: key })}
-                  title={label}
-                  type="button"
-                  style={{
-                    fontSize: "0.55rem",
-                    padding: "0.1rem 0.3rem",
-                    aspectRatio: "unset",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {label}
-                </button>
-              ))}
-              {framePreset && (
-                <button
-                  className={styles.controlBtn}
-                  onClick={() => updateAttributes({ framePreset: null })}
-                  title="Remove frame"
-                  type="button"
-                  style={{
-                    fontSize: "0.55rem",
-                    padding: "0.1rem 0.3rem",
-                    aspectRatio: "unset",
-                    marginLeft: "0.3rem",
-                    color: "var(--red)",
-                  }}
-                >
-                  ✕
-                </button>
-              )}
-            </div>
+            <FramePresetControls
+              activePreset={framePreset}
+              onSelectPreset={(nextPreset) =>
+                updateAttributes({ framePreset: nextPreset })
+              }
+              onRemovePreset={() => updateAttributes({ framePreset: null })}
+            />
 
-            {/* Shape controls — only when a frame is active */}
             {framePreset && (
-              <div className={styles.controlGroup}>
-                {FRAME_SHAPES.map(({ label, value, icon }) => (
-                  <button
-                    key={value}
-                    className={`${styles.controlBtn} ${frameShape === value ? styles.controlBtnActive : ""}`}
-                    onClick={() => updateAttributes({ frameShape: value })}
-                    title={label}
-                    type="button"
-                  >
-                    {icon}
-                  </button>
-                ))}
-              </div>
+              <FrameShapeControls
+                activeShape={frameShape}
+                onSelectShape={(nextShape) =>
+                  updateAttributes({ frameShape: nextShape })
+                }
+              />
             )}
           </div>
         </>
