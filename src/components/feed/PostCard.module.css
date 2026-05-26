@@ -1,8 +1,8 @@
 .card {
   border-radius: 0.5rem;
   padding: 1rem;
+  padding-bottom: 0;
   background: rgba(var(--fgRgb, 31, 41, 55), 0.06);
-  margin-bottom: 1rem;
 }
 
 .header {
@@ -44,7 +44,7 @@
 .actions {
   display: flex;
   gap: 1rem;
-  padding-top: 0.5rem;
+  padding-block: 0.75rem;
   border-top: 0.1em solid rgba(var(--fgRgb), 0.1);
   align-items: center;
 }
