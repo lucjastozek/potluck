@@ -144,7 +144,6 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
             type="button"
           />
           <div className={styles.controls}>
-            {/* Float controls */}
             <div className={styles.controlGroup}>
               <button
                 className={`${styles.controlBtn} ${wrap === "left" ? styles.controlBtnActive : ""}`}
