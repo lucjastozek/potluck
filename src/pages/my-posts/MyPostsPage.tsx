@@ -90,8 +90,7 @@ export default function MyPostsPage(): JSX.Element {
             </h1>
             <p className={styles.subtitle}>
               Review drafts, track moderation status, and edit anything that
-              isn't published yet. Saving an edit sends it back through review
-              when needed.
+              isn't published yet.
             </p>
           </div>
 
