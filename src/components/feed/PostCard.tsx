@@ -15,7 +15,7 @@ import {
   toggleLike,
 } from "@/api/feed";
 import { getAvatarHueClass } from "@/utils/avatarHue";
-import { formatTimestamp } from "@/utils/formatTimestamp";
+import { formatDate } from "@/utils/formatTimestamp";
 import { useAuth } from "@/context/AuthContext";
 import { buildCommentTree } from "@/utils/buildCommentTree";
 import CommentList from "@/components/feed/CommentList";
@@ -43,7 +43,7 @@ export default function PostCard({
   const [commentError, setCommentError] = useState<string | null>(null);
   const [hasLoadedComments, setHasLoadedComments] = useState(false);
   const articleRef = useRef<HTMLElement | null>(null);
-  const createdAt = formatTimestamp(post.createdAt);
+  const createdAt = formatDate(post.createdAt);
   const postAvatarClass = getAvatarHueClass(post.author.username);
 
   const content = deserializeFromMarkup(post.markup);
@@ -182,7 +182,7 @@ export default function PostCard({
         <div className={styles.meta}>
           <h4 className={styles.author}>{post.author.displayName}</h4>
           <div className={styles.date}>
-            {post.author.username} •{" "}
+            @{post.author.username} •{" "}
             <time dateTime={post.createdAt}>{createdAt}</time>
           </div>
         </div>

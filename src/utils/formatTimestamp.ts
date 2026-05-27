@@ -26,6 +26,13 @@ export function formatTimestamp(timestamp: string): string {
   return formatRelativeTime(parsed.toLocal());
 }
 
+export function formatDate(timestamp: string): string {
+  const parsed = DateTime.fromISO(timestamp, { setZone: true });
+  const dateTime = parsed.toLocal();
+
+  return `${dateTime.toLocaleString(DateTime.DATETIME_MED)}`;
+}
+
 export function formatRelativeTimestamp(timestamp: string): string {
   const parsed = DateTime.fromISO(timestamp, { setZone: true });
 
