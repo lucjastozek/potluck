@@ -60,7 +60,6 @@ export default function PostDetailPage(): JSX.Element {
         <div className={styles.header}>
           <div>
             <h1 className={styles.pageTitle}>Post</h1>
-            <p className={styles.pageSubtitle}>Focused post view</p>
           </div>
 
           <Link to="/feed" className={styles.createLink}>
