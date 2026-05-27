@@ -12,11 +12,11 @@ const router = createBrowserRouter([
     element: <AppShell />,
     children: [
       { index: true, element: <FeedPage /> },
-      { path: "feed", element: <FeedPage /> },
-      { path: "post/:id", element: <PostDetailPage /> },
-      { path: "create", element: <CreatePostPage /> },
-      { path: "posts/drafts", element: <MyPostsPage /> },
-      { path: "posts/edit/:id", element: <EditPostPage /> },
+      { path: "/feed", element: <FeedPage /> },
+      { path: "/post/:id", element: <PostDetailPage /> },
+      { path: "/create", element: <CreatePostPage /> },
+      { path: "/posts/drafts", element: <MyPostsPage /> },
+      { path: "/posts/edit/:id", element: <EditPostPage /> },
     ],
   },
 ]);
