@@ -81,6 +81,7 @@ export default function FeedPage(): JSX.Element {
                 </div>
               </div>
               <div className={`${styles.skeletonEl} ${styles.skeletonLine}`} />
+              <div className={`${styles.skeletonEl} ${styles.skeletonLine}`} />
               <div
                 className={`${styles.skeletonEl} ${styles.skeletonLine} ${styles.skeletonLineShort}`}
               />
