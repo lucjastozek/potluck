@@ -8,7 +8,9 @@ export function deserializeFromMarkup(markup: string): JSONContent {
     return { type: "doc", content: [{ type: "paragraph" }] };
   }
 
-  const tokens = tokenize(markup);
+  const sanitized = markup.replace(/\[\/?gradient[^\]]*\]/g, "");
+
+  const tokens = tokenize(sanitized);
   const [nodes] = buildNodes(tokens, 0, null);
 
   const content = groupIntoParagraphs(nodes);
@@ -62,7 +64,11 @@ function buildNodes(
           .filter((n) => n.type === "text")
           .map((n) => n.text ?? "")
           .join("");
-        nodes.push({ type: "rainbow", attrs: { text } });
+        nodes.push({
+          type: "rainbow",
+          attrs: { text },
+          ...(activeMarks.length ? { marks: [...activeMarks] } : {}),
+        });
         i = next;
         continue;
       }
@@ -75,23 +81,10 @@ function buildNodes(
           .join("");
         const color = (attrs as Record<string, string>).color ?? "var(--fg)";
         const hue = cssVarToHue(color);
-        nodes.push({ type: "glitter", attrs: { text, color, hue } });
-        i = next;
-        continue;
-      }
-
-      if (name === "shake") {
-        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
-        const text = children
-          .filter((n) => n.type === "text")
-          .map((n) => n.text ?? "")
-          .join("");
         nodes.push({
-          type: "shake",
-          attrs: {
-            text,
-            intensity: (attrs as Record<string, string>).intensity ?? "low",
-          },
+          type: "glitter",
+          attrs: { text, color, hue },
+          ...(activeMarks.length ? { marks: [...activeMarks] } : {}),
         });
         i = next;
         continue;
@@ -103,7 +96,11 @@ function buildNodes(
           .filter((n) => n.type === "text")
           .map((n) => n.text ?? "")
           .join("");
-        nodes.push({ type: "spoiler", attrs: { text } });
+        nodes.push({
+          type: "spoiler",
+          attrs: { text },
+          ...(activeMarks.length ? { marks: [...activeMarks] } : {}),
+        });
         i = next;
         continue;
       }
@@ -114,7 +111,11 @@ function buildNodes(
           .filter((n) => n.type === "text")
           .map((n) => n.text ?? "")
           .join("");
-        nodes.push({ type: "wavy", attrs: { text } });
+        nodes.push({
+          type: "wavy",
+          attrs: { text },
+          ...(activeMarks.length ? { marks: [...activeMarks] } : {}),
+        });
         i = next;
         continue;
       }
@@ -126,7 +127,11 @@ function buildNodes(
           .map((n) => n.text ?? "")
           .join("");
         const speed = Number((attrs as Record<string, string>).speed ?? 50);
-        nodes.push({ type: "typewriter", attrs: { text, speed } });
+        nodes.push({
+          type: "typewriter",
+          attrs: { text, speed },
+          ...(activeMarks.length ? { marks: [...activeMarks] } : {}),
+        });
         i = next;
         continue;
       }
@@ -156,6 +161,8 @@ function buildNodes(
           alt: attrs.alt ?? "",
           wrap: attrs.wrap ?? "none",
           widthPercent: Number.isFinite(widthPercent) ? widthPercent : 50,
+          framePreset: attrs.framePreset ?? null,
+          frameShape: attrs.frameShape ?? "rectangle",
         },
       });
       i++;
@@ -206,16 +213,21 @@ function tagToMark(
     case "code":
       return { type: "code" };
     case "strike":
-      return { type: "strike" };
+      return {
+        type: "strike",
+        attrs: { color: attrs.color ?? null },
+      };
     case "shake":
-      return { type: "shake" };
+      return {
+        type: "shake",
+        attrs: { intensity: attrs.intensity ?? "low" },
+      };
     case "spoiler":
       return { type: "spoiler" };
-
-    case "glitter":
+    case "typewriter":
       return {
-        type: "glitter",
-        attrs: { color: attrs.color ?? "var(--pink)" },
+        type: "typewriter",
+        attrs: { speed: attrs.speed ?? 50 },
       };
 
     case "gradient":
@@ -262,10 +274,10 @@ function tagToMark(
       return { type: "sizedText", attrs: { size: attrs.size ?? "1.5em" } };
 
     case "color":
-      return { type: "color", attrs: { value: attrs.value ?? "inherit" } };
-
-    case "typewriter":
-      return { type: "typewriter", attrs: { speed: attrs.speed ?? "50" } };
+      return {
+        type: "color",
+        attrs: { color: attrs.color ?? attrs.value ?? "inherit" },
+      };
 
     default:
       return null;
@@ -299,5 +311,15 @@ function groupIntoParagraphs(nodes: TiptapNode[]): TiptapNode[] {
 }
 
 function inlineNodesToContent(nodes: TiptapNode[]): TiptapNode[] {
-  return nodes.filter((n) => n.type === "text" || n.type === "hardBreak");
+  return nodes.filter(
+    (n) =>
+      n.type === "text" ||
+      n.type === "hardBreak" ||
+      n.type === "rainbow" ||
+      n.type === "glitter" ||
+      n.type === "shake" ||
+      n.type === "spoiler" ||
+      n.type === "wavy" ||
+      n.type === "typewriter",
+  );
 }

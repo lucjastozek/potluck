@@ -20,12 +20,21 @@
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  margin-top: 0.3rem;
+  margin-top: 1rem;
 }
 
 .controlGroup {
   display: flex;
   gap: 0.2rem;
+  justify-content: center;
+}
+
+.framePresetGroup {
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.frameShapeGroup {
   justify-content: center;
 }
 
@@ -38,13 +47,44 @@
   color: var(--fg);
   cursor: pointer;
   font-family: "Intel One Mono", monospace;
-  text-transform: lowercase;
   letter-spacing: 0.04em;
   transition: background 0.1s;
   aspect-ratio: 1/1;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.framePresetButton {
+  font-size: 0.55rem;
+  padding: 0.1rem 0.3rem;
+  aspect-ratio: unset;
+  white-space: nowrap;
+  gap: 0.25rem;
+}
+
+.framePresetButtonActive {
+  background: rgba(var(--fgRgb), 0.15);
+  border-color: rgba(var(--fgRgb), 0.4);
+}
+
+.framePresetButtonText {
+  line-height: 1;
+}
+
+.frameRemoveButton {
+  font-size: 0.55rem;
+  padding: 0.1rem 0.3rem;
+  aspect-ratio: unset;
+  margin-left: 0.3rem;
+  color: var(--red);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.frameShapeButton {
+  gap: 0;
 }
 
 .controlBtn:hover {
@@ -65,7 +105,6 @@
   color: var(--fg);
   cursor: pointer;
   font-family: "Intel One Mono", monospace;
-  text-transform: lowercase;
   letter-spacing: 0.04em;
   transition: background 0.1s;
   flex: 1;
@@ -113,4 +152,116 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+.frameSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.frameLabel {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: rgba(var(--fgRgb), 1);
+  font-family: "Intel One Mono", monospace;
+  padding-left: 0.1rem;
+}
+
+.framePresetRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+}
+
+.presetPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.65rem;
+  padding: 0.18rem 0.4rem;
+  border: 1px solid rgba(var(--fgRgb), 0.2);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font-family: "Intel One Mono", monospace;
+  letter-spacing: 0.04em;
+  transition:
+    background 0.1s,
+    border-color 0.1s;
+  white-space: nowrap;
+}
+
+.presetPill:hover {
+  background: rgba(var(--fgRgb), 0.08);
+  border-color: rgba(var(--fgRgb), 0.35);
+}
+
+.presetPillActive {
+  background: rgba(var(--fgRgb), 0.14);
+  border-color: rgba(var(--fgRgb), 0.5);
+}
+
+.presetPillX {
+  margin-left: 0.1rem;
+  opacity: 0.5;
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+.presetPillActive:hover .presetPillX {
+  opacity: 1;
+  color: var(--red);
+}
+
+.frameShapeRow {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.frameShapeLabel {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: rgba(var(--fgRgb), 1);
+  font-family: "Intel One Mono", monospace;
+  flex-shrink: 0;
+}
+
+.frameShapeOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+}
+
+.shapePill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.28rem;
+  font-size: 0.65rem;
+  padding: 0.15rem 0.35rem;
+  border: 1px solid rgba(var(--fgRgb), 0.2);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font-family: "Intel One Mono", monospace;
+  letter-spacing: 0.04em;
+  transition:
+    background 0.1s,
+    border-color 0.1s;
+  white-space: nowrap;
+}
+
+.shapePill:hover {
+  background: rgba(var(--fgRgb), 0.08);
+  border-color: rgba(var(--fgRgb), 0.35);
+}
+
+.shapePillActive {
+  background: rgba(var(--fgRgb), 0.14);
+  border-color: rgba(var(--fgRgb), 0.5);
 }

@@ -1,0 +1,275 @@
+.main {
+  width: 100%;
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.shell {
+  width: 100%;
+  max-width: 52rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 1.3rem;
+  color: rgba(var(--fgRgb), 0.95);
+  margin: 0;
+}
+
+.subtitle {
+  margin: 0.35rem 0 0;
+  color: rgba(var(--fgRgb), 0.58);
+  font-size: 0.92rem;
+  max-width: 42rem;
+}
+
+.newButton,
+.primaryButton,
+.secondaryButton,
+.ghostButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.newButton,
+.primaryButton {
+  border: 1px solid rgba(var(--fgRgb), 0.14);
+  background: rgba(var(--fgRgb), 0.06);
+  color: rgba(var(--fgRgb), 0.92);
+}
+
+.newButton:hover,
+.primaryButton:hover {
+  background: rgba(var(--fgRgb), 0.1);
+}
+
+.secondaryButton,
+.ghostButton {
+  border: 1px solid rgba(var(--fgRgb), 0.12);
+  background: transparent;
+  color: rgba(var(--fgRgb), 0.86);
+}
+
+.secondaryButton:hover,
+.ghostButton:hover {
+  background: rgba(var(--fgRgb), 0.06);
+}
+
+.list {
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  border-radius: 1rem;
+  border: 1px solid rgba(var(--fgRgb), 0.1);
+  background: rgba(var(--fgRgb), 0.05);
+  padding: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  box-shadow: 0 10px 28px rgba(var(--blackRgb), 0.16);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.headerCopy {
+  min-width: 0;
+}
+
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--fgRgb), 0.12);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.badge :global(svg) {
+  font-size: 0.95rem;
+}
+
+.status_DRAFT {
+  background: rgba(var(--blueRgb), 0.12);
+  color: rgba(var(--fgRgb), 0.92);
+}
+
+.status_PENDING {
+  background: rgba(var(--yellowRgb), 0.14);
+  color: rgba(var(--fgRgb), 0.92);
+}
+
+.status_APPROVED {
+  background: rgba(var(--greenRgb), 0.14);
+  color: rgba(var(--fgRgb), 0.92);
+}
+
+.status_REJECTED {
+  background: rgba(var(--redRgb), 0.14);
+  color: rgba(var(--fgRgb), 0.92);
+}
+
+.status_PUBLISHED {
+  background: rgba(var(--purpleRgb), 0.14);
+  color: rgba(var(--fgRgb), 0.92);
+}
+
+.metaText,
+.updatedText,
+.statusText,
+.emptyText {
+  color: rgba(var(--fgRgb), 0.6);
+  font-size: 0.82rem;
+}
+
+.updatedText {
+  margin: 0.35rem 0 0;
+}
+
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.cardActions button {
+  padding: 0.55rem 0.8rem;
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+.cardActions button :global(svg) {
+  font-size: 1rem;
+}
+
+.preview {
+  padding: 0.25rem 0.1rem 0;
+  overflow: hidden;
+}
+
+.previewFallback {
+  min-height: 2rem;
+}
+
+.preview :global(p) {
+  margin-bottom: 0.85rem;
+}
+
+.preview :global(.editorContent) {
+  padding: 0;
+}
+
+.preview :global(p:last-child),
+.preview :global(h1:last-child),
+.preview :global(h2:last-child),
+.preview :global(h3:last-child),
+.preview :global(h4:last-child),
+.preview :global(h5:last-child),
+.preview :global(h6:last-child) {
+  margin-bottom: 0;
+}
+
+.preview :global(p:last-child),
+.preview :global(h1:last-child),
+.preview :global(h2:last-child),
+.preview :global(h3:last-child),
+.preview :global(h4:last-child),
+.preview :global(h5:last-child),
+.preview :global(h6:last-child) {
+  margin-bottom: 0;
+}
+
+.rejectionBox {
+  border-radius: 0.9rem;
+  border: 1px solid rgba(var(--redRgb), 0.22);
+  background: rgba(var(--redRgb), 0.08);
+  padding: 0.9rem 1rem;
+}
+
+.rejectionBox strong {
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.rejectionBox p {
+  margin: 0;
+  color: rgba(var(--fgRgb), 0.8);
+}
+
+.emptyState {
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(var(--fgRgb), 0.1);
+  background: rgba(var(--fgRgb), 0.05);
+}
+
+.emptyTitle {
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+}
+
+.emptyText {
+  margin: 0;
+}
+
+.deleteButton {
+  border: 1px solid rgba(var(--redRgb), 0.22);
+  background: rgba(var(--redRgb), 0.08);
+}
+
+.deleteButton:hover {
+  background: rgba(var(--redRgb), 0.18);
+}
+
+@media (max-width: 700px) {
+  .main {
+    padding: 1.5rem 1rem;
+  }
+
+  .cardActions,
+  .newButton {
+    width: 100%;
+  }
+
+  .cardActions > button,
+  .newButton {
+    width: 100%;
+  }
+
+  .cardHeader {
+    align-items: stretch;
+  }
+}

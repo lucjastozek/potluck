@@ -1,4 +1,3 @@
-// ShadowPopover.tsx
 import type { Editor } from "@tiptap/react";
 import { useRef, useEffect, useState } from "react";
 import styles from "@/components/editor/Toolbar.module.css";

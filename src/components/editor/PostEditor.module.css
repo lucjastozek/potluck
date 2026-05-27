@@ -3,7 +3,7 @@
   background: rgba(var(--fgRgb), 0.1);
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: auto;
 }
 
 .editorBody div:focus-visible {
@@ -11,14 +11,12 @@
 }
 
 .editorBody {
-  flex: 1;
   padding: 1.25rem;
-  height: 100%;
 }
 
 .editorContent {
   outline: none;
-  min-height: 200px;
+  min-height: 0;
   font-size: 1rem;
   line-height: 1.7;
   color: var(--fg);
@@ -59,9 +57,25 @@
 
 .footer {
   display: flex;
+  gap: 0.75rem;
   justify-content: flex-end;
   padding: 0.75rem 1.25rem;
   background: rgba(var(--fgRgb), 0.1);
+}
+
+.secondaryButton {
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(var(--fgRgb), 0.16);
+  background: rgba(var(--fgRgb), 0.05);
+  color: var(--fg);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background: rgba(var(--fgRgb), 0.12);
 }
 
 .submitButton {

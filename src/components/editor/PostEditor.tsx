@@ -1,50 +1,30 @@
 import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "@/components/editor/Toolbar";
 import { serializeToMarkup } from "@/utils/serializer";
 import styles from "@/components/editor/PostEditor.module.css";
-import { ColorMark } from "@/components/editor/extensions/ColorMark";
 import { useState } from "react";
-import { RainbowNode } from "@/components/editor/extensions/RainbowNode";
-import { GlitterNode } from "@/components/editor/extensions/GlitterNode";
-import { HighlightMark } from "@/components/editor/extensions/HighlightMark";
-import { OutlineMark } from "@/components/editor/extensions/OutlineMark";
-import { NeonMark } from "@/components/editor/extensions/NeonMark";
-import { ShadowMark } from "@/components/editor/extensions/ShadowMark";
-import { ShakeNode } from "@/components/editor/extensions/ShakeNode";
-import { SpoilerNode } from "@/components/editor/extensions/SpoilerNode";
-import { WavyNode } from "@/components/editor/extensions/WavyNode";
-import { TypewriterNode } from "@/components/editor/extensions/TypewriterNode";
-import { ImageNode } from "@/components/editor/extensions/ImageNode";
-
-const EXTENSIONS = [
-  StarterKit,
-  ColorMark,
-  RainbowNode,
-  GlitterNode,
-  HighlightMark,
-  OutlineMark,
-  NeonMark,
-  ShadowMark,
-  ShakeNode,
-  SpoilerNode,
-  WavyNode,
-  TypewriterNode,
-  ImageNode,
-];
+import { EDITOR_EXTENSIONS } from "@/components/editor/editorExtensions";
 
 interface PostEditorProps {
   onSubmit: (markup: string) => void;
+  onSecondaryAction?: (markup: string) => void;
   placeholder?: string;
+  initialMarkup?: string;
+  submitLabel?: string;
+  secondaryLabel?: string;
 }
 
 export default function PostEditor({
   onSubmit,
+  onSecondaryAction,
   placeholder = "What's on your mind?",
+  initialMarkup = "",
+  submitLabel = "Post",
+  secondaryLabel,
 }: PostEditorProps): JSX.Element {
   const editor = useEditor({
-    extensions: EXTENSIONS,
-    content: "",
+    extensions: EDITOR_EXTENSIONS,
+    content: initialMarkup,
     editorProps: {
       attributes: {
         class: styles.editorContent,
@@ -67,6 +47,13 @@ export default function PostEditor({
     editor.commands.clearContent();
   };
 
+  const handleSecondaryAction = () => {
+    if (!editor || !onSecondaryAction) return;
+    const markup = serializeToMarkup(editor.getJSON());
+    onSecondaryAction(markup);
+    editor.commands.clearContent();
+  };
+
   const [disabled, setDisabled] = useState(true);
 
   return (
@@ -75,12 +62,21 @@ export default function PostEditor({
       <EditorContent editor={editor} className={styles.editorBody} />
 
       <div className={styles.footer}>
+        {secondaryLabel && onSecondaryAction ? (
+          <button
+            className={styles.secondaryButton}
+            onClick={handleSecondaryAction}
+            disabled={disabled}
+          >
+            {secondaryLabel}
+          </button>
+        ) : null}
         <button
           className={styles.submitButton}
           onClick={handleSubmit}
           disabled={disabled}
         >
-          Send
+          {submitLabel}
         </button>
       </div>
     </div>

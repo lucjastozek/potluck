@@ -27,27 +27,50 @@ function serializeNode(node: JSONContent): string {
         alt = "",
         wrap = "none",
         widthPercent = 50,
+        framePreset = "",
+        frameShape = "rectangle",
       } = node.attrs ?? {};
-      return `![${src}]{wrap=${wrap},widthPercent=${widthPercent},alt=${alt}}`;
+      const framePart = framePreset
+        ? `,framePreset=${framePreset},frameShape=${frameShape}`
+        : "";
+      return `![${src}]{wrap=${wrap},widthPercent=${widthPercent},alt=${alt}${framePart}}`;
     }
 
     case "rainbow":
-      return `[rainbow]${node.attrs?.text ?? ""}[/rainbow]`;
+      return applyMarks(
+        node.marks ?? [],
+        `[rainbow]${node.attrs?.text ?? ""}[/rainbow]`,
+      );
 
     case "glitter":
-      return `[glitter color=${node.attrs?.color ?? "var(--fg)"}]${node.attrs?.text ?? ""}[/glitter]`;
+      return applyMarks(
+        node.marks ?? [],
+        `[glitter color=${node.attrs?.color ?? "var(--fg)"}]${node.attrs?.text ?? ""}[/glitter]`,
+      );
 
     case "shake":
-      return `[shake intensity=${node.attrs?.intensity ?? "low"}]${node.attrs?.text ?? ""}[/shake]`;
+      return applyMarks(
+        node.marks ?? [],
+        `[shake intensity=${node.attrs?.intensity ?? "low"}]${node.attrs?.text ?? ""}[/shake]`,
+      );
 
     case "spoiler":
-      return `[spoiler]${node.attrs?.text ?? ""}[/spoiler]`;
+      return applyMarks(
+        node.marks ?? [],
+        `[spoiler]${node.attrs?.text ?? ""}[/spoiler]`,
+      );
 
     case "wavy":
-      return `[wavy]${node.attrs?.text ?? ""}[/wavy]`;
+      return applyMarks(
+        node.marks ?? [],
+        `[wavy]${node.attrs?.text ?? ""}[/wavy]`,
+      );
 
     case "typewriter":
-      return `[typewriter speed=${node.attrs?.speed ?? 50}]${node.attrs?.text ?? ""}[/typewriter]`;
+      return applyMarks(
+        node.marks ?? [],
+        `[typewriter speed=${node.attrs?.speed ?? 50}]${node.attrs?.text ?? ""}[/typewriter]`,
+      );
 
     case "text":
       return applyMarks(node.marks ?? [], node.text ?? "");
@@ -79,7 +102,9 @@ function wrapMark(
     case "code":
       return `[code]${inner}[/code]`;
     case "strike":
-      return `[strike]${inner}[/strike]`;
+      return a.color && a.color !== "currentColor"
+        ? `[strike color=${a.color}]${inner}[/strike]`
+        : `[strike]${inner}[/strike]`;
     case "gradient":
       return `[gradient colors=${Array.isArray(a.colors) ? a.colors.join(",") : (a.colors ?? "red,blue")} direction=${a.direction ?? "90deg"}]${inner}[/gradient]`;
     case "neon":
@@ -95,7 +120,11 @@ function wrapMark(
     case "sizedText":
       return `[size size=${a.size ?? "1.5em"}]${inner}[/size]`;
     case "color":
-      return `[color value=${a.color ?? "inherit"}]${inner}[/color]`;
+      return `[color value=${a.color ?? a.value ?? "inherit"}]${inner}[/color]`;
+    case "shake":
+      return a.intensity && a.intensity !== "low"
+        ? `[shake intensity=${a.intensity}]${inner}[/shake]`
+        : `[shake]${inner}[/shake]`;
     case "spoiler":
       return `[spoiler]${inner}[/spoiler]`;
     case "typewriter":
