@@ -368,7 +368,7 @@ function AppShell() {
       <header className={styles.navbar}>
         <div className={styles.inner}>
           <Link to="/feed" className={styles.brand} aria-label="Potluck home">
-            <picture>
+            <picture className={styles.brandLogo}>
               <source
                 srcSet="/assets/logo-dark.svg"
                 media="(prefers-color-scheme: dark)"
@@ -382,9 +382,11 @@ function AppShell() {
             </picture>
             <span className={styles.brandCopy}>
               <span className={styles.brandName}>Potluck</span>
-              <span className={styles.brandSub}>
-                Bring something, leave with more!
-              </span>
+              {window.innerWidth > 375 && (
+                <span className={styles.brandSub}>
+                  Bring something, leave with more!
+                </span>
+              )}
             </span>
           </Link>
 
