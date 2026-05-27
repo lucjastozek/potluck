@@ -380,14 +380,13 @@ function AppShell() {
                 className={styles.brandLogo}
               />
             </picture>
-            {window.innerWidth > 350 && (
+            {window.innerWidth > 375 && (
               <span className={styles.brandCopy}>
                 <span className={styles.brandName}>Potluck</span>
-                {window.innerWidth > 375 && (
-                  <span className={styles.brandSub}>
-                    Bring something, leave with more!
-                  </span>
-                )}
+                <span className={styles.brandSub}>
+                  Bring something, leave with more!
+                </span>
+                )
               </span>
             )}
           </Link>
