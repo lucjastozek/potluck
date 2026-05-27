@@ -16,22 +16,28 @@ export interface Conversation {
   messages: Message[];
 }
 
-export async function getConversations(): Promise<{ conversations: Conversation[] }> {
+export async function getConversations(): Promise<{
+  conversations: Conversation[];
+}> {
   return api.get("/api/conversations");
 }
 
-export async function startConversation(userId: string): Promise<{ conversation: Conversation }> {
+export async function startConversation(
+  userId: string,
+): Promise<{ conversation: Conversation }> {
   return api.post("/api/conversations", { userId });
 }
 
-export async function getMessages(conversationId: string): Promise<{ messages: Message[] }> {
+export async function getMessages(
+  conversationId: string,
+): Promise<{ messages: Message[] }> {
   return api.get(`/api/conversations/${conversationId}/messages`);
 }
 
 export async function sendMessage(
   conversationId: string,
   body?: string,
-  sharedPostId?: string
+  sharedPostId?: string,
 ): Promise<{ message: Message }> {
   return api.post(`/api/conversations/${conversationId}/messages`, {
     body,

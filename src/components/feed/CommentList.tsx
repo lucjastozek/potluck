@@ -136,10 +136,10 @@ function CommentThread({
       `.${styles.commentChildren}`,
     ) as HTMLElement | null;
 
-    let timeout: ReturnType<typeof setTimeout> | undefined;
+    let timeout: number | undefined;
     const debounce = (fn: () => void, wait = 80) => {
       return () => {
-        if (timeout) clearTimeout(timeout as ReturnType<typeof setTimeout>);
+        if (timeout) clearTimeout(timeout);
         timeout = window.setTimeout(() => fn(), wait);
       };
     };
