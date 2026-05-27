@@ -33,7 +33,7 @@ export default function PostCard({
   targetCommentId = null,
 }: Props): JSX.Element {
   const { user } = useAuth();
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(post.isLiked);
   const [commentCount, setCommentCount] = useState(post.commentCount);
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [comments, setComments] = useState<ApiComment[]>([]);
