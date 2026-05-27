@@ -386,7 +386,6 @@ function AppShell() {
                 <span className={styles.brandSub}>
                   Bring something, leave with more!
                 </span>
-                )
               </span>
             )}
           </Link>
