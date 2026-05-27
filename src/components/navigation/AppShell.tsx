@@ -380,14 +380,16 @@ function AppShell() {
                 className={styles.brandLogo}
               />
             </picture>
-            <span className={styles.brandCopy}>
-              <span className={styles.brandName}>Potluck</span>
-              {window.innerWidth > 375 && (
-                <span className={styles.brandSub}>
-                  Bring something, leave with more!
-                </span>
-              )}
-            </span>
+            {window.innerWidth > 350 && (
+              <span className={styles.brandCopy}>
+                <span className={styles.brandName}>Potluck</span>
+                {window.innerWidth > 375 && (
+                  <span className={styles.brandSub}>
+                    Bring something, leave with more!
+                  </span>
+                )}
+              </span>
+            )}
           </Link>
 
           <div className={styles.actions}>
