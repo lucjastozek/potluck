@@ -1,5 +1,5 @@
 import styles from "@/components/feed/PostCard.module.css";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { deserializeFromMarkup } from "@/utils/deserializer";
 import { EDITOR_EXTENSIONS } from "@/components/editor/editorExtensions";
@@ -10,31 +10,41 @@ import CommentIcon from "@mui/icons-material/Message";
 import {
   addComment,
   getComments,
-  Post,
-  type Comment,
+  FeedPost,
+  type Comment as ApiComment,
   toggleLike,
-} from "@/api/posts";
-import { getAvatarHueRotation } from "@/utils/avatarHue";
+} from "@/api/feed";
+import { getAvatarHueClass } from "@/utils/avatarHue";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 import { useAuth } from "@/context/AuthContext";
+import { buildCommentTree } from "@/utils/buildCommentTree";
+import CommentList from "@/components/feed/CommentList";
+import SendOutlined from "@mui/icons-material/SendOutlined";
 
 interface Props {
-  post: Post;
+  post: FeedPost;
+  isNotificationTarget?: boolean;
+  targetCommentId?: string | null;
 }
 
-export default function PostCard({ post }: Props): JSX.Element {
+export default function PostCard({
+  post,
+  isNotificationTarget = false,
+  targetCommentId = null,
+}: Props): JSX.Element {
   const { user } = useAuth();
   const [liked, setLiked] = useState(false);
   const [commentCount, setCommentCount] = useState(post.commentCount);
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<ApiComment[]>([]);
   const [commentBody, setCommentBody] = useState("");
   const [isLoadingComments, setIsLoadingComments] = useState(false);
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
   const [commentError, setCommentError] = useState<string | null>(null);
   const [hasLoadedComments, setHasLoadedComments] = useState(false);
+  const articleRef = useRef<HTMLElement | null>(null);
   const createdAt = formatTimestamp(post.createdAt);
-  const postAvatarHue = getAvatarHueRotation(post.author.username);
+  const postAvatarClass = getAvatarHueClass(post.author.username);
 
   const content = deserializeFromMarkup(post.markup);
   const editor = useEditor({
@@ -79,6 +89,46 @@ export default function PostCard({ post }: Props): JSX.Element {
     };
   }, [hasLoadedComments, isCommentsOpen, post.id]);
 
+  useEffect(() => {
+    if (!isNotificationTarget) {
+      return;
+    }
+
+    if (targetCommentId) {
+      setIsCommentsOpen(true);
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      articleRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [isNotificationTarget, targetCommentId]);
+
+  useEffect(() => {
+    if (!isNotificationTarget || !targetCommentId || !isCommentsOpen) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      const target = articleRef.current?.querySelector(
+        `[data-comment-id="${targetCommentId}"]`,
+      ) as HTMLElement | null;
+      target?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 80);
+
+    return () => window.clearTimeout(timeout);
+  }, [
+    comments.length,
+    hasLoadedComments,
+    isCommentsOpen,
+    isNotificationTarget,
+    targetCommentId,
+  ]);
+
   const handleLike = async () => {
     const { liked } = await toggleLike(post.id);
     setLiked(liked);
@@ -98,7 +148,7 @@ export default function PostCard({ post }: Props): JSX.Element {
     setCommentError(null);
 
     try {
-      const comment = await addComment(post.id, trimmedBody);
+      const { comment } = await addComment(post.id, trimmedBody);
       setComments((current) => [...current, comment]);
       setCommentCount((current) => current + 1);
       setCommentBody("");
@@ -112,7 +162,7 @@ export default function PostCard({ post }: Props): JSX.Element {
   };
 
   return (
-    <article className={styles.card}>
+    <article ref={articleRef} className={styles.card} data-post-id={post.id}>
       <header className={styles.header}>
         {post.author.avatarUrl ? (
           <img
@@ -125,8 +175,7 @@ export default function PostCard({ post }: Props): JSX.Element {
             src="/assets/avatar.svg"
             alt=""
             aria-hidden="true"
-            className={styles.avatar}
-            style={{ filter: `hue-rotate(${postAvatarHue})` }}
+            className={`${styles.avatar} ${styles[postAvatarClass as keyof typeof styles] ?? ""}`}
           />
         )}
 
@@ -182,45 +231,37 @@ export default function PostCard({ post }: Props): JSX.Element {
               No comments yet. Be the first to say something.
             </p>
           ) : (
-            <ul className={styles.commentList}>
-              {comments.map((comment) => {
-                const commentCreatedAt = formatTimestamp(comment.createdAt);
-                const commentAvatarSeed =
-                  comment.author.username ?? comment.author.displayName;
-                const commentAvatarHue =
-                  getAvatarHueRotation(commentAvatarSeed);
+            <CommentList
+              nodes={buildCommentTree(comments)}
+              postId={post.id}
+              targetCommentId={targetCommentId}
+              onAdd={(c) => {
+                setComments((cur) => [...cur, c]);
+                setCommentCount((n) => n + 1);
+              }}
+              onDelete={(id) => {
+                setComments((cur) => {
+                  const toRemove = new Set<string>([id]);
+                  let added = true;
+                  while (added) {
+                    added = false;
+                    for (const cm of cur) {
+                      if (
+                        cm.parentId &&
+                        toRemove.has(cm.parentId) &&
+                        !toRemove.has(cm.id)
+                      ) {
+                        toRemove.add(cm.id);
+                        added = true;
+                      }
+                    }
+                  }
 
-                return (
-                  <li key={comment.id} className={styles.commentItem}>
-                    {comment.author.avatarUrl ? (
-                      <img
-                        src={comment.author.avatarUrl}
-                        alt={comment.author.displayName}
-                        className={styles.commentAvatar}
-                      />
-                    ) : (
-                      <img
-                        src="/assets/avatar.svg"
-                        alt=""
-                        aria-hidden="true"
-                        className={styles.commentAvatar}
-                        style={{ filter: `hue-rotate(${commentAvatarHue})` }}
-                      />
-                    )}
-
-                    <div className={styles.commentBody}>
-                      <div className={styles.commentMeta}>
-                        <strong>{comment.author.displayName}</strong>
-                        <time dateTime={comment.createdAt}>
-                          {commentCreatedAt}
-                        </time>
-                      </div>
-                      <p>{comment.body}</p>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+                  return cur.filter((c) => !toRemove.has(c.id));
+                });
+                setCommentCount((n) => Math.max(0, n - 1));
+              }}
+            />
           )}
 
           <form className={styles.commentForm} onSubmit={handleCommentSubmit}>
@@ -248,9 +289,12 @@ export default function PostCard({ post }: Props): JSX.Element {
 
               <button
                 type="submit"
-                className={styles.commentSubmit}
+                className={`${styles.pillButton} ${styles.pillPrimary}`}
                 disabled={!user || isSubmittingComment || !commentBody.trim()}
               >
+                <span className={styles.pillIcon}>
+                  <SendOutlined fontSize="inherit" />
+                </span>
                 {isSubmittingComment ? "Posting…" : "Post comment"}
               </button>
             </div>

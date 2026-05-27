@@ -86,7 +86,13 @@ export default function SignUpPage(): JSX.Element {
 
     setIsSubmitting(true);
     try {
-      await register(email, password, displayName.trim(), username);
+      await register(
+        email,
+        password,
+        displayName.trim(),
+        username,
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
+      );
       navigate("/feed", { replace: true });
     } catch (err) {
       setGlobalError(err instanceof Error ? err.message : "Sign up failed");

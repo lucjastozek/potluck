@@ -23,6 +23,7 @@ interface AuthContextValue {
     password: string,
     displayName: string,
     username: string,
+    timezone: string,
   ) => Promise<void>;
   logout: () => void;
   updateDisplayName: (displayName: string) => Promise<void>;
@@ -63,12 +64,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       password: string,
       displayName: string,
       username: string,
+      timezone: string,
     ) => {
       const { user, token } = await apiRegister(
         email,
         password,
         displayName,
         username,
+        timezone,
       );
       localStorage.setItem("token", token);
       setUser(user);

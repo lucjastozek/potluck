@@ -3,6 +3,19 @@
   display: inline-block;
 }
 
+.size80 {
+  width: 80px;
+  height: 80px;
+}
+.size88 {
+  width: 88px;
+  height: 88px;
+}
+.size40 {
+  width: 40px;
+  height: 40px;
+}
+
 .trigger {
   position: relative;
   border-radius: 50%;
@@ -25,6 +38,43 @@
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+}
+
+.avatarHue0 {
+  filter: hue-rotate(0deg);
+}
+.avatarHue1 {
+  filter: hue-rotate(30deg);
+}
+.avatarHue2 {
+  filter: hue-rotate(60deg);
+}
+.avatarHue3 {
+  filter: hue-rotate(90deg);
+}
+.avatarHue4 {
+  filter: hue-rotate(120deg);
+}
+.avatarHue5 {
+  filter: hue-rotate(150deg);
+}
+.avatarHue6 {
+  filter: hue-rotate(180deg);
+}
+.avatarHue7 {
+  filter: hue-rotate(210deg);
+}
+.avatarHue8 {
+  filter: hue-rotate(240deg);
+}
+.avatarHue9 {
+  filter: hue-rotate(270deg);
+}
+.avatarHue10 {
+  filter: hue-rotate(300deg);
+}
+.avatarHue11 {
+  filter: hue-rotate(330deg);
 }
 
 .initials {

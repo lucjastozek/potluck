@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { uploadImage } from "@/api/uploads";
 import { useAuth } from "@/context/AuthContext";
-import { getAvatarHueRotation } from "@/utils/avatarHue";
+import { getAvatarHueClass } from "@/utils/avatarHue";
 import styles from "./AvatarUpload.module.css";
 
 interface Props {
@@ -27,7 +27,10 @@ export default function AvatarUpload({
   const [preview, setPreview] = useState<string | null>(null);
 
   const avatarSeed = username ?? displayName;
-  const avatarHue = getAvatarHueRotation(avatarSeed);
+  const avatarClass = getAvatarHueClass(avatarSeed);
+
+  const sizeClass =
+    size === 88 ? styles.size88 : size === 40 ? styles.size40 : styles.size80;
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -54,14 +57,13 @@ export default function AvatarUpload({
   const src = preview ?? avatarUrl;
 
   return (
-    <div className={styles.wrapper} style={{ width: size, height: size }}>
+    <div className={`${styles.wrapper} ${sizeClass}`}>
       <button
         type="button"
         className={styles.trigger}
         onClick={() => inputRef.current?.click()}
         disabled={uploading}
         aria-label="Change avatar"
-        style={{ width: size, height: size, fontSize: size * 0.35 }}
       >
         {src ? (
           <img src={src} alt={displayName} className={styles.img} />
@@ -69,8 +71,7 @@ export default function AvatarUpload({
           <img
             src="/assets/avatar.svg"
             alt={displayName}
-            className={styles.img}
-            style={{ filter: `hue-rotate(${avatarHue})` }}
+            className={`${styles.img} ${styles[avatarClass as keyof typeof styles] ?? ""}`}
           />
         )}
 

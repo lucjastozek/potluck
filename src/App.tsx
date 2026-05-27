@@ -4,8 +4,15 @@ import { AuthProvider } from "@/context/AuthContext";
 import LoginPage from "@/pages/auth/LoginPage";
 import SignUpPage from "@/pages/auth/SignUpPage";
 import FeedPage from "@/pages/feed/FeedPage";
+import PostDetailPage from "@/pages/feed/PostDetailPage";
 import ProfileSettingsPage from "@/pages/profile/ProfileSettingsPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import MyPostsPage from "@/pages/my-posts/MyPostsPage";
+import EditPostPage from "@/pages/edit-post/EditPostPage";
+import InboxPage from "@/pages/messages/InboxPage";
+import ConversationPage from "@/pages/messages/ConversationPage";
+import RoleRoute from "@/components/auth/RoleRoute";
+import ModerationPage from "@/pages/moderation/ModerationPage";
 
 function App() {
   return (
@@ -32,6 +39,19 @@ function App() {
             }
           >
             <Route path="/feed" element={<FeedPage />} />
+            <Route path="/post/:id" element={<PostDetailPage />} />
+            <Route path="/posts/drafts" element={<MyPostsPage />} />
+            <Route path="/posts/edit/:id" element={<EditPostPage />} />
+            <Route path="/messages" element={<InboxPage />} />
+            <Route path="/messages/:id" element={<ConversationPage />} />
+            <Route
+              path="/moderation"
+              element={
+                <RoleRoute allowedRoles={["MODERATOR", "ADMIN"]}>
+                  <ModerationPage />
+                </RoleRoute>
+              }
+            />
             <Route
               path="/posts/new"
               element={<Navigate to="/feed?compose=1" replace />}

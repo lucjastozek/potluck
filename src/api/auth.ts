@@ -6,6 +6,8 @@ export interface User {
   username: string;
   displayName: string;
   avatarUrl: string | null;
+  role: "USER" | "MODERATOR" | "ADMIN";
+  timezone: string;
 }
 
 interface AuthResponse {
@@ -18,12 +20,14 @@ export async function register(
   password: string,
   displayName: string,
   username: string,
+  timezone: string,
 ): Promise<AuthResponse> {
   return api.post<AuthResponse>("/api/auth/register", {
     email,
     password,
     displayName,
     username,
+    timezone,
   });
 }
 

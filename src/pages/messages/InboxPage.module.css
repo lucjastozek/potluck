@@ -1,0 +1,150 @@
+.main {
+  width: 100%;
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.shell {
+  width: 100%;
+  max-width: 52rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 1.3rem;
+  color: rgba(var(--fgRgb), 0.95);
+  margin: 0;
+}
+
+.subtitle {
+  margin: 0.35rem 0 0;
+  color: rgba(var(--fgRgb), 0.58);
+  font-size: 0.92rem;
+}
+
+.status {
+  margin: 0;
+  color: rgba(var(--fgRgb), 0.65);
+}
+
+.emptyState {
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(var(--fgRgb), 0.1);
+  background: rgba(var(--fgRgb), 0.05);
+  display: grid;
+  gap: 0.65rem;
+  justify-items: start;
+}
+
+.emptyIcon {
+  font-size: 1.75rem;
+  color: rgba(var(--fgRgb), 0.45);
+}
+
+.emptyTitle {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.emptyText {
+  margin: 0;
+  color: rgba(var(--fgRgb), 0.62);
+}
+
+.list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.card {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(var(--fgRgb), 0.1);
+  background: rgba(var(--fgRgb), 0.05);
+  color: inherit;
+  text-align: left;
+}
+
+.card:hover {
+  background: rgba(var(--fgRgb), 0.08);
+}
+
+.avatar,
+.avatarFallback {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  object-fit: cover;
+  background: rgba(var(--fgRgb), 0.08);
+  flex: 0 0 auto;
+}
+
+.avatarFallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: rgba(var(--fgRgb), 0.88);
+}
+
+.copy {
+  min-width: 0;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.time {
+  color: rgba(var(--fgRgb), 0.5);
+  font-size: 0.78rem;
+  flex: 0 0 auto;
+}
+
+.preview {
+  margin: 0;
+  color: rgba(var(--fgRgb), 0.66);
+  font-size: 0.88rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .main {
+    padding: 1.5rem 1rem;
+  }
+
+  .card {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+}

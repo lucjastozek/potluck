@@ -27,6 +27,7 @@
   --pinkRgb: 228, 119, 146;
   --peach: #e97967;
   --peachRgb: 233, 121, 103;
+  --muted: #373632;
 
   --absred: #ee7563;
   --absorange: #ea8644;
@@ -298,6 +299,7 @@ button:disabled:hover:before {
     --oppcherry: #de7c8e;
     --opppink: #e47792;
     --opppeach: #e97967;
+    --muted: #cdcbc9;
   }
 }
 
