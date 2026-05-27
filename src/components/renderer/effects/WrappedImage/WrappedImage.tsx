@@ -22,7 +22,6 @@ export default function WrappedImage({
 
   useEffect(() => {
     const img = new Image();
-    img.crossOrigin = "anonymous";
     img.onload = () => {
       const ratio = img.width / img.height;
       setImageHeight(`${(widthPercent / 100 / ratio) * 100}%`);

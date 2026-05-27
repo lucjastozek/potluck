@@ -146,12 +146,7 @@ function ImageView({
             frameShape={frameShape as FrameShape}
           />
         ) : (
-          <img
-            src={src}
-            alt={alt}
-            crossOrigin="anonymous"
-            className={styles.image}
-          />
+          <img src={src} alt={alt} className={styles.image} />
         )}
       </div>
 

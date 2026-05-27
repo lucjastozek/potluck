@@ -47,12 +47,7 @@ export function FramedImage({
       <div
         className={`${styles.framedImageContent} ${frameStyles[frameShape]}`}
       >
-        <img
-          src={src}
-          alt={alt}
-          crossOrigin="anonymous"
-          className={styles.framedImage}
-        />
+        <img src={src} alt={alt} className={styles.framedImage} />
       </div>
     </div>
   );
