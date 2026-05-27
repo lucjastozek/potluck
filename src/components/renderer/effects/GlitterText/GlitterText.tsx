@@ -1,6 +1,7 @@
 import styles from "@/components/renderer/effects/GlitterText/GlitterText.module.css";
 import { colorToHSL } from "@/components/renderer/effects/GlitterText/util";
 import type { EffectComponentProps } from "@/types";
+import type { CSSProperties } from "react";
 import { cloneElement, isValidElement, useEffect, useState } from "react";
 
 type GlitterTextProps = EffectComponentProps;
@@ -31,7 +32,7 @@ export default function GlitterText({
     ["--glitter-brightness" as string]: String(colorValues.lightness * 2),
   };
 
-  if (isValidElement(children)) {
+  if (isValidElement<{ className?: string; style?: CSSProperties }>(children)) {
     return cloneElement(children, {
       className: [children.props.className, styles.glitterText]
         .filter(Boolean)

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Editor from "@/components/editor/Editor";
 import Renderer from "@/components/renderer/Renderer";
 import styles from "@/components/renderer/Renderer.module.css";
 import { reference } from "@/utils/constants";
@@ -19,7 +18,12 @@ export default function RendererPage(): JSX.Element {
             Editor
           </h2>
 
-          <Editor value={markup} onChange={setMarkup} />
+          <textarea
+            className={styles.markupTextarea}
+            value={markup}
+            onChange={(event) => setMarkup(event.target.value)}
+            aria-label="Renderer markup editor"
+          />
         </div>
 
         <div className={styles.column}>

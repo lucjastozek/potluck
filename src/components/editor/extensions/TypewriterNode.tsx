@@ -67,7 +67,9 @@ export const TypewriterNode = Node.create({
   renderHTML({ HTMLAttributes }) {
     return [
       "span",
-      mergeAttributes(HTMLAttributes, { class: "typewriterText" }),
+      mergeAttributes(HTMLAttributes, {
+        class: "typewriterText",
+      }),
       0,
     ];
   },

@@ -4,11 +4,17 @@ import {
   NodeViewWrapper,
   type NodeViewProps,
 } from "@tiptap/react";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import WestIcon from "@mui/icons-material/West";
 import EastIcon from "@mui/icons-material/East";
 import SquareIcon from "@mui/icons-material/Square";
 import styles from "@/components/editor/extensions/ImageNode.module.css";
+import {
+  FramedImage,
+  type FramePreset,
+  type FrameShape,
+} from "@/components/renderer/effects/WrappedImage/FramedImage";
+import { FramePresetControls } from "@/components/editor/extensions/FrameControls";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -23,10 +29,62 @@ declare module "@tiptap/core" {
   }
 }
 
-function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
-  const { src, alt, widthPercent, wrap = "none" } = node.attrs;
+function ImageView({
+  node,
+  updateAttributes,
+  selected,
+  editor,
+}: NodeViewProps) {
+  const {
+    src,
+    alt,
+    widthPercent,
+    wrap = "none",
+    framePreset = null,
+    frameShape = "rectangle",
+  } = node.attrs;
+
   const figureRef = useRef<HTMLDivElement>(null);
   const isFloat = wrap === "left" || wrap === "right";
+  const canEdit = editor.isEditable;
+
+  const handleFigureClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (!canEdit) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+
+    if (selected && e.currentTarget === e.target) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
+  const handleFigureMouseDown = (e: React.MouseEvent<HTMLElement>) => {
+    if (!canEdit) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
+  useEffect(() => {
+    if (!selected) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        const editor = figureRef.current?.closest(
+          ".ProseMirror",
+        ) as HTMLElement;
+        if (editor) {
+          editor.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [selected]);
 
   const handleResizeStart = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!selected) return;
@@ -42,7 +100,6 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
       const delta = moveEvent.clientX - startX;
       const deltaPercent = (delta / editorWidth) * 100;
       const newPercent = Math.max(10, Math.min(100, startWidth + deltaPercent));
-
       updateAttributes({ widthPercent: Math.round(newPercent) });
     };
 
@@ -53,10 +110,6 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
 
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
-  };
-
-  const handleButtonClick = (w: "left" | "right" | "none") => {
-    updateAttributes({ wrap: w });
   };
 
   const figureStyle: React.CSSProperties = {
@@ -78,16 +131,31 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
       style={figureStyle}
       className={`${styles.figure} ${selected ? styles.selected : ""}`}
       contentEditable={false}
+      onMouseDown={handleFigureMouseDown}
+      onClick={handleFigureClick}
     >
-      <div className={styles.imageWrapper}>
-        <img
-          src={src}
-          alt={alt}
-          crossOrigin="anonymous"
-          className={styles.image}
-        />
+      <div
+        className={styles.imageWrapper}
+        style={framePreset ? { overflow: "visible" } : undefined}
+      >
+        {framePreset ? (
+          <FramedImage
+            src={src}
+            alt={alt}
+            framePreset={framePreset as FramePreset}
+            frameShape={frameShape as FrameShape}
+          />
+        ) : (
+          <img
+            src={src}
+            alt={alt}
+            crossOrigin="anonymous"
+            className={styles.image}
+          />
+        )}
       </div>
-      {selected && (
+
+      {selected && canEdit && (
         <>
           <button
             className={styles.resizeHandle}
@@ -99,7 +167,7 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
             <div className={styles.controlGroup}>
               <button
                 className={`${styles.controlBtn} ${wrap === "left" ? styles.controlBtnActive : ""}`}
-                onClick={() => handleButtonClick("left")}
+                onClick={() => updateAttributes({ wrap: "left" })}
                 type="button"
                 title="Float left"
               >
@@ -107,7 +175,7 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
               </button>
               <button
                 className={`${styles.controlBtn} ${wrap === "none" ? styles.controlBtnActive : ""}`}
-                onClick={() => handleButtonClick("none")}
+                onClick={() => updateAttributes({ wrap: "none" })}
                 type="button"
                 title="Block"
               >
@@ -115,13 +183,27 @@ function ImageView({ node, updateAttributes, selected }: NodeViewProps) {
               </button>
               <button
                 className={`${styles.controlBtn} ${wrap === "right" ? styles.controlBtnActive : ""}`}
-                onClick={() => handleButtonClick("right")}
+                onClick={() => updateAttributes({ wrap: "right" })}
                 type="button"
                 title="Float right"
               >
                 <EastIcon fontSize="small" />
               </button>
             </div>
+
+            <div className={styles.divider} />
+
+            <FramePresetControls
+              activePreset={framePreset}
+              activeShape={frameShape as FrameShape}
+              onSelectPreset={(nextPreset) =>
+                updateAttributes({ framePreset: nextPreset })
+              }
+              onRemovePreset={() => updateAttributes({ framePreset: null })}
+              onSelectShape={(nextShape) =>
+                updateAttributes({ frameShape: nextShape })
+              }
+            />
           </div>
         </>
       )}
@@ -141,6 +223,8 @@ export const ImageNode = Node.create({
       alt: { default: "" },
       widthPercent: { default: 50 },
       wrap: { default: "none" },
+      framePreset: { default: null },
+      frameShape: { default: "rectangle" },
     };
   },
 

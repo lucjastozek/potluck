@@ -1,2 +1,2 @@
-export * from "./effects";
-export * from "./renderer";
+export * from "@/types/effects";
+export * from "@/types/renderer";

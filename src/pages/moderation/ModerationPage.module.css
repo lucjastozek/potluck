@@ -1,0 +1,293 @@
+.main {
+  width: 100%;
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.shell {
+  width: 100%;
+  max-width: 52rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 1.3rem;
+  color: rgba(var(--fgRgb), 0.95);
+  margin: 0;
+}
+
+.subtitle {
+  margin: 0.35rem 0 0;
+  color: rgba(var(--fgRgb), 0.58);
+  font-size: 0.92rem;
+}
+
+.headerIcon {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--fgRgb), 0.06);
+  color: rgba(var(--fgRgb), 0.85);
+}
+
+.status {
+  margin: 0;
+  color: rgba(var(--fgRgb), 0.65);
+}
+
+.emptyState {
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(var(--fgRgb), 0.1);
+  background: rgba(var(--fgRgb), 0.05);
+  display: grid;
+  gap: 0.65rem;
+  justify-items: start;
+}
+
+.emptyIcon {
+  font-size: 1.75rem;
+  color: rgba(var(--fgRgb), 0.45);
+}
+
+.emptyTitle {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.emptyText {
+  margin: 0;
+  color: rgba(var(--fgRgb), 0.62);
+}
+
+.list {
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  border-radius: 1rem;
+  border: 1px solid rgba(var(--fgRgb), 0.1);
+  background: rgba(var(--fgRgb), 0.05);
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+  box-shadow: 0 10px 28px rgba(var(--blackRgb), 0.16);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.authorBlock {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  object-fit: cover;
+  background: rgba(var(--fgRgb), 0.08);
+  flex: 0 0 auto;
+}
+
+.authorCopy {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.authorCopy strong {
+  font-size: 0.95rem;
+}
+
+.authorCopy span,
+.createdAt {
+  font-size: 0.8rem;
+  color: rgba(var(--fgRgb), 0.55);
+}
+
+.metaRow {
+  display: grid;
+  justify-items: end;
+  gap: 0.35rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--fgRgb), 0.12);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.badge :global(svg) {
+  font-size: 0.95rem;
+}
+
+.status_PENDING {
+  background: rgba(var(--yellowRgb), 0.14);
+}
+
+.status_APPROVED {
+  background: rgba(var(--greenRgb), 0.14);
+}
+
+.status_REJECTED {
+  background: rgba(var(--redRgb), 0.14);
+}
+
+.status_DRAFT,
+.status_PUBLISHED {
+  background: rgba(var(--blueRgb), 0.12);
+}
+
+.preview {
+  padding: 0.25rem 0.1rem 0;
+  overflow: hidden;
+}
+
+.previewFallback {
+  min-height: 2rem;
+}
+
+.preview :global(p:last-child),
+.preview :global(h1:last-child),
+.preview :global(h2:last-child),
+.preview :global(h3:last-child),
+.preview :global(h4:last-child),
+.preview :global(h5:last-child),
+.preview :global(h6:last-child) {
+  margin-bottom: 0;
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.tag {
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--fgRgb), 0.08);
+  background: rgba(var(--fgRgb), 0.04);
+  color: rgba(var(--fgRgb), 0.78);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.rejectBox {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.rejectLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(var(--fgRgb), 0.85);
+}
+
+.rejectInput {
+  width: 100%;
+  resize: vertical;
+  min-height: 4.5rem;
+  border-radius: 0.75rem;
+  border: 0.1em solid rgba(var(--fgRgb), 0.14);
+  background: rgba(var(--fgRgb), 0.05);
+  color: rgba(var(--fgRgb), 0.95);
+  padding: 0.75rem 0.85rem;
+  font: inherit;
+}
+
+.rejectInput:focus {
+  outline: none;
+  border-color: rgba(var(--fgRgb), 0.35);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.approveButton,
+.rejectButton,
+.editButton,
+.cancelButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--fgRgb), 0.12);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.approveButton {
+  background: rgba(var(--greenRgb), 0.14);
+}
+
+.editButton {
+  background: rgba(var(--blueRgb), 0.12);
+}
+
+.rejectButton {
+  background: rgba(var(--redRgb), 0.12);
+}
+
+.cancelButton {
+  background: rgba(var(--fgRgb), 0.05);
+}
+
+@media (max-width: 700px) {
+  .main {
+    padding: 1.5rem 1rem;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+  }
+
+  .metaRow {
+    justify-items: start;
+  }
+
+  .actions {
+    justify-content: stretch;
+  }
+
+  .approveButton,
+  .rejectButton,
+  .editButton,
+  .cancelButton {
+    width: 100%;
+    justify-content: center;
+  }
+}

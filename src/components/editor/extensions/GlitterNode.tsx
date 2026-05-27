@@ -47,7 +47,16 @@ export const GlitterNode = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ["span", mergeAttributes(HTMLAttributes, { class: "glitter" }), 0];
+    const hue = String(HTMLAttributes.hue ?? "0deg");
+    const color = String(HTMLAttributes.color ?? "var(--fg)");
+    return [
+      "span",
+      mergeAttributes(HTMLAttributes, {
+        class: "glitter",
+        style: `--glitter-hue: ${hue}; --glitter-color: ${color};`,
+      }),
+      0,
+    ];
   },
 
   addNodeView() {

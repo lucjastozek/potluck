@@ -1,0 +1,144 @@
+.main {
+  width: 100%;
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.shell {
+  width: 100%;
+  max-width: 52rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 1.3rem;
+  color: rgba(var(--fgRgb), 0.95);
+  margin: 0;
+}
+
+.subtitle {
+  margin: 0.35rem 0 0;
+  color: rgba(var(--fgRgb), 0.58);
+  font-size: 0.92rem;
+}
+
+.status {
+  margin: 0;
+  color: rgba(var(--fgRgb), 0.65);
+}
+
+.thread {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.message {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 80%;
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(var(--fgRgb), 0.1);
+  background: rgba(var(--fgRgb), 0.05);
+}
+
+.messageMine {
+  margin-left: auto;
+  background: rgba(var(--blueRgb), 0.1);
+}
+
+.messageTheirs {
+  margin-right: auto;
+}
+
+.messageMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
+  font-size: 0.8rem;
+  color: rgba(var(--fgRgb), 0.58);
+}
+
+.messageMeta strong {
+  color: rgba(var(--fgRgb), 0.9);
+}
+
+.body {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.sharedPost {
+  border-radius: 0.9rem;
+  border: 1px solid rgba(var(--fgRgb), 0.08);
+  background: rgba(var(--bgRgb), 0.35);
+  padding: 0.75rem;
+}
+
+.form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.input {
+  width: 100%;
+  resize: vertical;
+  min-height: 5.5rem;
+  border-radius: 0.75rem;
+  border: 0.1em solid rgba(var(--fgRgb), 0.14);
+  background: rgba(var(--fgRgb), 0.05);
+  color: rgba(var(--fgRgb), 0.95);
+  padding: 0.75rem 0.85rem;
+  font: inherit;
+}
+
+.input:focus {
+  outline: none;
+  border-color: rgba(var(--fgRgb), 0.35);
+}
+
+.sendButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  align-self: flex-end;
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 0.85rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(var(--bgRgb), 1);
+  background: rgba(var(--fgRgb), 0.9);
+}
+
+.sendButton:hover:not(:disabled) {
+  background: rgba(var(--fgRgb), 1);
+}
+
+@media (max-width: 700px) {
+  .main {
+    padding: 1.5rem 1rem;
+  }
+
+  .message {
+    max-width: 100%;
+  }
+
+  .sendButton {
+    width: 100%;
+  }
+}
