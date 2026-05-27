@@ -1,6 +1,7 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import Toolbar from "@/components/editor/Toolbar";
 import { serializeToMarkup } from "@/utils/serializer";
+import { deserializeFromMarkup } from "@/utils/deserializer";
 import styles from "@/components/editor/PostEditor.module.css";
 import { useState } from "react";
 import { EDITOR_EXTENSIONS } from "@/components/editor/editorExtensions";
@@ -24,7 +25,7 @@ export default function PostEditor({
 }: PostEditorProps): JSX.Element {
   const editor = useEditor({
     extensions: EDITOR_EXTENSIONS,
-    content: initialMarkup,
+    content: deserializeFromMarkup(initialMarkup),
     editorProps: {
       attributes: {
         class: styles.editorContent,
