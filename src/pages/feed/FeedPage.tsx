@@ -7,6 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 export default function FeedPage(): JSX.Element {
   const [posts, setPosts] = useState<FeedPost[]>([]);
   const [message, setMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const targetPostId = searchParams.get("post");
@@ -19,23 +20,31 @@ export default function FeedPage(): JSX.Element {
       setMessage(null);
       if (archiveMatch) {
         const date = archiveMatch[1];
+        setIsLoading(true);
         try {
           const { feed } = await getArchiveFeed(date);
           setPosts(feed.posts);
         } catch {
           setMessage("No feed found for that date.");
           setPosts([]);
+        } finally {
+          setIsLoading(false);
         }
       } else {
-        const res = await getTodayFeed();
-        if (!res.feed) {
-          setMessage(
-            res.message ||
-              "Your feed isn't ready yet. Check back after midnight.",
-          );
-          setPosts([]);
-        } else {
-          setPosts(res.feed.posts);
+        setIsLoading(true);
+        try {
+          const res = await getTodayFeed();
+          if (!res.feed) {
+            setMessage(
+              res.message ||
+                "Your feed isn't ready yet. Check back after midnight.",
+            );
+            setPosts([]);
+          } else {
+            setPosts(res.feed.posts);
+          }
+        } finally {
+          setIsLoading(false);
         }
       }
     })();
@@ -55,7 +64,29 @@ export default function FeedPage(): JSX.Element {
           </Link>
         </div>
 
-        {posts.length === 0 ? (
+        {isLoading ? (
+          Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className={styles.skeletonCard}>
+              <div className={styles.skeletonHeader}>
+                <div
+                  className={`${styles.skeletonEl} ${styles.skeletonAvatar}`}
+                />
+                <div className={styles.skeletonMeta}>
+                  <div
+                    className={`${styles.skeletonEl} ${styles.skeletonName}`}
+                  />
+                  <div
+                    className={`${styles.skeletonEl} ${styles.skeletonDate}`}
+                  />
+                </div>
+              </div>
+              <div className={`${styles.skeletonEl} ${styles.skeletonLine}`} />
+              <div
+                className={`${styles.skeletonEl} ${styles.skeletonLine} ${styles.skeletonLineShort}`}
+              />
+            </div>
+          ))
+        ) : posts.length === 0 ? (
           <div className={styles.emptyState}>
             <h2 className={styles.emptyTitle}>
               {message || "Your feed is quiet right now."}
