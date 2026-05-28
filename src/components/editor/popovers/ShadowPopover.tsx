@@ -27,8 +27,8 @@ export default function ShadowPopover({
   onClose: () => void;
 }): JSX.Element {
   const { ref, style } = useViewportPopoverPosition<HTMLDivElement>();
-  const [x, setX] = useState(4);
-  const [y, setY] = useState(4);
+  const [x, setX] = useState(1);
+  const [y, setY] = useState(1);
   const [blur, setBlur] = useState(0);
   const [color, setColor] = useState("var(--blue)");
 
@@ -58,7 +58,8 @@ export default function ShadowPopover({
     label: string,
     value: number,
     set: (v: number) => void,
-    min?: number,
+    min = 1,
+    max = 5,
   ) => (
     <div className={styles.adjusterRow}>
       <span className={styles.adjusterLabel}>{label}</span>
@@ -67,17 +68,17 @@ export default function ShadowPopover({
           className={styles.widthBtn}
           onMouseDown={(e) => {
             e.preventDefault();
-            set(Math.max(min ?? -99, value - 1));
+            set(Math.max(min, value - 1));
           }}
         >
           −
         </button>
-        <span className={styles.widthValue}>{value}px</span>
+        <span className={styles.widthValue}>{value}</span>
         <button
           className={styles.widthBtn}
           onMouseDown={(e) => {
             e.preventDefault();
-            set(value + 1);
+            set(Math.min(max, value + 1));
           }}
         >
           +
@@ -110,7 +111,7 @@ export default function ShadowPopover({
       <div className={styles.adjusterGroup}>
         {adjuster("X", x, setX)}
         {adjuster("Y", y, setY)}
-        {adjuster("Blur", blur, setBlur, 0)}
+        {adjuster("Blur", blur, setBlur)}
       </div>
       <button className={styles.applyBtn} onMouseDown={apply}>
         Apply

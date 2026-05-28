@@ -27,7 +27,7 @@ export default function OutlinePopover({
   onClose: () => void;
 }): JSX.Element {
   const { ref, style } = useViewportPopoverPosition<HTMLDivElement>();
-  const [width, setWidth] = useState(5);
+  const [width, setWidth] = useState(2);
   const [color, setColor] = useState("var(--fg)");
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function OutlinePopover({
 
   const adjust = (delta: number, e: React.MouseEvent) => {
     e.preventDefault();
-    setWidth((current) => Math.max(1, current + delta));
+    setWidth((current) => Math.min(5, Math.max(1, current + delta)));
   };
 
   const applyAndClose = (e: React.MouseEvent) => {
@@ -86,7 +86,7 @@ export default function OutlinePopover({
         <button className={styles.widthBtn} onMouseDown={(e) => adjust(-1, e)}>
           −
         </button>
-        <span className={styles.widthValue}>{width}px</span>
+        <span className={styles.widthValue}>{width}</span>
         <button className={styles.widthBtn} onMouseDown={(e) => adjust(1, e)}>
           +
         </button>

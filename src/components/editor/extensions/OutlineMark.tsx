@@ -20,7 +20,7 @@ export const OutlineMark = Mark.create({
         renderHTML: (attrs) => ({ "data-outline-color": attrs.color }),
       },
       width: {
-        default: 1,
+        default: 2,
         parseHTML: (el) => el.getAttribute("data-outline-width"),
         renderHTML: (attrs) => ({ "data-outline-width": attrs.width }),
       },
@@ -33,7 +33,8 @@ export const OutlineMark = Mark.create({
 
   renderHTML({ mark, HTMLAttributes }) {
     const color = mark.attrs.color ?? "var(--fg)";
-    const width = mark.attrs.width ?? 1;
+    const parsedWidth = Number(mark.attrs.width);
+    const width = Number.isFinite(parsedWidth) ? parsedWidth : 2;
     return [
       "span",
       mergeAttributes(HTMLAttributes, {

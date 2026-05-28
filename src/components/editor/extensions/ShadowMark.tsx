@@ -25,12 +25,12 @@ export const ShadowMark = Mark.create({
         renderHTML: (attrs) => ({ "data-shadow-color": attrs.color }),
       },
       x: {
-        default: 4,
+        default: 1,
         parseHTML: (el) => el.getAttribute("data-shadow-x"),
         renderHTML: (attrs) => ({ "data-shadow-x": attrs.x }),
       },
       y: {
-        default: 4,
+        default: 1,
         parseHTML: (el) => el.getAttribute("data-shadow-y"),
         renderHTML: (attrs) => ({ "data-shadow-y": attrs.y }),
       },
@@ -48,11 +48,17 @@ export const ShadowMark = Mark.create({
 
   renderHTML({ mark, HTMLAttributes }) {
     const { color, x, y, blur } = mark.attrs;
+    const parsedX = Number(x);
+    const parsedY = Number(y);
+    const parsedBlur = Number(blur);
+    const shadowX = Number.isFinite(parsedX) ? parsedX : 1;
+    const shadowY = Number.isFinite(parsedY) ? parsedY : 1;
+    const shadowBlur = Number.isFinite(parsedBlur) ? parsedBlur : 0;
     return [
       "span",
       mergeAttributes(HTMLAttributes, {
         class: "shadow",
-        style: `text-shadow: ${x ?? 4}px ${y ?? 4}px ${blur ?? 0}px ${color ?? "var(--blue)"};`,
+        style: `text-shadow: ${shadowX}px ${shadowY}px ${shadowBlur}px ${color ?? "var(--blue)"};`,
       }),
       0,
     ];

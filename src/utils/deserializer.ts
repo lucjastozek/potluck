@@ -249,8 +249,8 @@ function tagToMark(
         type: "shadow",
         attrs: {
           color: attrs.color ?? "#000",
-          x: attrs.x ?? "4px",
-          y: attrs.y ?? "4px",
+          x: attrs.x ?? "1",
+          y: attrs.y ?? "1",
           blur: attrs.blur ?? "0",
         },
       };

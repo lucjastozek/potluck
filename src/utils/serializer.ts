@@ -78,7 +78,7 @@ function wrapMark(
     case "glitter":
       return `[glitter color=${a.color ?? "var(--fg)"}]${inner}[/glitter]`;
     case "shadow":
-      return `[shadow color=${a.color ?? "#000"} x=${a.x ?? "4px"} y=${a.y ?? "4px"} blur=${a.blur ?? "0"}]${inner}[/shadow]`;
+      return `[shadow color=${a.color ?? "#000"} x=${a.x ?? "1"} y=${a.y ?? "1"} blur=${a.blur ?? "0"}]${inner}[/shadow]`;
     case "outline":
       return `[outline color=${a.color ?? "red"} width=${a.width ?? "2"}]${inner}[/outline]`;
     case "wavy":
