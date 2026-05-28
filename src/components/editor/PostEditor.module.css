@@ -608,14 +608,14 @@
   }
 
   .keyboardOpen .editorBodyMobileOpen {
-    padding-top: 2.9rem;
+    padding-top: 4.25rem;
     padding-bottom: 4.15rem;
     padding-left: calc(var(--mobile-toolbar-width) + 1rem);
     padding-right: 0.85rem;
   }
 
   .keyboardOpen .editorBodyMobileCollapsed {
-    padding-top: 2.9rem;
+    padding-top: 4.25rem;
     padding-bottom: 4.15rem;
     padding-left: 2.9rem;
     padding-right: 2.9rem;

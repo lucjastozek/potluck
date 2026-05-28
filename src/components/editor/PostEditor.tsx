@@ -49,6 +49,8 @@ export default function PostEditor({
   const { width, keyboardOpen } = useViewportDimensions();
   const isMobile = width <= 720;
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(true);
+  const [mobileSidebarAutoCollapsed, setMobileSidebarAutoCollapsed] =
+    useState(false);
   const [mobileHeadingMenuOpen, setMobileHeadingMenuOpen] = useState(false);
   const mobileHeadingDockRef = useRef<HTMLDivElement>(null);
 
@@ -88,9 +90,50 @@ export default function PostEditor({
   }, [isMobile]);
 
   useEffect(() => {
-    if (!isMobile) return;
-    setMobileSidebarOpen(!keyboardOpen);
-  }, [isMobile, keyboardOpen]);
+    if (!isMobile || keyboardOpen || !mobileSidebarAutoCollapsed) return;
+
+    setMobileSidebarOpen(true);
+    setMobileSidebarAutoCollapsed(false);
+  }, [isMobile, keyboardOpen, mobileSidebarAutoCollapsed]);
+
+  useEffect(() => {
+    if (!isMobile || !editor) return;
+
+    const collapseForWriting = () => {
+      setMobileSidebarOpen(false);
+      setMobileSidebarAutoCollapsed(true);
+    };
+
+    const onBeforeInput = (event: InputEvent) => {
+      const inputType = event.inputType ?? "";
+      if (inputType.startsWith("insert") || inputType.startsWith("delete")) {
+        collapseForWriting();
+      }
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
+
+      const isCharacterKey = event.key.length === 1;
+      const isEditingKey =
+        event.key === "Backspace" ||
+        event.key === "Delete" ||
+        event.key === "Enter";
+
+      if (isCharacterKey || isEditingKey) {
+        collapseForWriting();
+      }
+    };
+
+    const editorDom = editor.view.dom;
+    editorDom.addEventListener("beforeinput", onBeforeInput);
+    editorDom.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      editorDom.removeEventListener("beforeinput", onBeforeInput);
+      editorDom.removeEventListener("keydown", onKeyDown);
+    };
+  }, [editor, isMobile]);
 
   useEffect(() => {
     if (!isMobile || !mobileHeadingMenuOpen) return;
@@ -336,7 +379,10 @@ export default function PostEditor({
               ? "calc(var(--mobile-toolbar-width) + 0.15rem)"
               : "0.35rem",
           }}
-          onClick={() => setMobileSidebarOpen((current) => !current)}
+          onClick={() => {
+            setMobileSidebarAutoCollapsed(false);
+            setMobileSidebarOpen((current) => !current);
+          }}
           aria-label={mobileSidebarOpen ? "Hide tools" : "Show tools"}
           title={mobileSidebarOpen ? "Hide tools" : "Show tools"}
         >
