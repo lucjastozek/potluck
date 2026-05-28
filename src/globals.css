@@ -165,6 +165,75 @@ code {
   font-style: normal;
 }
 
+.wavyNode,
+.typewriterNode {
+  position: relative;
+  display: inline-grid;
+  grid-template-areas: "stack";
+  vertical-align: baseline;
+}
+
+.wavyContent,
+.typewriterContent {
+  grid-area: stack;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  font-family: monospace;
+  font-size: inherit;
+  line-height: 1;
+  letter-spacing: inherit;
+  font-variant-ligatures: none;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  caret-color: var(--fg);
+  white-space: pre;
+  max-width: none;
+}
+
+.typewriterContent {
+  pointer-events: auto;
+}
+
+.wavyText,
+.typewriterText {
+  grid-area: stack;
+  justify-self: start;
+  align-self: start;
+  z-index: 1;
+  pointer-events: none;
+  white-space: pre;
+}
+
+.wavyText {
+  display: inline;
+}
+
+.wavyLetter {
+  display: inline-block;
+  white-space: pre;
+  animation: wavyBounce 0.6s ease-in-out var(--wavy-delay, 0s) infinite
+    alternate;
+}
+
+.typewriterText {
+  display: inline;
+  font-family: monospace;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: nowrap;
+  position: relative;
+  top: 0;
+}
+
+.typewriterCursor {
+  display: inline-block;
+  margin-left: 0.05em;
+  line-height: inherit;
+  transform: translateY(-0.01em);
+}
+
 strong {
   font-weight: 600;
 }

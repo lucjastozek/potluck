@@ -36,6 +36,18 @@ function serializeNode(node: JSONContent): string {
       return `![${src}]{wrap=${wrap},widthPercent=${widthPercent},alt=${alt}${framePart}}`;
     }
 
+    case "wavy":
+      return applyMarks(
+        node.marks ?? [],
+        `[wavy]${serializeInlineContent(node)}[/wavy]`,
+      );
+
+    case "typewriter":
+      return applyMarks(
+        node.marks ?? [],
+        `[typewriter speed=${node.attrs?.speed ?? 50}]${serializeInlineContent(node)}[/typewriter]`,
+      );
+
     case "text":
       return applyMarks(node.marks ?? [], node.text ?? "");
 
@@ -51,6 +63,10 @@ function applyMarks(
   return [...marks]
     .reverse()
     .reduce((inner, mark) => wrapMark(mark, inner), text);
+}
+
+function serializeInlineContent(node: JSONContent): string {
+  return (node.content ?? []).map(serializeNode).join("");
 }
 
 function wrapMark(

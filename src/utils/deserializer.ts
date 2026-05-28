@@ -9,10 +9,8 @@ export function deserializeFromMarkup(markup: string): JSONContent {
   }
 
   const sanitized = markup.replace(/\[\/?gradient[^\]]*\]/g, "");
-
   const tokens = tokenize(sanitized);
   const [nodes] = buildNodes(tokens, 0, null);
-
   const content = groupIntoParagraphs(nodes);
 
   return {
@@ -102,22 +100,23 @@ function buildNodes(
       }
 
       if (name === "wavy") {
-        const [children, next] = buildNodes(tokens, i + 1, name, [
-          ...activeMarks,
-          { type: "wavy" },
-        ]);
-        nodes.push(...children);
+        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
+        nodes.push({
+          type: "wavy",
+          content: inlineNodesToContent(children),
+        });
         i = next;
         continue;
       }
 
       if (name === "typewriter") {
+        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
         const speed = Number((attrs as Record<string, string>).speed ?? 50);
-        const [children, next] = buildNodes(tokens, i + 1, name, [
-          ...activeMarks,
-          { type: "typewriter", attrs: { speed } },
-        ]);
-        nodes.push(...children);
+        nodes.push({
+          type: "typewriter",
+          attrs: { speed },
+          content: inlineNodesToContent(children),
+        });
         i = next;
         continue;
       }
@@ -179,7 +178,7 @@ function textNode(text: string, marks: JSONContent["marks"]): TiptapNode {
   return {
     type: "text",
     text,
-    ...(marks && marks.length > 0 ? { marks } : {}),
+    ...(marks?.length ? { marks: [...marks] } : {}),
   };
 }
 
@@ -237,13 +236,11 @@ function tagToMark(
           direction: attrs.direction ?? "90deg",
         },
       };
-
     case "neon":
       return {
         type: "neon",
         attrs: { color: attrs.color ?? "var(--abspink)" },
       };
-
     case "shadow":
       return {
         type: "shadow",
@@ -254,31 +251,25 @@ function tagToMark(
           blur: attrs.blur ?? "0",
         },
       };
-
     case "outline":
       return {
         type: "outline",
         attrs: { color: attrs.color ?? "red", width: attrs.width ?? "2" },
       };
-
     case "wavy":
       return { type: "wavy" };
-
     case "highlight":
       return {
         type: "highlight",
         attrs: { color: attrs.color ?? "var(--yellow)" },
       };
-
     case "size":
       return { type: "sizedText", attrs: { size: attrs.size ?? "1.5em" } };
-
     case "color":
       return {
         type: "color",
         attrs: { color: attrs.color ?? attrs.value ?? "inherit" },
       };
-
     default:
       return null;
   }
