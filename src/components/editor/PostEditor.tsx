@@ -54,6 +54,9 @@ export default function PostEditor({
 }: PostEditorProps): JSX.Element {
   const { width, keyboardOpen, visualHeight } = useViewportDimensions();
   const isMobile = width <= 720;
+  const [mobileViewportHeight, setMobileViewportHeight] = useState<
+    number | null
+  >(null);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(true);
   const [mobileSidebarAutoCollapsed, setMobileSidebarAutoCollapsed] =
     useState(false);
@@ -114,6 +117,20 @@ export default function PostEditor({
       setMobileWriteMode(false);
     }
   }, [isMobile, keyboardOpen]);
+
+  useEffect(() => {
+    if (!isMobile) {
+      setMobileViewportHeight(null);
+      return;
+    }
+
+    if (keyboardOpen) {
+      setMobileViewportHeight((current) => current ?? visualHeight);
+      return;
+    }
+
+    setMobileViewportHeight(null);
+  }, [isMobile, keyboardOpen, visualHeight]);
 
   useEffect(() => {
     if (!isMobile || !editor) return;
@@ -325,7 +342,10 @@ export default function PostEditor({
       } ${isMobile && headingState ? styles.mobileHeadingVisible : ""}`}
       style={
         isMobile
-          ? { height: `${visualHeight}px`, maxHeight: `${visualHeight}px` }
+          ? {
+              height: `${mobileViewportHeight ?? visualHeight}px`,
+              maxHeight: `${mobileViewportHeight ?? visualHeight}px`,
+            }
           : undefined
       }
       aria-label={title ?? "Post editor"}
