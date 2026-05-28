@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { type Editor } from "@tiptap/react";
 import styles from "@/components/editor/popovers/ImagePopover.module.css";
+import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
 
 interface ImagePopoverProps {
   editor: Editor;
@@ -12,7 +13,8 @@ export default function ImagePopover({
   onClose,
 }: ImagePopoverProps): JSX.Element {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const popoverRef = useRef<HTMLDivElement>(null);
+  const { ref: popoverRef, style } =
+    useViewportPopoverPosition<HTMLDivElement>();
   const [altText, setAltText] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
   const [fileName, setFileName] = useState("");
@@ -28,7 +30,7 @@ export default function ImagePopover({
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [onClose]);
+  }, [onClose, popoverRef]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -65,7 +67,7 @@ export default function ImagePopover({
   };
 
   return (
-    <div className={styles.popover} ref={popoverRef}>
+    <div className={styles.popover} ref={popoverRef} style={style}>
       <div className={styles.section}>
         <button
           className={styles.uploadButton}

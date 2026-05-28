@@ -1,6 +1,7 @@
 import type { Editor } from "@tiptap/react";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "@/components/editor/Toolbar.module.css";
+import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
 
 const speedToMs = (speed: number) => Math.round(220 - speed * 20);
 
@@ -11,7 +12,7 @@ export default function TypewriterPopover({
   editor: Editor;
   onClose: () => void;
 }): JSX.Element {
-  const ref = useRef<HTMLDivElement>(null);
+  const { ref, style } = useViewportPopoverPosition<HTMLDivElement>();
   const [speed, setSpeed] = useState(5);
 
   useEffect(() => {
@@ -20,7 +21,7 @@ export default function TypewriterPopover({
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [onClose]);
+  }, [onClose, ref]);
 
   const apply = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -34,13 +35,14 @@ export default function TypewriterPopover({
 
   const adjust = (delta: number, e: React.MouseEvent) => {
     e.preventDefault();
-    setSpeed((s) => Math.min(10, Math.max(1, s + delta)));
+    setSpeed((current) => Math.min(10, Math.max(1, current + delta)));
   };
 
   return (
     <div
       ref={ref}
       className={styles.popover}
+      style={style}
       role="dialog"
       aria-label="Typewriter speed"
     >

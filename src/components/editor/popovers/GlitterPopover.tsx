@@ -1,7 +1,8 @@
 import type { Editor } from "@tiptap/react";
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import styles from "@/components/editor/Toolbar.module.css";
 import { cssVarToHue } from "@/utils/colorToHue";
+import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
 
 const PRESETS = [
   { label: "Default", value: "var(--fg)" },
@@ -18,14 +19,14 @@ const PRESETS = [
   { label: "Peach", value: "var(--peach)" },
 ];
 
-export default function ColorPopover({
+export default function GlitterPopover({
   editor,
   onClose,
 }: {
   editor: Editor;
   onClose: () => void;
 }): JSX.Element {
-  const ref = useRef<HTMLDivElement>(null);
+  const { ref, style } = useViewportPopoverPosition<HTMLDivElement>();
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -33,7 +34,7 @@ export default function ColorPopover({
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [onClose]);
+  }, [onClose, ref]);
 
   const apply = (cssVar: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -46,6 +47,7 @@ export default function ColorPopover({
     <div
       ref={ref}
       className={styles.popover}
+      style={style}
       role="dialog"
       aria-label="Text colour"
     >

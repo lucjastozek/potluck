@@ -1,6 +1,7 @@
 import type { Editor } from "@tiptap/react";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "@/components/editor/Toolbar.module.css";
+import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
 
 const PRESETS = [
   { label: "Default", value: "var(--fg)" },
@@ -24,7 +25,7 @@ export default function ShadowPopover({
   editor: Editor;
   onClose: () => void;
 }): JSX.Element {
-  const ref = useRef<HTMLDivElement>(null);
+  const { ref, style } = useViewportPopoverPosition<HTMLDivElement>();
   const [x, setX] = useState(4);
   const [y, setY] = useState(4);
   const [blur, setBlur] = useState(0);
@@ -39,7 +40,7 @@ export default function ShadowPopover({
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [onClose, color, x, y, blur, editor]);
+  }, [onClose, color, x, y, blur, editor, ref]);
 
   const apply = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -88,6 +89,7 @@ export default function ShadowPopover({
     <div
       ref={ref}
       className={styles.popover}
+      style={style}
       role="dialog"
       aria-label="Text shadow"
     >

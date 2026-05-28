@@ -1,6 +1,7 @@
 import type { Editor } from "@tiptap/react";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import styles from "@/components/editor/Toolbar.module.css";
+import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
 
 const PRESETS = [
   { label: "Default", value: "var(--fg)" },
@@ -24,7 +25,7 @@ export default function StrikeColorPopover({
   editor: Editor;
   onClose: () => void;
 }): JSX.Element {
-  const ref = useRef<HTMLDivElement>(null);
+  const { ref, style } = useViewportPopoverPosition<HTMLDivElement>();
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -32,7 +33,7 @@ export default function StrikeColorPopover({
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [onClose]);
+  }, [onClose, ref]);
 
   const apply = (color: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -44,6 +45,7 @@ export default function StrikeColorPopover({
     <div
       ref={ref}
       className={styles.popover}
+      style={style}
       role="dialog"
       aria-label="Strike colour"
     >

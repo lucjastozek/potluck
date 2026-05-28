@@ -84,6 +84,10 @@
   border-radius: 0.5rem;
   padding: 0.75rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  max-width: calc(100vw - 1rem);
+  max-height: calc(100vh - 1rem);
+  overflow: auto;
+  box-sizing: border-box;
 }
 
 .popoverLabel {
