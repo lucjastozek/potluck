@@ -443,7 +443,7 @@
     position: absolute;
     top: 0.55rem;
     left: 50%;
-    z-index: 8;
+    z-index: 220;
     width: min(14rem, calc(100vw - var(--mobile-toolbar-width) - 3rem));
     transform: translateX(-50%);
     padding: 0.3rem;
@@ -532,6 +532,7 @@
     position: absolute;
     top: calc(100% + 0.5rem);
     left: 0;
+    z-index: 230;
     width: 100%;
     max-height: min(18rem, calc(100vh - 8rem));
     overflow: auto;
@@ -543,6 +544,7 @@
     backdrop-filter: blur(12px);
     display: grid;
     gap: 0.35rem;
+    z-index: 101;
   }
 
   .mobileHeadingOption {
