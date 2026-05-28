@@ -288,6 +288,9 @@ function groupIntoParagraphs(nodes: TiptapNode[]): TiptapNode[] {
   const result: TiptapNode[] = [];
   let inlineBuffer: TiptapNode[] = [];
 
+  const hasContentAhead = (startIndex: number): boolean =>
+    nodes.slice(startIndex).some((node) => node.type !== "hardBreak");
+
   const flushBuffer = () => {
     if (inlineBuffer.length) {
       result.push({ type: "paragraph", content: inlineBuffer });
@@ -295,12 +298,18 @@ function groupIntoParagraphs(nodes: TiptapNode[]): TiptapNode[] {
     }
   };
 
-  for (const node of nodes) {
+  for (let index = 0; index < nodes.length; index++) {
+    const node = nodes[index];
+
     if (node.type === "heading" || node.type === "image") {
       flushBuffer();
       result.push(node);
     } else if (node.type === "hardBreak") {
-      flushBuffer();
+      if (inlineBuffer.length) {
+        flushBuffer();
+      } else if (result.length > 0 && hasContentAhead(index + 1)) {
+        result.push({ type: "paragraph" });
+      }
     } else {
       inlineBuffer.push(node);
     }
