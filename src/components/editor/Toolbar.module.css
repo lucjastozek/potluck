@@ -8,6 +8,31 @@
   background: rgba(var(--fgRgb), 0.1);
 }
 
+.toolbarCompact {
+  gap: 0.15rem;
+  padding: 0.35rem 0.4rem;
+}
+
+.toolbarCompact .toolbarButton,
+.toolbarCompact .headingSelect,
+.toolbarCompact .divider {
+  transform: scale(0.92);
+  transform-origin: center;
+}
+
+.toolbarCompact .toolbarButton {
+  min-width: 1.8rem;
+  height: 1.8rem;
+}
+
+.toolbarCompact .headingSelect {
+  height: 1.8rem;
+}
+
+.toolbarCompact .divider {
+  height: 1rem;
+}
+
 .toolbarButton {
   display: inline-flex;
   align-items: center;

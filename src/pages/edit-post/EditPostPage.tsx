@@ -101,24 +101,6 @@ export default function EditPostPage(): JSX.Element {
     };
   }, [id, navigate]);
 
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        navigate("/posts/drafts");
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [navigate]);
-
   const handleClose = () => {
     navigate("/posts/drafts");
   };
@@ -155,7 +137,6 @@ export default function EditPostPage(): JSX.Element {
   if (loading) {
     return (
       <main className={styles.screen}>
-        <div className={styles.backdrop} />
         <section className={styles.card} aria-label="Loading post editor">
           <p className={styles.loadingText}>Loading editor…</p>
         </section>
@@ -166,7 +147,6 @@ export default function EditPostPage(): JSX.Element {
   if (!post) {
     return (
       <main className={styles.screen}>
-        <div className={styles.backdrop} />
         <section className={styles.card} aria-label="Post not found">
           <div className={styles.header}>
             <div>
@@ -202,84 +182,102 @@ export default function EditPostPage(): JSX.Element {
       <CheckCircleOutlineOutlined fontSize="inherit" />
     );
 
-  return (
-    <main className={styles.screen}>
-      <button
-        type="button"
-        className={styles.backdrop}
-        aria-label="Close editor"
-        onClick={handleClose}
-      />
-
-      <section
-        className={styles.card}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Edit post"
-      >
-        <div className={styles.header}>
-          <div className={styles.headerCopy}>
-            <div className={styles.badgeRow}>
-              <span
-                className={`${styles.badge} ${styles[`status_${post.status}`]}`}
-              >
-                {statusIcon}
-                <span>{post.status}</span>
-              </span>
-              <span className={styles.metaText}>
-                Updated {new Date(post.updatedAt).toLocaleString()}
-              </span>
+  if (post.status === "PUBLISHED") {
+    return (
+      <main className={styles.screen}>
+        <section
+          className={styles.card}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Edit post"
+        >
+          <div className={styles.header}>
+            <div className={styles.headerCopy}>
+              <div className={styles.headerTop}>
+                <div className={styles.badgeRow}>
+                  <span
+                    className={`${styles.badge} ${styles[`status_${post.status}`]}`}
+                  >
+                    {statusIcon}
+                    <span>{post.status}</span>
+                  </span>
+                </div>
+                <span className={styles.metaText}>
+                  Updated {new Date(post.updatedAt).toLocaleString()}
+                </span>
+                <button
+                  type="button"
+                  className={styles.closeButton}
+                  onClick={handleClose}
+                >
+                  <CloseRounded fontSize="inherit" />
+                  Close
+                </button>
+              </div>
+              <h1 className={styles.title}>Edit post</h1>
+              <p className={styles.subtitle}>
+                Published posts are read-only. You can delete the post, but you
+                can't edit it anymore.
+              </p>
             </div>
-            <h1 className={styles.title}>Edit post</h1>
-            <p className={styles.subtitle}>
-              {post.status === "PUBLISHED"
-                ? "Published posts are read-only. You can delete the post, but you can't edit it anymore."
-                : post.status === "REJECTED"
-                  ? "Rejected posts are updated in place and reset to draft by backend rules."
-                  : "Save changes here and the post will go back through review if it was approved."}
-            </p>
           </div>
 
-          <button
-            type="button"
-            className={styles.closeButton}
-            onClick={handleClose}
+          {error ? <p className={styles.error}>{error}</p> : null}
+
+          <div className={styles.note}>
+            <EditOutlined fontSize="inherit" />
+            <span>{STATUS_COPY[post.status]}</span>
+          </div>
+
+          <ReadOnlyPreview markup={post.markup} />
+
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={styles.dangerButton}
+              onClick={handleDelete}
+            >
+              <DeleteOutline fontSize="inherit" />
+              Delete post
+            </button>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  return (
+    <PostEditor
+      onSubmit={handleSubmit}
+      initialMarkup={post.markup}
+      submitLabel="Save changes"
+      title="Edit post"
+      subtitle={
+        post.status === "REJECTED"
+          ? "Rejected posts are updated in place and reset to draft by backend rules."
+          : "Save changes here and the post will go back through review if it was approved."
+      }
+      status={
+        <div className={styles.badgeRow}>
+          <span
+            className={`${styles.badge} ${styles[`status_${post.status}`]}`}
           >
-            <CloseRounded fontSize="inherit" />
-            Close
-          </button>
+            {statusIcon}
+            <span>{post.status}</span>
+          </span>
+          <span className={styles.metaText}>
+            Updated {new Date(post.updatedAt).toLocaleString()}
+          </span>
         </div>
-
-        {error ? <p className={styles.error}>{error}</p> : null}
-
+      }
+      banner={
         <div className={styles.note}>
           <EditOutlined fontSize="inherit" />
           <span>{STATUS_COPY[post.status]}</span>
         </div>
-
-        {post.status === "PUBLISHED" ? (
-          <>
-            <ReadOnlyPreview markup={post.markup} />
-
-            <div className={styles.actions}>
-              <button
-                type="button"
-                className={styles.dangerButton}
-                onClick={handleDelete}
-              >
-                <DeleteOutline fontSize="inherit" />
-                Delete post
-              </button>
-            </div>
-          </>
-        ) : (
-          <PostEditor
-            onSubmit={handleSubmit}
-            initialMarkup={post.markup}
-            submitLabel="Save changes"
-          />
-        )}
-      </section>
-    </main>
+      }
+      error={error ? <p className={styles.error}>{error}</p> : null}
+      onClose={handleClose}
+    />
   );
 }
