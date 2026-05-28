@@ -21,6 +21,7 @@ export const SpoilerNode = Mark.create({
       "span",
       mergeAttributes(HTMLAttributes, {
         class: "spoilerButton spoilerHidden",
+        onclick: "this.classList.toggle('spoilerHidden')",
       }),
       0,
     ];
