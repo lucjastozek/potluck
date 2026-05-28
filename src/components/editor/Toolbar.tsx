@@ -239,7 +239,6 @@ export default function Toolbar({
             🌈
           </button>
 
-          {/* FIXED: was calling setGlitter() directly, never opening the popover */}
           <div className={styles.popoverAnchor}>
             <button
               className={btn("glitter")}
