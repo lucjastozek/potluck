@@ -172,7 +172,13 @@ export default function Toolbar({
 
           <button
             className={btn("rainbow")}
-            disabled={isEffectDisabled("rainbow", ["color", "glitter"])}
+            disabled={isEffectDisabled("rainbow", [
+              "color",
+              "glitter",
+              "shake",
+              "typewriter",
+              "wave",
+            ])}
             onClick={(e) => {
               e.preventDefault();
               if (editor.isActive("rainbow")) {
@@ -190,7 +196,13 @@ export default function Toolbar({
           <div className={styles.popoverAnchor}>
             <button
               className={btn("glitter")}
-              disabled={isEffectDisabled("glitter", ["color", "rainbow"])}
+              disabled={isEffectDisabled("glitter", [
+                "color",
+                "rainbow",
+                "shake",
+                "typewriter",
+                "wave",
+              ])}
               onClick={() => {
                 if (editor.isActive("glitter")) {
                   editor.chain().focus().unsetGlitter().run();
@@ -334,7 +346,12 @@ export default function Toolbar({
           <div className={styles.popoverAnchor}>
             <button
               className={btn("shake")}
-              disabled={isEffectDisabled("shake", ["wavy", "typewriter"])}
+              disabled={isEffectDisabled("shake", [
+                "wavy",
+                "typewriter",
+                "rainbow",
+                "glitter",
+              ])}
               onClick={() => {
                 if (editor.isActive("shake")) {
                   editor.chain().focus().unsetShake().run();
@@ -355,7 +372,12 @@ export default function Toolbar({
 
           <button
             className={btn("wavy")}
-            disabled={isEffectDisabled("wavy", ["shake", "typewriter"])}
+            disabled={isEffectDisabled("wavy", [
+              "shake",
+              "typewriter",
+              "rainbow",
+              "glitter",
+            ])}
             onClick={(e) => {
               e.preventDefault();
               if (editor.isActive("wavy")) {
@@ -373,7 +395,12 @@ export default function Toolbar({
           <div className={styles.popoverAnchor}>
             <button
               className={btn("typewriter")}
-              disabled={isEffectDisabled("typewriter", ["shake", "wavy"])}
+              disabled={isEffectDisabled("typewriter", [
+                "shake",
+                "wavy",
+                "rainbow",
+                "glitter",
+              ])}
               onClick={() => {
                 if (editor.isActive("typewriter")) {
                   editor.chain().focus().unsetTypewriter().run();
@@ -511,7 +538,13 @@ export default function Toolbar({
       </div>
       <button
         className={btn("rainbow")}
-        disabled={isEffectDisabled("rainbow", ["color", "glitter"])}
+        disabled={isEffectDisabled("rainbow", [
+          "color",
+          "glitter",
+          "shake",
+          "typewriter",
+          "wave",
+        ])}
         onClick={(e) => {
           e.preventDefault();
           if (editor.isActive("rainbow")) {
@@ -527,7 +560,13 @@ export default function Toolbar({
       <div className={styles.popoverAnchor}>
         <button
           className={btn("glitter")}
-          disabled={isEffectDisabled("glitter", ["color", "rainbow"])}
+          disabled={isEffectDisabled("glitter", [
+            "color",
+            "rainbow",
+            "shake",
+            "typewriter",
+            "wave",
+          ])}
           onClick={() => {
             if (editor.isActive("glitter")) {
               editor.chain().focus().unsetGlitter().run();
@@ -662,7 +701,12 @@ export default function Toolbar({
       <div className={styles.popoverAnchor}>
         <button
           className={btn("shake")}
-          disabled={isEffectDisabled("shake", ["wavy", "typewriter"])}
+          disabled={isEffectDisabled("shake", [
+            "wavy",
+            "typewriter",
+            "rainbow",
+            "glitter",
+          ])}
           onClick={() => {
             if (editor.isActive("shake")) {
               editor.chain().focus().unsetShake().run();
@@ -681,7 +725,12 @@ export default function Toolbar({
       </div>
       <button
         className={btn("wavy")}
-        disabled={isEffectDisabled("wavy", ["shake", "typewriter"])}
+        disabled={isEffectDisabled("wavy", [
+          "shake",
+          "typewriter",
+          "rainbow",
+          "glitter",
+        ])}
         onClick={(e) => {
           e.preventDefault();
           if (editor.isActive("wavy")) {
@@ -697,7 +746,12 @@ export default function Toolbar({
       <div className={styles.popoverAnchor}>
         <button
           className={btn("typewriter")}
-          disabled={isEffectDisabled("typewriter", ["shake", "wavy"])}
+          disabled={isEffectDisabled("typewriter", [
+            "shake",
+            "wavy",
+            "rainbow",
+            "glitter",
+          ])}
           onClick={() => {
             if (editor.isActive("typewriter")) {
               editor.chain().focus().unsetTypewriter().run();
