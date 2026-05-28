@@ -269,6 +269,15 @@
   width: 100%;
 }
 
+.toolbarPinButton {
+  color: var(--red);
+}
+
+.toolbarPinButtonActive {
+  background-color: var(--red);
+  color: var(--bg);
+}
+
 @media (max-width: 720px) {
   .toolbarMobileShell {
     position: relative;

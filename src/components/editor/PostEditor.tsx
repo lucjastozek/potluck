@@ -59,6 +59,7 @@ export default function PostEditor({
     useState(false);
   const [mobileWriteMode, setMobileWriteMode] = useState(false);
   const [mobileHeadingMenuOpen, setMobileHeadingMenuOpen] = useState(false);
+  const [toolbarPinned, setToolbarPinned] = useState(false);
   const mobileHeadingDockRef = useRef<HTMLDivElement>(null);
 
   const editor = useEditor({
@@ -129,6 +130,7 @@ export default function PostEditor({
     if (!isMobile || !editor) return;
 
     const collapseForWriting = () => {
+      if (toolbarPinned) return;
       setMobileSidebarOpen(false);
       setMobileSidebarAutoCollapsed(true);
     };
@@ -162,7 +164,7 @@ export default function PostEditor({
       editorDom.removeEventListener("beforeinput", onBeforeInput);
       editorDom.removeEventListener("keydown", onKeyDown);
     };
-  }, [editor, isMobile]);
+  }, [editor, isMobile, toolbarPinned]);
 
   useEffect(() => {
     if (!isMobile || !mobileHeadingMenuOpen) return;
@@ -453,7 +455,11 @@ export default function PostEditor({
               : ""
           }`}
         >
-          <Toolbar editor={editor} compact={keyboardOpen} />
+          <Toolbar
+            editor={editor}
+            compact={keyboardOpen}
+            onPinChange={setToolbarPinned}
+          />
         </div>
         <div
           className={`${styles.editorBody} ${

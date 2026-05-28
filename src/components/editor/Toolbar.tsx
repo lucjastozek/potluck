@@ -26,17 +26,22 @@ import StrikethroughSIcon from "@mui/icons-material/StrikethroughS";
 import CodeIcon from "@mui/icons-material/Code";
 import ItalicIcon from "@mui/icons-material/FormatItalic";
 import BoldIcon from "@mui/icons-material/FormatBold";
+import PushPinIcon from "@mui/icons-material/PushPin";
+import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
 
 const HEADING_LEVELS = [1, 2, 3, 4, 5, 6];
 
 export default function Toolbar({
   editor,
   compact = false,
+  onPinChange,
 }: {
   editor: Editor | null;
   compact?: boolean;
+  onPinChange?: (pinned: boolean) => void;
 }): JSX.Element | null {
   const [openPopover, setOpenPopover] = useState<string | null>(null);
+  const [pinned, setPinned] = useState(false);
   const { width } = useViewportDimensions();
   useEditorState({
     editor,
@@ -51,6 +56,12 @@ export default function Toolbar({
 
   const isMobile = width <= 720;
   const useMobileRail = isMobile;
+
+  const handlePin = () => {
+    const next = !pinned;
+    setPinned(next);
+    onPinChange?.(next);
+  };
 
   const toggle = (name: string) =>
     setOpenPopover((prev) => (prev === name ? null : name));
@@ -105,6 +116,19 @@ export default function Toolbar({
         aria-label="Text formatting"
       >
         <div className={styles.toolbarRail}>
+          <button
+            className={`${styles.toolbarButton} ${pinned ? styles.toolbarPinButtonActive : ""} ${styles.toolbarPinButton}`}
+            onClick={handlePin}
+            title={pinned ? "Unpin toolbar" : "Pin toolbar open"}
+            aria-label={pinned ? "Unpin toolbar" : "Pin toolbar open"}
+            aria-pressed={pinned}
+          >
+            {pinned ? (
+              <PushPinIcon fontSize="inherit" />
+            ) : (
+              <PushPinOutlinedIcon fontSize="inherit" />
+            )}
+          </button>
           <button
             className={btn("bold")}
             onClick={() => editor.chain().focus().toggleBold().run()}
