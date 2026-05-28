@@ -52,11 +52,12 @@ export default function PostEditor({
   onClose,
   closeLabel = "Close",
 }: PostEditorProps): JSX.Element {
-  const { width, keyboardOpen, visualHeight } = useViewportDimensions();
+  const { width, height, keyboardOpen, visualHeight } = useViewportDimensions();
   const isMobile = width <= 720;
-  const [mobileViewportHeight, setMobileViewportHeight] = useState<
-    number | null
-  >(null);
+  const [mobileViewportSnapshot, setMobileViewportSnapshot] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(true);
   const [mobileSidebarAutoCollapsed, setMobileSidebarAutoCollapsed] =
     useState(false);
@@ -120,17 +121,18 @@ export default function PostEditor({
 
   useEffect(() => {
     if (!isMobile) {
-      setMobileViewportHeight(null);
+      setMobileViewportSnapshot(null);
       return;
     }
 
-    if (keyboardOpen) {
-      setMobileViewportHeight((current) => current ?? visualHeight);
-      return;
-    }
+    setMobileViewportSnapshot((current) => {
+      if (current) {
+        return current;
+      }
 
-    setMobileViewportHeight(null);
-  }, [isMobile, keyboardOpen, visualHeight]);
+      return { width, height };
+    });
+  }, [height, isMobile, width]);
 
   useEffect(() => {
     if (!isMobile || !editor) return;
@@ -343,8 +345,22 @@ export default function PostEditor({
       style={
         isMobile
           ? {
-              height: `${mobileViewportHeight ?? visualHeight}px`,
-              maxHeight: `${mobileViewportHeight ?? visualHeight}px`,
+              height: `${
+                keyboardOpen
+                  ? Math.min(
+                      mobileViewportSnapshot?.height ?? height,
+                      visualHeight,
+                    )
+                  : (mobileViewportSnapshot?.height ?? height)
+              }px`,
+              maxHeight: `${
+                keyboardOpen
+                  ? Math.min(
+                      mobileViewportSnapshot?.height ?? height,
+                      visualHeight,
+                    )
+                  : (mobileViewportSnapshot?.height ?? height)
+              }px`,
             }
           : undefined
       }
