@@ -51,6 +51,7 @@ export default function PostEditor({
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(true);
   const [mobileSidebarAutoCollapsed, setMobileSidebarAutoCollapsed] =
     useState(false);
+  const [mobileWriteMode, setMobileWriteMode] = useState(false);
   const [mobileHeadingMenuOpen, setMobileHeadingMenuOpen] = useState(false);
   const mobileHeadingDockRef = useRef<HTMLDivElement>(null);
 
@@ -95,6 +96,28 @@ export default function PostEditor({
     setMobileSidebarOpen(true);
     setMobileSidebarAutoCollapsed(false);
   }, [isMobile, keyboardOpen, mobileSidebarAutoCollapsed]);
+
+  useEffect(() => {
+    if (!isMobile) {
+      setMobileWriteMode(false);
+      return;
+    }
+
+    if (!keyboardOpen) {
+      setMobileWriteMode(false);
+    }
+  }, [isMobile, keyboardOpen]);
+
+  useEffect(() => {
+    if (!isMobile || !editor) return;
+
+    const inputMode = mobileWriteMode ? "text" : "none";
+    editor.view.dom.setAttribute("inputmode", inputMode);
+
+    if (!mobileWriteMode) {
+      editor.commands.blur();
+    }
+  }, [editor, isMobile, mobileWriteMode]);
 
   useEffect(() => {
     if (!isMobile || !editor) return;
@@ -265,6 +288,22 @@ export default function PostEditor({
       : `Heading ${headingState.headingValue}`
     : "Paragraph";
 
+  const handleEditorBodyPointerUp = () => {
+    if (!isMobile || !editor || mobileWriteMode) return;
+
+    window.setTimeout(() => {
+      if (!editor) return;
+
+      const { from, to } = editor.state.selection;
+      const isCaretSelection = from === to;
+
+      if (!isCaretSelection) return;
+
+      setMobileWriteMode(true);
+      editor.chain().focus().run();
+    }, 0);
+  };
+
   const surface = (
     <section
       className={`${styles.shell} ${isMobile ? styles.mobileShell : ""} ${
@@ -414,6 +453,7 @@ export default function PostEditor({
                 : styles.editorBodyMobileCollapsed
               : ""
           }`}
+          onPointerUp={isMobile ? handleEditorBodyPointerUp : undefined}
         >
           <EditorContent editor={editor} className={styles.editorContent} />
         </div>
