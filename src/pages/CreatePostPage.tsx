@@ -22,6 +22,9 @@ export default function CreatePostPage(): JSX.Element {
         onSecondaryAction={handleSaveDraft}
         submitLabel="Post"
         secondaryLabel="Save draft"
+        title="Create post"
+        subtitle="Write something new. You can publish it now or save it as a draft."
+        onClose={() => navigate("/posts/drafts")}
       />
     </main>
   );

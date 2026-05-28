@@ -30,8 +30,10 @@ const HEADING_LEVELS = [1, 2, 3, 4, 5, 6];
 
 export default function Toolbar({
   editor,
+  compact = false,
 }: {
   editor: Editor | null;
+  compact?: boolean;
 }): JSX.Element | null {
   const [openPopover, setOpenPopover] = useState<string | null>(null);
   useEditorState({
@@ -99,7 +101,11 @@ export default function Toolbar({
     : "paragraph";
 
   return (
-    <div className={styles.toolbar} role="toolbar" aria-label="Text formatting">
+    <div
+      className={`${styles.toolbar} ${compact ? styles.toolbarCompact : ""}`}
+      role="toolbar"
+      aria-label="Text formatting"
+    >
       <select
         className={styles.headingSelect}
         aria-label="Heading level"

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { lockBodyScroll, unlockBodyScroll } from "@/utils/bodyScrollLock";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import type { PostAuthor } from "@/api/feed";
 import LogoutRounded from "@mui/icons-material/LogoutRounded";
@@ -232,12 +233,11 @@ function AppShell() {
       }
     };
 
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      unlockBodyScroll();
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [closeComposer, isComposerOpen]);
@@ -575,41 +575,20 @@ function AppShell() {
       </div>
 
       {isComposerOpen ? (
-        <div className={styles.modalBackdrop}>
-          <button
-            type="button"
-            className={styles.modalBackdropButton}
-            aria-label="Close composer"
-            onClick={closeComposer}
-          />
-          <div
-            className={styles.modalCard}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Create a new post"
-          >
-            <div className={styles.modalHeader}>
-              <h2 className={styles.modalTitle}>Create post</h2>
-              <button
-                type="button"
-                className={styles.closeButton}
-                onClick={closeComposer}
-              >
-                Close
-              </button>
-            </div>
-
-            {composeError ? (
+        <PostEditor
+          onSubmit={handlePublishPost}
+          onSecondaryAction={handleSaveDraft}
+          submitLabel="Post"
+          secondaryLabel="Save draft"
+          title="Create post"
+          subtitle="Share something new. You can publish it now or keep it as a draft."
+          error={
+            composeError ? (
               <p className={styles.modalError}>{composeError}</p>
-            ) : null}
-            <PostEditor
-              onSubmit={handlePublishPost}
-              onSecondaryAction={handleSaveDraft}
-              submitLabel="Post"
-              secondaryLabel="Save draft"
-            />
-          </div>
-        </div>
+            ) : null
+          }
+          onClose={closeComposer}
+        />
       ) : null}
     </div>
   );

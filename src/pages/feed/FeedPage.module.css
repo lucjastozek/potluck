@@ -130,12 +130,12 @@
 
 .skeletonName {
   width: 40%;
-  height: 0.95rem; /* matches .author font-size */
+  height: 0.95rem;
 }
 
 .skeletonDate {
   width: 25%;
-  height: 0.75rem; /* matches .date font-size */
+  height: 0.75rem;
 }
 
 .skeletonLine {
