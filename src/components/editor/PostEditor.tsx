@@ -3,7 +3,13 @@ import Toolbar from "@/components/editor/Toolbar";
 import { serializeToMarkup } from "@/utils/serializer";
 import { deserializeFromMarkup } from "@/utils/deserializer";
 import styles from "@/components/editor/PostEditor.module.css";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+  type ReactNode,
+} from "react";
 import { lockBodyScroll, unlockBodyScroll } from "@/utils/bodyScrollLock";
 import { useViewportDimensions } from "@/hooks/useViewportDimensions";
 import { EDITOR_EXTENSIONS } from "@/components/editor/editorExtensions";
@@ -288,20 +294,24 @@ export default function PostEditor({
       : `Heading ${headingState.headingValue}`
     : "Paragraph";
 
-  const handleEditorBodyPointerUp = () => {
+  const handleEditorBodyPointerUp = (
+    event: ReactPointerEvent<HTMLDivElement>,
+  ) => {
     if (!isMobile || !editor || mobileWriteMode) return;
 
-    window.setTimeout(() => {
-      if (!editor) return;
+    const eventTarget = event.target as HTMLElement | null;
+    const tappedEditorContent = eventTarget?.closest(".ProseMirror");
 
-      const { from, to } = editor.state.selection;
-      const isCaretSelection = from === to;
+    if (!tappedEditorContent) return;
 
-      if (!isCaretSelection) return;
+    const { from, to } = editor.state.selection;
+    const isCaretSelection = from === to;
 
-      setMobileWriteMode(true);
-      editor.chain().focus().run();
-    }, 0);
+    if (!isCaretSelection) return;
+
+    editor.view.dom.setAttribute("inputmode", "text");
+    setMobileWriteMode(true);
+    editor.chain().focus().run();
   };
 
   const surface = (
