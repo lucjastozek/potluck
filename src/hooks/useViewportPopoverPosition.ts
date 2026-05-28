@@ -13,79 +13,82 @@ export function useViewportPopoverPosition<T extends HTMLElement>(
   style: CSSProperties;
 } {
   const ref = useRef<T>(null);
-  const [style, setStyle] = useState<CSSProperties>({});
+
+  const [style, setStyle] = useState<CSSProperties>({
+    position: "fixed",
+    top: 0,
+    left: -9999,
+    visibility: "hidden",
+  });
 
   useLayoutEffect(() => {
-    const popover = ref.current;
-    if (!popover) return;
-
     const gap = options.gap ?? 6;
     const margin = options.margin ?? 8;
-    let frame = 0;
 
-    const update = () => {
-      const current = ref.current;
-      const anchor = current?.parentElement;
+    const place = () => {
+      const el = ref.current;
+      const anchor = el?.parentElement;
+      if (!el || !anchor) return;
 
-      if (!current || !anchor) return;
+      const trigger = Array.from(anchor.children).find(
+        (child): child is HTMLButtonElement =>
+          child instanceof HTMLButtonElement,
+      );
+      const triggerContent = trigger?.querySelector(
+        "svg, span, img, video, canvas",
+      ) as HTMLElement | null;
+      const aRect = (
+        triggerContent ??
+        trigger ??
+        anchor
+      ).getBoundingClientRect();
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
 
-      const anchorRect = anchor.getBoundingClientRect();
-      const popoverRect = current.getBoundingClientRect();
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      const maxWidth = Math.max(viewportWidth - margin * 2, 0);
-      const maxHeight = Math.max(viewportHeight - margin * 2, 0);
-      const width = Math.min(popoverRect.width, maxWidth);
-      const height = Math.min(popoverRect.height, maxHeight);
+      const pw = el.offsetWidth;
+      const ph = el.offsetHeight;
 
-      let left = anchorRect.left;
-      if (left + width > viewportWidth - margin) {
-        left = viewportWidth - width - margin;
+      // ── Horizontal ───────────────────────────────────────────────────────
+      const spaceRight = vw - aRect.right - gap;
+      const spaceLeft = aRect.left - gap;
+
+      let left: number;
+      if (spaceRight >= pw) {
+        left = aRect.right + gap;
+      } else if (spaceLeft >= pw) {
+        left = aRect.left - gap - pw;
+      } else {
+        left =
+          spaceRight >= spaceLeft ? aRect.right + gap : aRect.left - gap - pw;
       }
-      left = Math.max(margin, left);
+      left = Math.max(margin, Math.min(left, vw - pw - margin));
 
-      const spaceBelow = viewportHeight - anchorRect.bottom - gap - margin;
-      const spaceAbove = anchorRect.top - gap - margin;
-      let top = anchorRect.bottom + gap;
+      // ── Vertical ─────────────────────────────────────────────────────────
+      let top = aRect.top + aRect.height / 2 - ph / 2;
+      top = Math.max(margin, Math.min(top, vh - ph - margin));
 
-      if (height > spaceBelow && spaceAbove > spaceBelow) {
-        top = anchorRect.top - gap - height;
-      }
-
-      top = Math.max(margin, Math.min(top, viewportHeight - height - margin));
+      const maxW = vw - left - margin;
+      const maxH = vh - top - margin;
 
       setStyle({
         position: "fixed",
-        left: `${left}px`,
-        top: `${top}px`,
-        maxWidth: `calc(100vw - ${margin * 2}px)`,
-        maxHeight: `calc(100vh - ${margin * 2}px)`,
+        top,
+        left,
+        maxWidth: maxW,
+        maxHeight: maxH,
         overflow: "auto",
         boxSizing: "border-box",
+        visibility: "visible",
       });
     };
 
-    const scheduleUpdate = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(update);
-    };
+    place();
 
-    update();
-
-    const observer = new ResizeObserver(scheduleUpdate);
-    observer.observe(popover);
-    if (popover.parentElement) {
-      observer.observe(popover.parentElement);
-    }
-
-    window.addEventListener("resize", scheduleUpdate);
-    window.addEventListener("scroll", scheduleUpdate, true);
-
+    window.addEventListener("resize", place);
+    window.addEventListener("scroll", place, true);
     return () => {
-      cancelAnimationFrame(frame);
-      observer.disconnect();
-      window.removeEventListener("resize", scheduleUpdate);
-      window.removeEventListener("scroll", scheduleUpdate, true);
+      window.removeEventListener("resize", place);
+      window.removeEventListener("scroll", place, true);
     };
   }, [options.gap, options.margin]);
 

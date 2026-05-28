@@ -1,5 +1,6 @@
 import type { Editor } from "@tiptap/react";
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import styles from "@/components/editor/Toolbar.module.css";
 import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
 
@@ -16,6 +17,7 @@ export default function ShakePopover({
     const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) onClose();
     };
+
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, [onClose, ref]);
@@ -26,7 +28,7 @@ export default function ShakePopover({
     onClose();
   };
 
-  return (
+  const content = (
     <div
       ref={ref}
       className={styles.popover}
@@ -53,4 +55,8 @@ export default function ShakePopover({
       </div>
     </div>
   );
+
+  return typeof document === "undefined"
+    ? content
+    : createPortal(content, document.body);
 }

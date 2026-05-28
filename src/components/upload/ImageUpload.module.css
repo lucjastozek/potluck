@@ -21,6 +21,28 @@
     background 0.15s;
 }
 
+.toolbarMobileShell .wrapper,
+.toolbarRail .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbarMobileShell .wrapper .btn,
+.toolbarRail .wrapper .btn {
+  padding: 0.25rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbarRail .wrapper .progress,
+.toolbarMobileShell .wrapper .progress {
+  display: none;
+}
+
 .btn:hover:not(:disabled) {
   color: rgba(var(--fgRgb), 0.85);
   background: rgba(var(--fgRgb), 0.06);

@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { type Editor } from "@tiptap/react";
+import { createPortal } from "react-dom";
 import styles from "@/components/editor/popovers/ImagePopover.module.css";
 import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
 
@@ -66,7 +67,7 @@ export default function ImagePopover({
     onClose();
   };
 
-  return (
+  const content = (
     <div className={styles.popover} ref={popoverRef} style={style}>
       <div className={styles.section}>
         <button
@@ -122,4 +123,8 @@ export default function ImagePopover({
       </div>
     </div>
   );
+
+  return typeof document === "undefined"
+    ? content
+    : createPortal(content, document.body);
 }

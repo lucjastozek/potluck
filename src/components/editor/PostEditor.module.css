@@ -2,10 +2,18 @@
   position: fixed;
   inset: 0;
   z-index: 60;
-  display: grid;
-  place-items: center;
-  padding: 1rem;
+  display: block;
+  padding: 0;
   overflow: hidden;
+}
+
+.modalRoot .shell {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  z-index: 70;
 }
 
 .backdrop {
@@ -33,11 +41,14 @@
 .shell {
   position: relative;
   z-index: 1;
-  width: min(74rem, 100%);
-  height: min(92vh, 60rem);
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
   display: grid;
-  max-width: 50rem;
-  grid-template-rows: auto minmax(0, 1fr);
+  max-width: none;
+  max-height: none;
+  grid-template-rows: auto 1fr;
   overflow: hidden;
   border-radius: 1.4rem;
   border: 1px solid rgba(var(--fgRgb), 0.12);
@@ -144,9 +155,14 @@
 
 .editorShell {
   min-height: 0;
+  min-width: 0;
+  height: 100%;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  height: 100%;
+}
+
+.toolbarSlot {
+  min-height: 0;
 }
 
 .editorBody {
@@ -321,6 +337,10 @@
 }
 
 @media (max-width: 720px) {
+  .mobileShell {
+    --mobile-toolbar-width: clamp(6.25rem, 22vw, 6.8rem);
+  }
+
   .modalRoot {
     padding: 0;
     place-items: stretch;
@@ -334,15 +354,263 @@
     border-left: 0;
     border-right: 0;
     border-top: 0;
+    grid-template-rows: 1fr;
+  }
+
+  .header {
+    display: none;
+  }
+
+  .editorShell {
+    grid-template-rows: minmax(0, 1fr);
+    height: 100%;
+  }
+
+  .toolbarSlot {
+    position: fixed;
+    top: 50%;
+    left: 0.6rem;
+    transform: translateY(-50%);
+    z-index: 120;
+    width: var(--mobile-toolbar-width);
+    min-width: 0;
+    min-height: 0;
+    overflow: visible;
+    pointer-events: auto;
+    transition:
+      transform 0.22s ease,
+      left 0.22s ease;
+    border-radius: 0.9rem;
+  }
+
+  .toolbarSlotOpen {
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .toolbarSlotCollapsed {
+    transform: translateY(-50%) translateX(-120%);
+  }
+
+  .mobileHeadingVisible .toolbarSlot {
+    left: 0.6rem;
+  }
+
+  .toolbarSlot > * {
+    height: auto;
+    pointer-events: auto;
+  }
+
+  .editorBody {
+    padding-left: calc(var(--mobile-toolbar-width) + 1rem);
+  }
+
+  .mobileToolbarToggle {
+    position: absolute;
+    top: 50%;
+    z-index: 9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border-radius: 999px;
+    border: 1px solid rgba(var(--fgRgb), 0.16);
+    background: rgba(var(--bgRgb), 0.94);
+    color: rgba(var(--fgRgb), 0.9);
+    box-shadow: 0 10px 24px rgba(var(--blackRgb), 0.14);
+    transform: translateY(-50%);
+  }
+
+  .mobileToolbarToggle:hover {
+    background: rgba(var(--bgRgb), 0.98);
+  }
+
+  .mobileToolbarToggle:focus-visible {
+    outline: 2px solid rgba(var(--blueRgb), 0.8);
+    outline-offset: 2px;
+  }
+
+  .mobileHeadingDock {
+    position: absolute;
+    top: 0.55rem;
+    left: 50%;
+    z-index: 8;
+    width: min(14rem, calc(100vw - var(--mobile-toolbar-width) - 3rem));
+    transform: translateX(-50%);
+    padding: 0.3rem;
+    border-radius: 999px;
+    border: 1px solid rgba(var(--fgRgb), 0.12);
+    background: rgba(var(--bgRgb), 0.94);
+    box-shadow: 0 12px 24px rgba(var(--blackRgb), 0.14);
+    backdrop-filter: blur(12px);
+  }
+
+  .mobileShellOpen .mobileHeadingDock {
+    width: min(14rem, calc(100vw - var(--mobile-toolbar-width) - 3rem));
+  }
+
+  .closeButtonMobile {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.7rem;
+    z-index: 12;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.15rem;
+    height: 3.15rem;
+    padding: 0;
+    border-radius: 999px;
+    border: 1px solid rgba(var(--fgRgb), 0.12);
+    background: rgba(var(--bgRgb), 0.94);
+    color: rgba(var(--fgRgb), 0.9);
+    box-shadow: 0 10px 24px rgba(var(--blackRgb), 0.14);
+  }
+
+  .closeButtonMobile:hover {
+    background: rgba(var(--bgRgb), 0.98);
+  }
+
+  .mobileHeadingButton {
+    width: 100%;
+    min-width: 0;
+    height: 2.55rem;
+    padding: 0 2.2rem 0 0.9rem;
+    text-align: left;
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    background: rgba(var(--bgRgb), 0.98);
+    border: 1px solid rgba(var(--fgRgb), 0.12);
+    border-radius: 999px;
+    color: rgba(var(--fgRgb), 0.9);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    box-shadow: inset 0 1px 0 rgba(var(--bgRgb), 0.65);
+  }
+
+  .mobileHeadingButton:hover,
+  .mobileHeadingButton:focus-visible {
+    border-color: rgba(var(--blueRgb), 0.42);
+    box-shadow:
+      inset 0 1px 0 rgba(var(--bgRgb), 0.75),
+      0 0 0 3px rgba(var(--blueRgb), 0.14);
+    outline: none;
+  }
+
+  .mobileHeadingButtonLabel {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobileHeadingButtonChevron {
+    flex: 0 0 auto;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-right: 2px solid rgba(var(--fgRgb), 0.72);
+    border-bottom: 2px solid rgba(var(--fgRgb), 0.72);
+    transform: rotate(45deg) translateY(-1px);
+    margin-left: auto;
+  }
+
+  .mobileHeadingMenu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    width: 100%;
+    max-height: min(18rem, calc(100vh - 8rem));
+    overflow: auto;
+    padding: 0.45rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(var(--fgRgb), 0.12);
+    background: rgba(var(--bgRgb), 0.98);
+    box-shadow: 0 18px 34px rgba(var(--blackRgb), 0.18);
+    backdrop-filter: blur(12px);
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .mobileHeadingOption {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 2.35rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 0.8rem;
+    border: 1px solid rgba(var(--fgRgb), 0.12);
+    background: rgba(var(--fgRgb), 0.05);
+    color: rgba(var(--fgRgb), 0.9);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: left;
+    transition:
+      background 0.12s,
+      border-color 0.12s,
+      transform 0.12s;
+  }
+
+  .mobileHeadingOption:hover,
+  .mobileHeadingOption:focus-visible {
+    background: rgba(var(--fgRgb), 0.09);
+    border-color: rgba(var(--blueRgb), 0.28);
+    outline: none;
+    transform: translateY(-1px);
+  }
+
+  .mobileHeadingOptionActive {
+    background: rgba(var(--fgRgb), 0.12);
+    border-color: rgba(var(--blueRgb), 0.42);
+    box-shadow: inset 0 1px 0 rgba(var(--bgRgb), 0.5);
+  }
+
+  .mobileHeadingOption:disabled {
+    opacity: 0.55;
+    cursor: default;
+    transform: none;
   }
 
   .header,
-  .editorBody,
   .footer,
   .error,
   .banner {
     padding-left: 0.85rem;
     padding-right: 0.85rem;
+  }
+
+  .editorBodyMobileOpen {
+    padding-top: 4.25rem;
+    padding-right: 0.85rem;
+    padding-bottom: 4.85rem;
+    padding-left: calc(var(--mobile-toolbar-width) + 2.5rem);
+  }
+
+  .editorBodyMobileCollapsed {
+    padding-top: 4.25rem;
+    padding-right: 2.9rem;
+    padding-bottom: 4.85rem;
+    padding-left: 2.9rem;
+  }
+
+  .keyboardOpen .editorBodyMobileOpen {
+    padding-top: 2.9rem;
+    padding-bottom: 4.15rem;
+    padding-left: calc(var(--mobile-toolbar-width) + 1rem);
+    padding-right: 0.85rem;
+  }
+
+  .keyboardOpen .editorBodyMobileCollapsed {
+    padding-top: 2.9rem;
+    padding-bottom: 4.15rem;
+    padding-left: 2.9rem;
+    padding-right: 2.9rem;
   }
 
   .closeButton {
@@ -351,33 +619,8 @@
     height: 2.15rem;
   }
 
-  .header {
-    padding-top: 0.85rem;
-    padding-bottom: 0.75rem;
-  }
-
-  .headerCompact {
-    padding-top: 0.6rem;
-    padding-bottom: 0.55rem;
-  }
-
-  .headerCompact .headerTop {
-    margin-bottom: 0.15rem;
-  }
-
-  .keyboardOpen .editorBody {
-    padding-top: 0.6rem;
-    padding-bottom: 0.7rem;
-  }
-
-  .keyboardOpen .footer {
-    padding-top: 0.6rem;
-    padding-bottom: 0.75rem;
-  }
-
   .footer {
-    flex-direction: column;
-    align-items: stretch;
+    display: none;
   }
 
   .footerActions {
@@ -387,5 +630,49 @@
   .secondaryButton,
   .submitButton {
     flex: 1 1 0;
+  }
+
+  .mobileActions {
+    position: absolute;
+    right: 0.8rem;
+    bottom: 0.8rem;
+    z-index: 8;
+    display: flex;
+    gap: 0.55rem;
+    align-items: center;
+    justify-content: flex-end;
+    pointer-events: auto;
+  }
+
+  .mobileActionButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.85rem;
+    height: 2.85rem;
+    padding: 0;
+    border-radius: 999px;
+    border: 1px solid rgba(var(--fgRgb), 0.12);
+    background: rgba(var(--bgRgb), 0.95);
+    color: rgba(var(--fgRgb), 0.92);
+    box-shadow: 0 12px 26px rgba(var(--blackRgb), 0.16);
+  }
+
+  .mobileActionButton:disabled {
+    opacity: 0.4;
+  }
+
+  .mobileActionButton:focus-visible {
+    outline: 2px solid rgba(var(--blueRgb), 0.85);
+    outline-offset: 2px;
+  }
+
+  .mobileActionPrimary {
+    background: linear-gradient(135deg, var(--blue), var(--darkBlue));
+    color: var(--bg);
+  }
+
+  .mobileActionSecondary {
+    background: rgba(var(--fgRgb), 0.08);
   }
 }
