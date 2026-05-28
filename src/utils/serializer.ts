@@ -36,42 +36,6 @@ function serializeNode(node: JSONContent): string {
       return `![${src}]{wrap=${wrap},widthPercent=${widthPercent},alt=${alt}${framePart}}`;
     }
 
-    case "rainbow":
-      return applyMarks(
-        node.marks ?? [],
-        `[rainbow]${node.attrs?.text ?? ""}[/rainbow]`,
-      );
-
-    case "glitter":
-      return applyMarks(
-        node.marks ?? [],
-        `[glitter color=${node.attrs?.color ?? "var(--fg)"}]${node.attrs?.text ?? ""}[/glitter]`,
-      );
-
-    case "shake":
-      return applyMarks(
-        node.marks ?? [],
-        `[shake intensity=${node.attrs?.intensity ?? "low"}]${node.attrs?.text ?? ""}[/shake]`,
-      );
-
-    case "spoiler":
-      return applyMarks(
-        node.marks ?? [],
-        `[spoiler]${node.attrs?.text ?? ""}[/spoiler]`,
-      );
-
-    case "wavy":
-      return applyMarks(
-        node.marks ?? [],
-        `[wavy]${node.attrs?.text ?? ""}[/wavy]`,
-      );
-
-    case "typewriter":
-      return applyMarks(
-        node.marks ?? [],
-        `[typewriter speed=${node.attrs?.speed ?? 50}]${node.attrs?.text ?? ""}[/typewriter]`,
-      );
-
     case "text":
       return applyMarks(node.marks ?? [], node.text ?? "");
 
@@ -109,6 +73,10 @@ function wrapMark(
       return `[gradient colors=${Array.isArray(a.colors) ? a.colors.join(",") : (a.colors ?? "red,blue")} direction=${a.direction ?? "90deg"}]${inner}[/gradient]`;
     case "neon":
       return `[neon color=${a.color ?? "var(--abspink)"}]${inner}[/neon]`;
+    case "rainbow":
+      return `[rainbow]${inner}[/rainbow]`;
+    case "glitter":
+      return `[glitter color=${a.color ?? "var(--fg)"}]${inner}[/glitter]`;
     case "shadow":
       return `[shadow color=${a.color ?? "#000"} x=${a.x ?? "4px"} y=${a.y ?? "4px"} blur=${a.blur ?? "0"}]${inner}[/shadow]`;
     case "outline":

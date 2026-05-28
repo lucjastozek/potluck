@@ -255,6 +255,15 @@
   background: rgba(var(--fgRgb), 0.15);
 }
 
+.toolbarMobileShell .toolbarRailDivider {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 1px;
+  margin: 0.08rem 0;
+  background: rgba(var(--fgRgb), 0.15);
+  display: block;
+}
+
 .toolbarMobileShell .popoverAnchor {
   min-width: 0;
   width: 100%;
@@ -303,7 +312,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.15rem 0;
   }
 
   .toolbarRail > *:has(button[aria-label="Insert image"] span) button svg {

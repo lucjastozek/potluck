@@ -62,25 +62,11 @@ export default function Toolbar({
       ? `${styles.toolbarButton} ${styles.toolbarButtonActive}`
       : styles.toolbarButton;
 
-  const activeEffects = {
-    color: editor.isActive("color"),
-    rainbow: editor.isActive("rainbow"),
-    glitter: editor.isActive("glitter"),
-    highlight: editor.isActive("highlight"),
-    code: editor.isActive("code"),
-    spoiler: editor.isActive("spoiler"),
-    outline: editor.isActive("outline"),
-    neon: editor.isActive("neon"),
-    shadow: editor.isActive("shadow"),
-    shake: editor.isActive("shake"),
-    wavy: editor.isActive("wavy"),
-    typewriter: editor.isActive("typewriter"),
-  };
+  const isAnyEffectActive = (effects: string[]) =>
+    effects.some((effect) => editor.isActive(effect));
 
-  const isEffectDisabled = (
-    effect: keyof typeof activeEffects,
-    conflicts: Array<keyof typeof activeEffects>,
-  ) => !activeEffects[effect] && conflicts.some((name) => activeEffects[name]);
+  const isEffectDisabled = (effect: string, conflicts: string[]) =>
+    !editor.isActive(effect) && isAnyEffectActive(conflicts);
 
   const currentHeadingLevel =
     HEADING_LEVELS.find((level) => editor.isActive("heading", { level })) ?? 0;
@@ -106,6 +92,10 @@ export default function Toolbar({
   const headingValue = currentHeadingLevel
     ? String(currentHeadingLevel)
     : "paragraph";
+
+  const railDivider = (
+    <span className={styles.toolbarRailDivider} aria-hidden="true" />
+  );
 
   if (useMobileRail) {
     return (
@@ -156,6 +146,8 @@ export default function Toolbar({
             )}
           </div>
 
+          {railDivider}
+
           <div className={styles.popoverAnchor}>
             <button
               className={btn("color")}
@@ -177,50 +169,6 @@ export default function Toolbar({
               <ColorPopover editor={editor} onClose={closePopover} />
             )}
           </div>
-
-          <button
-            className={btn("code")}
-            disabled={isEffectDisabled("code", ["highlight", "spoiler"])}
-            onClick={() => editor.chain().focus().toggleCode().run()}
-            title="Code"
-            aria-label="Code"
-          >
-            <CodeIcon fontSize="inherit" />
-          </button>
-
-          <button
-            className={btn("spoiler")}
-            disabled={isEffectDisabled("spoiler", ["highlight", "code"])}
-            onClick={(e) => {
-              e.preventDefault();
-              if (editor.isActive("spoiler")) {
-                editor.chain().focus().unsetSpoiler().run();
-              } else {
-                editor.chain().focus().setSpoiler().run();
-              }
-            }}
-            title="Spoiler"
-            aria-label="Spoiler"
-          >
-            <SpoilerIcon fontSize="inherit" />
-          </button>
-
-          <ImageUpload
-            onUploaded={(url) => {
-              editor
-                .chain()
-                .focus()
-                .insertImage({
-                  src: url,
-                  alt: "",
-                  widthPercent: 50,
-                  wrap: "none",
-                })
-                .run();
-            }}
-          />
-
-          <span className={styles.divider} aria-hidden="true" />
 
           <button
             className={btn("rainbow")}
@@ -262,10 +210,12 @@ export default function Toolbar({
             )}
           </div>
 
+          {railDivider}
+
           <div className={styles.popoverAnchor}>
             <button
               className={btn("highlight")}
-              disabled={isEffectDisabled("highlight", ["code", "spoiler"])}
+              disabled={isEffectDisabled("highlight", ["rainbow", "glitter"])}
               onClick={() => {
                 if (editor.isActive("highlight")) {
                   editor.chain().focus().unsetHighlight().run();
@@ -283,6 +233,36 @@ export default function Toolbar({
               <HighlightPopover editor={editor} onClose={closePopover} />
             )}
           </div>
+
+          <button
+            className={btn("code")}
+            disabled={isEffectDisabled("code", ["rainbow", "glitter"])}
+            onClick={() => editor.chain().focus().toggleCode().run()}
+            title="Code"
+            aria-label="Code"
+          >
+            <CodeIcon fontSize="inherit" />
+          </button>
+
+          <button
+            className={btn("spoiler")}
+            disabled={isEffectDisabled("spoiler", ["highlight", "code"])}
+            onClick={(e) => {
+              e.preventDefault();
+              if (editor.isActive("spoiler")) {
+                editor.chain().focus().unsetSpoiler().run();
+              } else {
+                editor.chain().focus().setSpoiler().run();
+              }
+            }}
+            title="Spoiler"
+            aria-label="Spoiler"
+          >
+            <SpoilerIcon fontSize="inherit" />
+          </button>
+
+          {railDivider}
+
           <div className={styles.popoverAnchor}>
             <button
               className={btn("outline")}
@@ -304,6 +284,7 @@ export default function Toolbar({
               <OutlinePopover editor={editor} onClose={closePopover} />
             )}
           </div>
+
           <div className={styles.popoverAnchor}>
             <button
               className={btn("neon")}
@@ -325,6 +306,7 @@ export default function Toolbar({
               <NeonPopover editor={editor} onClose={closePopover} />
             )}
           </div>
+
           <div className={styles.popoverAnchor}>
             <button
               className={btn("shadow")}
@@ -346,6 +328,9 @@ export default function Toolbar({
               <ShadowPopover editor={editor} onClose={closePopover} />
             )}
           </div>
+
+          {railDivider}
+
           <div className={styles.popoverAnchor}>
             <button
               className={btn("shake")}
@@ -367,6 +352,7 @@ export default function Toolbar({
               <ShakePopover editor={editor} onClose={closePopover} />
             )}
           </div>
+
           <button
             className={btn("wavy")}
             disabled={isEffectDisabled("wavy", ["shake", "typewriter"])}
@@ -383,6 +369,7 @@ export default function Toolbar({
           >
             <WaveIcon fontSize="inherit" />
           </button>
+
           <div className={styles.popoverAnchor}>
             <button
               className={btn("typewriter")}
@@ -404,6 +391,23 @@ export default function Toolbar({
               <TypewriterPopover editor={editor} onClose={closePopover} />
             )}
           </div>
+
+          {railDivider}
+
+          <ImageUpload
+            onUploaded={(url) => {
+              editor
+                .chain()
+                .focus()
+                .insertImage({
+                  src: url,
+                  alt: "",
+                  widthPercent: 50,
+                  wrap: "none",
+                })
+                .run();
+            }}
+          />
         </div>
       </div>
     );
@@ -547,7 +551,7 @@ export default function Toolbar({
       <div className={styles.popoverAnchor}>
         <button
           className={btn("highlight")}
-          disabled={isEffectDisabled("highlight", ["code", "spoiler"])}
+          disabled={isEffectDisabled("highlight", ["rainbow", "glitter"])}
           onClick={() => {
             if (editor.isActive("highlight")) {
               editor.chain().focus().unsetHighlight().run();
@@ -569,7 +573,7 @@ export default function Toolbar({
       </div>
       <button
         className={btn("code")}
-        disabled={isEffectDisabled("code", ["highlight", "spoiler"])}
+        disabled={isEffectDisabled("code", ["rainbow", "glitter"])}
         onClick={() => editor.chain().focus().toggleCode().run()}
         title="Code"
       >

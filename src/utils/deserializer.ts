@@ -59,79 +59,65 @@ function buildNodes(
       }
 
       if (name === "rainbow") {
-        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
-        const text = children
-          .filter((n) => n.type === "text")
-          .map((n) => n.text ?? "")
-          .join("");
-        nodes.push({
-          type: "rainbow",
-          attrs: { text },
-          ...(activeMarks.length ? { marks: [...activeMarks] } : {}),
-        });
+        const [children, next] = buildNodes(tokens, i + 1, name, [
+          ...activeMarks,
+          { type: "rainbow" },
+        ]);
+        nodes.push(...children);
         i = next;
         continue;
       }
 
       if (name === "glitter") {
-        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
-        const text = children
-          .filter((n) => n.type === "text")
-          .map((n) => n.text ?? "")
-          .join("");
         const color = (attrs as Record<string, string>).color ?? "var(--fg)";
         const hue = cssVarToHue(color);
-        nodes.push({
-          type: "glitter",
-          attrs: { text, color, hue },
-          ...(activeMarks.length ? { marks: [...activeMarks] } : {}),
-        });
+        const [children, next] = buildNodes(tokens, i + 1, name, [
+          ...activeMarks,
+          { type: "glitter", attrs: { color, hue } },
+        ]);
+        nodes.push(...children);
+        i = next;
+        continue;
+      }
+
+      if (name === "shake") {
+        const intensity = (attrs as Record<string, string>).intensity ?? "low";
+        const [children, next] = buildNodes(tokens, i + 1, name, [
+          ...activeMarks,
+          { type: "shake", attrs: { intensity } },
+        ]);
+        nodes.push(...children);
         i = next;
         continue;
       }
 
       if (name === "spoiler") {
-        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
-        const text = children
-          .filter((n) => n.type === "text")
-          .map((n) => n.text ?? "")
-          .join("");
-        nodes.push({
-          type: "spoiler",
-          attrs: { text },
-          ...(activeMarks.length ? { marks: [...activeMarks] } : {}),
-        });
+        const [children, next] = buildNodes(tokens, i + 1, name, [
+          ...activeMarks,
+          { type: "spoiler" },
+        ]);
+        nodes.push(...children);
         i = next;
         continue;
       }
 
       if (name === "wavy") {
-        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
-        const text = children
-          .filter((n) => n.type === "text")
-          .map((n) => n.text ?? "")
-          .join("");
-        nodes.push({
-          type: "wavy",
-          attrs: { text },
-          ...(activeMarks.length ? { marks: [...activeMarks] } : {}),
-        });
+        const [children, next] = buildNodes(tokens, i + 1, name, [
+          ...activeMarks,
+          { type: "wavy" },
+        ]);
+        nodes.push(...children);
         i = next;
         continue;
       }
 
       if (name === "typewriter") {
-        const [children, next] = buildNodes(tokens, i + 1, name, activeMarks);
-        const text = children
-          .filter((n) => n.type === "text")
-          .map((n) => n.text ?? "")
-          .join("");
         const speed = Number((attrs as Record<string, string>).speed ?? 50);
-        nodes.push({
-          type: "typewriter",
-          attrs: { text, speed },
-          ...(activeMarks.length ? { marks: [...activeMarks] } : {}),
-        });
+        const [children, next] = buildNodes(tokens, i + 1, name, [
+          ...activeMarks,
+          { type: "typewriter", attrs: { speed } },
+        ]);
+        nodes.push(...children);
         i = next;
         continue;
       }
@@ -212,6 +198,18 @@ function tagToMark(
       return { type: "italic" };
     case "code":
       return { type: "code" };
+    case "rainbow":
+      return { type: "rainbow" };
+    case "glitter": {
+      const color = String(attrs.color ?? "var(--fg)");
+      return {
+        type: "glitter",
+        attrs: {
+          color,
+          hue: attrs.hue ?? cssVarToHue(color),
+        },
+      };
+    }
     case "strike":
       return {
         type: "strike",
@@ -229,7 +227,6 @@ function tagToMark(
         type: "typewriter",
         attrs: { speed: attrs.speed ?? 50 },
       };
-
     case "gradient":
       return {
         type: "gradient",
@@ -263,6 +260,9 @@ function tagToMark(
         type: "outline",
         attrs: { color: attrs.color ?? "red", width: attrs.width ?? "2" },
       };
+
+    case "wavy":
+      return { type: "wavy" };
 
     case "highlight":
       return {

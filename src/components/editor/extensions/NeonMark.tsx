@@ -12,7 +12,6 @@ declare module "@tiptap/core" {
 export const NeonMark = Mark.create({
   name: "neon",
   group: "textOutline",
-  excludes: "outline",
 
   addAttributes() {
     return {

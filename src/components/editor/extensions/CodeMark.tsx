@@ -2,40 +2,39 @@ import { Mark, mergeAttributes } from "@tiptap/core";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
-    spoiler: {
-      setSpoiler: () => ReturnType;
-      unsetSpoiler: () => ReturnType;
+    code: {
+      setCode: () => ReturnType;
+      unsetCode: () => ReturnType;
+      toggleCode: () => ReturnType;
     };
   }
 }
 
-export const SpoilerNode = Mark.create({
-  name: "spoiler",
+export const CodeMark = Mark.create({
+  name: "code",
 
   parseHTML() {
-    return [{ tag: "span.spoilerButton" }];
+    return [{ tag: "code" }];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      "span",
-      mergeAttributes(HTMLAttributes, {
-        class: "spoilerButton spoilerHidden",
-      }),
-      0,
-    ];
+    return ["code", mergeAttributes(HTMLAttributes), 0];
   },
 
   addCommands() {
     return {
-      setSpoiler:
+      setCode:
         () =>
         ({ commands }) =>
           commands.setMark(this.name),
-      unsetSpoiler:
+      unsetCode:
         () =>
         ({ commands }) =>
           commands.unsetMark(this.name),
+      toggleCode:
+        () =>
+        ({ commands }) =>
+          commands.toggleMark(this.name),
     };
   },
 });

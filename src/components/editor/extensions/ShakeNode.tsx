@@ -39,16 +39,14 @@ export const ShakeNode = Mark.create({
     return {
       setShake:
         (attrs = {}) =>
-        ({ commands }) => {
-          return commands.setMark(this.name, {
+        ({ commands }) =>
+          commands.setMark(this.name, {
             intensity: attrs.intensity ?? "low",
-          });
-        },
+          }),
       unsetShake:
         () =>
-        ({ commands }) => {
-          return commands.unsetMark(this.name);
-        },
+        ({ commands }) =>
+          commands.unsetMark(this.name),
     };
   },
 });

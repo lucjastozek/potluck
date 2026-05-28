@@ -1,4 +1,5 @@
 import StarterKit from "@tiptap/starter-kit";
+import { CodeMark } from "@/components/editor/extensions/CodeMark";
 import { ColorMark } from "@/components/editor/extensions/ColorMark";
 import { StrikeMark } from "@/components/editor/extensions/StrikeMark";
 import { RainbowNode } from "@/components/editor/extensions/RainbowNode";
@@ -14,7 +15,8 @@ import { TypewriterNode } from "@/components/editor/extensions/TypewriterNode";
 import { ImageNode } from "@/components/editor/extensions/ImageNode";
 
 export const EDITOR_EXTENSIONS = [
-  StarterKit.configure({ strike: false }),
+  StarterKit.configure({ strike: false, code: false }),
+  CodeMark,
   ColorMark,
   StrikeMark,
   RainbowNode,
