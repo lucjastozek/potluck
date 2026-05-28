@@ -1,6 +1,7 @@
 import type { Editor } from "@tiptap/react";
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import styles from "@/components/editor/Toolbar.module.css";
+import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
 
 const PRESETS = [
   { label: "Red", value: "var(--red)" },
@@ -23,7 +24,7 @@ export default function HighlightPopover({
   editor: Editor;
   onClose: () => void;
 }): JSX.Element {
-  const ref = useRef<HTMLDivElement>(null);
+  const { ref, style } = useViewportPopoverPosition<HTMLDivElement>();
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -31,7 +32,7 @@ export default function HighlightPopover({
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [onClose]);
+  }, [onClose, ref]);
 
   const apply = (color: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -43,6 +44,7 @@ export default function HighlightPopover({
     <div
       ref={ref}
       className={styles.popover}
+      style={style}
       role="dialog"
       aria-label="Text colour"
     >

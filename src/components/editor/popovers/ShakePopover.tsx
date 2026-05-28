@@ -1,6 +1,7 @@
 import type { Editor } from "@tiptap/react";
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import styles from "@/components/editor/Toolbar.module.css";
+import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
 
 export default function ShakePopover({
   editor,
@@ -9,7 +10,7 @@ export default function ShakePopover({
   editor: Editor;
   onClose: () => void;
 }): JSX.Element {
-  const ref = useRef<HTMLDivElement>(null);
+  const { ref, style } = useViewportPopoverPosition<HTMLDivElement>();
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -17,7 +18,7 @@ export default function ShakePopover({
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [onClose]);
+  }, [onClose, ref]);
 
   const apply = (intensity: "low" | "high", e: React.MouseEvent) => {
     e.preventDefault();
@@ -29,6 +30,7 @@ export default function ShakePopover({
     <div
       ref={ref}
       className={styles.popover}
+      style={style}
       role="dialog"
       aria-label="Shake intensity"
     >

@@ -1,6 +1,7 @@
 import type { Editor } from "@tiptap/react";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "@/components/editor/Toolbar.module.css";
+import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
 
 const PRESETS = [
   { label: "Default", value: "var(--fg)" },
@@ -24,7 +25,7 @@ export default function OutlinePopover({
   editor: Editor;
   onClose: () => void;
 }): JSX.Element {
-  const ref = useRef<HTMLDivElement>(null);
+  const { ref, style } = useViewportPopoverPosition<HTMLDivElement>();
   const [width, setWidth] = useState(5);
   const [color, setColor] = useState("var(--fg)");
 
@@ -37,7 +38,7 @@ export default function OutlinePopover({
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [onClose, color, width, editor]);
+  }, [onClose, color, width, editor, ref]);
 
   const selectColor = (value: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -46,7 +47,7 @@ export default function OutlinePopover({
 
   const adjust = (delta: number, e: React.MouseEvent) => {
     e.preventDefault();
-    setWidth((w) => Math.max(1, w + delta));
+    setWidth((current) => Math.max(1, current + delta));
   };
 
   const applyAndClose = (e: React.MouseEvent) => {
@@ -59,6 +60,7 @@ export default function OutlinePopover({
     <div
       ref={ref}
       className={styles.popover}
+      style={style}
       role="dialog"
       aria-label="Text outline"
     >
