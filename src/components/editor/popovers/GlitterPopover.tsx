@@ -1,5 +1,6 @@
 import type { Editor } from "@tiptap/react";
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import styles from "@/components/editor/Toolbar.module.css";
 import { cssVarToHue } from "@/utils/colorToHue";
 import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
@@ -43,7 +44,7 @@ export default function GlitterPopover({
     onClose();
   };
 
-  return (
+  const content = (
     <div
       ref={ref}
       className={styles.popover}
@@ -66,4 +67,8 @@ export default function GlitterPopover({
       </div>
     </div>
   );
+
+  return typeof document === "undefined"
+    ? content
+    : createPortal(content, document.body);
 }

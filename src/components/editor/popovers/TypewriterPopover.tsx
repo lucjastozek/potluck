@@ -1,5 +1,6 @@
 import type { Editor } from "@tiptap/react";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "@/components/editor/Toolbar.module.css";
 import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
 
@@ -38,7 +39,7 @@ export default function TypewriterPopover({
     setSpeed((current) => Math.min(10, Math.max(1, current + delta)));
   };
 
-  return (
+  const content = (
     <div
       ref={ref}
       className={styles.popover}
@@ -61,4 +62,8 @@ export default function TypewriterPopover({
       </button>
     </div>
   );
+
+  return typeof document === "undefined"
+    ? content
+    : createPortal(content, document.body);
 }

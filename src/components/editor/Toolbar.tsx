@@ -1,6 +1,7 @@
 import { useEditorState, type Editor } from "@tiptap/react";
 import { useState } from "react";
 import styles from "@/components/editor/Toolbar.module.css";
+import { useViewportDimensions } from "@/hooks/useViewportDimensions";
 import ColorPopover from "@/components/editor/popovers/ColorPopover";
 import StrikeColorPopover from "@/components/editor/popovers/StrikeColorPopover";
 import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
@@ -36,6 +37,7 @@ export default function Toolbar({
   compact?: boolean;
 }): JSX.Element | null {
   const [openPopover, setOpenPopover] = useState<string | null>(null);
+  const { width } = useViewportDimensions();
   useEditorState({
     editor,
     selector: (ctx) => {
@@ -47,8 +49,13 @@ export default function Toolbar({
 
   if (!editor) return null;
 
+  const isMobile = width <= 720;
+  const useMobileRail = isMobile;
+
   const toggle = (name: string) =>
     setOpenPopover((prev) => (prev === name ? null : name));
+
+  const closePopover = () => setOpenPopover(null);
 
   const btn = (name: string, attrs?: Record<string, unknown>) =>
     editor.isActive(name, attrs)
@@ -99,6 +106,308 @@ export default function Toolbar({
   const headingValue = currentHeadingLevel
     ? String(currentHeadingLevel)
     : "paragraph";
+
+  if (useMobileRail) {
+    return (
+      <div
+        className={`${styles.toolbar} ${styles.toolbarMobileShell} ${compact ? styles.toolbarMobileShellCompact : ""}`}
+        role="toolbar"
+        aria-label="Text formatting"
+      >
+        <div className={styles.toolbarRail}>
+          <button
+            className={btn("bold")}
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            title="Bold"
+            aria-label="Bold"
+          >
+            <BoldIcon fontSize="inherit" />
+          </button>
+          <button
+            className={btn("italic")}
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            title="Italic"
+            aria-label="Italic"
+          >
+            <ItalicIcon fontSize="inherit" />
+          </button>
+
+          <div className={styles.popoverAnchor}>
+            <button
+              className={btn("strike")}
+              onClick={(e) => {
+                e.preventDefault();
+                if (editor.isActive("strike")) {
+                  editor.chain().focus().unsetMark("strike").run();
+                  closePopover();
+                } else {
+                  toggle("strikeColor");
+                }
+              }}
+              aria-expanded={openPopover === "strikeColor"}
+              title="Strikethrough color"
+              aria-label="Strikethrough color"
+            >
+              <StrikethroughSIcon fontSize="inherit" />
+            </button>
+
+            {openPopover === "strikeColor" && (
+              <StrikeColorPopover editor={editor} onClose={closePopover} />
+            )}
+          </div>
+
+          <div className={styles.popoverAnchor}>
+            <button
+              className={btn("color")}
+              disabled={isEffectDisabled("color", ["rainbow", "glitter"])}
+              onClick={() => {
+                if (editor.isActive("color")) {
+                  editor.chain().focus().unsetColor().run();
+                } else {
+                  toggle("color");
+                }
+              }}
+              aria-expanded={openPopover === "color"}
+              title="Color"
+              aria-label="Color"
+            >
+              <FormatColorTextIcon fontSize="inherit" />
+            </button>
+            {openPopover === "color" && (
+              <ColorPopover editor={editor} onClose={closePopover} />
+            )}
+          </div>
+
+          <button
+            className={btn("code")}
+            disabled={isEffectDisabled("code", ["highlight", "spoiler"])}
+            onClick={() => editor.chain().focus().toggleCode().run()}
+            title="Code"
+            aria-label="Code"
+          >
+            <CodeIcon fontSize="inherit" />
+          </button>
+
+          <button
+            className={btn("spoiler")}
+            disabled={isEffectDisabled("spoiler", ["highlight", "code"])}
+            onClick={(e) => {
+              e.preventDefault();
+              if (editor.isActive("spoiler")) {
+                editor.chain().focus().unsetSpoiler().run();
+              } else {
+                editor.chain().focus().setSpoiler().run();
+              }
+            }}
+            title="Spoiler"
+            aria-label="Spoiler"
+          >
+            <SpoilerIcon fontSize="inherit" />
+          </button>
+
+          <ImageUpload
+            onUploaded={(url) => {
+              editor
+                .chain()
+                .focus()
+                .insertImage({
+                  src: url,
+                  alt: "",
+                  widthPercent: 50,
+                  wrap: "none",
+                })
+                .run();
+            }}
+          />
+
+          <span className={styles.divider} aria-hidden="true" />
+
+          <button
+            className={btn("rainbow")}
+            disabled={isEffectDisabled("rainbow", ["color", "glitter"])}
+            onClick={(e) => {
+              e.preventDefault();
+              if (editor.isActive("rainbow")) {
+                editor.chain().focus().unsetRainbow().run();
+              } else {
+                editor.chain().focus().setRainbow().run();
+              }
+            }}
+            title="Rainbow"
+            aria-label="Rainbow"
+          >
+            🌈
+          </button>
+
+          <div className={styles.popoverAnchor}>
+            <button
+              className={btn("glitter")}
+              disabled={isEffectDisabled("glitter", ["color", "rainbow"])}
+              onClick={() => {
+                if (editor.isActive("glitter")) {
+                  editor.chain().focus().unsetGlitter().run();
+                  closePopover();
+                } else {
+                  toggle("glitter");
+                }
+              }}
+              aria-expanded={openPopover === "glitter"}
+              title="Glitter"
+              aria-label="Glitter"
+            >
+              <GlitterIcon fontSize="inherit" />
+            </button>
+            {openPopover === "glitter" && (
+              <GlitterPopover editor={editor} onClose={closePopover} />
+            )}
+          </div>
+
+          <div className={styles.popoverAnchor}>
+            <button
+              className={btn("highlight")}
+              disabled={isEffectDisabled("highlight", ["code", "spoiler"])}
+              onClick={() => {
+                if (editor.isActive("highlight")) {
+                  editor.chain().focus().unsetHighlight().run();
+                } else {
+                  toggle("highlight");
+                }
+              }}
+              aria-expanded={openPopover === "highlight"}
+              title="Highlight"
+              aria-label="Highlight"
+            >
+              <HighlightIcon fontSize="inherit" />
+            </button>
+            {openPopover === "highlight" && (
+              <HighlightPopover editor={editor} onClose={closePopover} />
+            )}
+          </div>
+          <div className={styles.popoverAnchor}>
+            <button
+              className={btn("outline")}
+              disabled={isEffectDisabled("outline", ["neon"])}
+              onClick={() => {
+                if (editor.isActive("outline")) {
+                  editor.chain().focus().unsetOutline().run();
+                } else {
+                  toggle("outline");
+                }
+              }}
+              aria-expanded={openPopover === "outline"}
+              title="Outline"
+              aria-label="Outline"
+            >
+              <OutlineIcon fontSize="inherit" />
+            </button>
+            {openPopover === "outline" && (
+              <OutlinePopover editor={editor} onClose={closePopover} />
+            )}
+          </div>
+          <div className={styles.popoverAnchor}>
+            <button
+              className={btn("neon")}
+              disabled={isEffectDisabled("neon", ["outline", "shadow"])}
+              onClick={() => {
+                if (editor.isActive("neon")) {
+                  editor.chain().focus().unsetNeon().run();
+                } else {
+                  toggle("neon");
+                }
+              }}
+              aria-expanded={openPopover === "neon"}
+              title="Neon"
+              aria-label="Neon"
+            >
+              <NeonIcon fontSize="inherit" />
+            </button>
+            {openPopover === "neon" && (
+              <NeonPopover editor={editor} onClose={closePopover} />
+            )}
+          </div>
+          <div className={styles.popoverAnchor}>
+            <button
+              className={btn("shadow")}
+              disabled={isEffectDisabled("shadow", ["neon"])}
+              onClick={() => {
+                if (editor.isActive("shadow")) {
+                  editor.chain().focus().unsetShadow().run();
+                } else {
+                  toggle("shadow");
+                }
+              }}
+              aria-expanded={openPopover === "shadow"}
+              title="Shadow"
+              aria-label="Shadow"
+            >
+              <ShadowIcon fontSize="inherit" />
+            </button>
+            {openPopover === "shadow" && (
+              <ShadowPopover editor={editor} onClose={closePopover} />
+            )}
+          </div>
+          <div className={styles.popoverAnchor}>
+            <button
+              className={btn("shake")}
+              disabled={isEffectDisabled("shake", ["wavy", "typewriter"])}
+              onClick={() => {
+                if (editor.isActive("shake")) {
+                  editor.chain().focus().unsetShake().run();
+                } else {
+                  toggle("shake");
+                }
+              }}
+              aria-expanded={openPopover === "shake"}
+              title="Shake"
+              aria-label="Shake"
+            >
+              <ShakeIcon fontSize="inherit" />
+            </button>
+            {openPopover === "shake" && (
+              <ShakePopover editor={editor} onClose={closePopover} />
+            )}
+          </div>
+          <button
+            className={btn("wavy")}
+            disabled={isEffectDisabled("wavy", ["shake", "typewriter"])}
+            onClick={(e) => {
+              e.preventDefault();
+              if (editor.isActive("wavy")) {
+                editor.chain().focus().unsetWavy().run();
+              } else {
+                editor.chain().focus().setWavy().run();
+              }
+            }}
+            title="Wave"
+            aria-label="Wave"
+          >
+            <WaveIcon fontSize="inherit" />
+          </button>
+          <div className={styles.popoverAnchor}>
+            <button
+              className={btn("typewriter")}
+              disabled={isEffectDisabled("typewriter", ["shake", "wavy"])}
+              onClick={() => {
+                if (editor.isActive("typewriter")) {
+                  editor.chain().focus().unsetTypewriter().run();
+                } else {
+                  toggle("typewriter");
+                }
+              }}
+              aria-expanded={openPopover === "typewriter"}
+              title="Typewriter"
+              aria-label="Typewriter"
+            >
+              <TypewriterIcon fontSize="inherit" />
+            </button>
+            {openPopover === "typewriter" && (
+              <TypewriterPopover editor={editor} onClose={closePopover} />
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

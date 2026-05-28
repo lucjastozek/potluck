@@ -1,5 +1,6 @@
 import type { Editor } from "@tiptap/react";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "@/components/editor/Toolbar.module.css";
 import { useViewportPopoverPosition } from "@/hooks/useViewportPopoverPosition";
 
@@ -85,7 +86,7 @@ export default function ShadowPopover({
     </div>
   );
 
-  return (
+  const content = (
     <div
       ref={ref}
       className={styles.popover}
@@ -116,4 +117,8 @@ export default function ShadowPopover({
       </button>
     </div>
   );
+
+  return typeof document === "undefined"
+    ? content
+    : createPortal(content, document.body);
 }
