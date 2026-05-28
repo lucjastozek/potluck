@@ -147,6 +147,29 @@
   width: 65%;
 }
 
+.addButton {
+  flex: 0 0 auto;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--fgRgb), 0.22);
+  background: rgba(var(--bgRgb), 0.65);
+  color: rgba(var(--fgRgb), 0.9);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.addButton:hover {
+  background: rgba(var(--bgRgb), 0.5);
+}
+
 @media (max-width: 600px) {
   .main {
     padding: 1.5rem 1rem;

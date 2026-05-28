@@ -3,6 +3,7 @@ import styles from "@/pages/feed/FeedPage.module.css";
 import { getTodayFeed, getArchiveFeed, FeedPost } from "@/api/feed";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
 
 export default function FeedPage(): JSX.Element {
   const [posts, setPosts] = useState<FeedPost[]>([]);
@@ -114,6 +115,11 @@ export default function FeedPage(): JSX.Element {
           ))
         )}
       </section>
+      <Link to="/feed?compose=1">
+        <button className={styles.addButton}>
+          <AddIcon fontSize="inherit" />
+        </button>
+      </Link>
     </main>
   );
 }
