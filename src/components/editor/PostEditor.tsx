@@ -52,7 +52,7 @@ export default function PostEditor({
   onClose,
   closeLabel = "Close",
 }: PostEditorProps): JSX.Element {
-  const { width, keyboardOpen } = useViewportDimensions();
+  const { width, keyboardOpen, visualHeight } = useViewportDimensions();
   const isMobile = width <= 720;
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(true);
   const [mobileSidebarAutoCollapsed, setMobileSidebarAutoCollapsed] =
@@ -323,6 +323,11 @@ export default function PostEditor({
       } ${isMobile && !mobileSidebarOpen ? styles.mobileShellCollapsed : ""} ${
         keyboardOpen ? styles.keyboardOpen : ""
       } ${isMobile && headingState ? styles.mobileHeadingVisible : ""}`}
+      style={
+        isMobile
+          ? { height: `${visualHeight}px`, maxHeight: `${visualHeight}px` }
+          : undefined
+      }
       aria-label={title ?? "Post editor"}
     >
       {!isMobile && (title || subtitle || status || onClose) && (
