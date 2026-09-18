@@ -1,5 +1,7 @@
 # Potluck
 
+![Screenshot of the Potluck's feed](assets/feed.png)
+
 Potluck is a small, playful social platform designed as a digital third place: a space for sharing with people you know, without the pressure to perform for a large audience.
 
 The project explores how social media might feel different when it prioritises human connection, small scale, authentic expression, and intentional friction over growth and engagement.
