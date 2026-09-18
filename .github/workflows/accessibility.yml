@@ -20,12 +20,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: "yarn"
 
       - name: Generate cache key
         id: cache-key
-        run: echo "key=${{ runner.os }}-a11y-node20-${{ hashFiles('yarn.lock') }}" >> $GITHUB_OUTPUT
+        run: echo "key=${{ runner.os }}-a11y-node22-${{ hashFiles('yarn.lock') }}" >> $GITHUB_OUTPUT
 
       - name: Cache dependencies
         uses: actions/cache@v4
@@ -33,7 +33,7 @@ jobs:
           path: node_modules
           key: ${{ steps.cache-key.outputs.key }}
           restore-keys: |
-            ${{ runner.os }}-a11y-node20-
+            ${{ runner.os }}-a11y-node22-
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -55,7 +55,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: "yarn"
 
       - name: Restore dependencies
@@ -155,7 +155,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: "yarn"
 
       - name: Restore dependencies
@@ -246,7 +246,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: "yarn"
 
       - name: Restore dependencies
