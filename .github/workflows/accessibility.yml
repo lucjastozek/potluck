@@ -80,7 +80,7 @@ jobs:
           npm install -g @axe-core/cli
           npx browser-driver-manager install chrome
 
-      - name: Extract routes from Router.tsx
+      - name: Extract routes from App.tsx
         id: extract-routes
         run: |
           echo "Extracting routes from React Router configuration..."
@@ -195,7 +195,7 @@ jobs:
 
       - name: Update Lighthouse config with dynamic routes
         run: |
-          echo "Updating Lighthouse configuration with routes from Router.tsx..."
+          echo "Updating Lighthouse configuration with routes from App.tsx..."
           node scripts/update-lighthouse-config.js
           echo "Lighthouse config updated successfully"
 
@@ -269,7 +269,7 @@ jobs:
           yarn preview --port 3000 &
           npx wait-on http://localhost:3000 --timeout 60000
 
-      - name: Extract routes from Router.tsx
+      - name: Extract routes from App.tsx
         id: extract-routes
         run: |
           echo "Extracting routes from React Router configuration..."

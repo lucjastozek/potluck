@@ -82,9 +82,3 @@ export async function toggleLike(
 ): Promise<{ liked: boolean; likeCount: number }> {
   return api.post(`/api/posts/${postId}/like`);
 }
-
-export async function toggleRepost(
-  postId: string,
-): Promise<{ reposted: boolean }> {
-  return api.post(`/api/posts/${postId}/repost`);
-}

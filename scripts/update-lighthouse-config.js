@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Update lighthouserc.json URLs with dynamic routes from Router.tsx
+ * Update lighthouserc.json URLs with routes from the active App.tsx router.
  */
 
 import fs from "fs";
@@ -34,7 +34,7 @@ function updateLighthouseUrls() {
   try {
     routes = extractRoutesFromRouter();
   } catch (error) {
-    console.error("Error extracting routes from Router.tsx:", error.message);
+    console.error("Error extracting routes from App.tsx:", error.message);
     console.log("Falling back to root route only");
     routes = ["/"];
   }
@@ -50,7 +50,7 @@ function updateLighthouseUrls() {
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2) + "\n");
 
   console.log(`Updated lighthouserc.json URLs with routes: ${urls.join(", ")}`);
-  console.log(`Routes extracted from Router.tsx: ${routes.join(", ")}`);
+  console.log(`Routes extracted from App.tsx: ${routes.join(", ")}`);
 
   return config;
 }
@@ -69,7 +69,7 @@ function main() {
   } else if (mode === "routes") {
     const routes = extractRoutesFromRouter();
 
-    console.log("Routes found in Router.tsx:", routes.join(", "));
+    console.log("Routes found in App.tsx:", routes.join(", "));
   }
 }
 

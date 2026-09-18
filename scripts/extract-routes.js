@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Extract routes from React Router configuration for testing
- * This script parses the Router.tsx file and outputs all defined routes
+ * This script parses the active App.tsx router and outputs public routes.
  */
 
 import fs from "fs";
@@ -12,10 +12,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 function extractRoutesFromRouter() {
-  const routerPath = path.join(__dirname, "..", "src", "Router.tsx");
+  const routerPath = path.join(__dirname, "..", "src", "App.tsx");
 
   if (!fs.existsSync(routerPath)) {
-    console.error("Router.tsx not found at src/Router.tsx");
+    console.error("App.tsx not found at src/App.tsx");
     process.exit(1);
   }
 
@@ -25,7 +25,7 @@ function extractRoutesFromRouter() {
   const pathMatches = routerContent.matchAll(/path:\s*["'`]([^"'`]+)["'`]/g);
   for (const match of pathMatches) {
     const route = match[1];
-    if (!route.includes(":") && !route.includes("*")) {
+    if (!route.includes(":") && !route.includes("*") && !route.includes("?")) {
       routes.add(route);
     }
   }
@@ -33,7 +33,12 @@ function extractRoutesFromRouter() {
   const stringMatches = routerContent.matchAll(/["'`]\/[^"'`]*["'`]/g);
   for (const match of stringMatches) {
     const route = match[0].slice(1, -1);
-    if (route.startsWith("/") && !route.includes(":") && !route.includes("*")) {
+    if (
+      route.startsWith("/") &&
+      !route.includes(":") &&
+      !route.includes("*") &&
+      !route.includes("?")
+    ) {
       routes.add(route);
     }
   }

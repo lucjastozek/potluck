@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Run Axe accessibility tests on all routes extracted from Router.tsx
+ * Run Axe accessibility tests on all routes extracted from App.tsx
  */
 
 import { spawn } from "child_process";
@@ -13,7 +13,7 @@ async function runAxeOnRoutes() {
   try {
     routes = extractRoutesFromRouter();
   } catch (error) {
-    console.error("Error extracting routes from Router.tsx:", error.message);
+    console.error("Error extracting routes from App.tsx:", error.message);
     console.log("Falling back to root route only");
     routes = ["/"];
   }

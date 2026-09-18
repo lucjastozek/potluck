@@ -13,7 +13,6 @@ import InboxPage from "@/pages/messages/InboxPage";
 import ConversationPage from "@/pages/messages/ConversationPage";
 import RoleRoute from "@/components/auth/RoleRoute";
 import ModerationPage from "@/pages/moderation/ModerationPage";
-import EditorTestPage from "@/pages/editor-test/EditorTestPage";
 
 function App() {
   return (
@@ -22,7 +21,6 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/editor-test" element={<EditorTestPage />} />
           <Route path="/" element={<Navigate to="/feed" replace />} />
           <Route
             path="/create"

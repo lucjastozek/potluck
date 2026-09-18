@@ -42,9 +42,3 @@ export async function submitPost(id: string): Promise<{ post: MyPost }> {
 export async function deletePost(id: string): Promise<void> {
   return api.delete(`/api/posts/${id}`);
 }
-
-export async function searchTags(q: string): Promise<{
-  tags: { id: string; name: string; _count: { posts: number } }[];
-}> {
-  return api.get(`/api/tags?q=${encodeURIComponent(q)}`);
-}

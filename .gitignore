@@ -9,13 +9,11 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 .lighthouseci
-test-results
-playwright-report
-
 node_modules
 dist
 dist-ssr
 *.local
+*.tsbuildinfo
 
 # Editor directories and files
 .vscode/*

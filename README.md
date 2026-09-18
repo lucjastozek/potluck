@@ -18,7 +18,7 @@ The project explores how social media might feel different when it prioritises h
 - React Router
 - TipTap editor
 - Material UI
-- Vitest and Playwright
+- Axe, Pa11y, and Lighthouse accessibility checks
 
 ## Getting started
 
