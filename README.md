@@ -1,120 +1,65 @@
-# Ally template
+# Potluck
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/ally-template-banner-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="assets/ally-template-banner-light.png">
-  <img alt="Ally Template logo" src="assets/ally-template-banner-light.png" width="3567.5">
-</picture>
+Potluck is a small, playful social platform designed as a digital third place: a space for sharing with people you know, without the pressure to perform for a large audience.
 
-React + Vite template built with a focus on accessibility 🩷
+The project explores how social media might feel different when it prioritises human connection, small scale, authentic expression, and intentional friction over growth and engagement.
 
-## General Info
+## Design ideas
 
-This project is built with:
+- **Expressive editor** - Create posts with colour, text effects, animations, and unusual image frames.
+- **Hidden like metrics** - People can be notified that a post was liked without public like counts or liker identities.
+- **Human moderation** - Posts are reviewed before publication, creating a pause for reflection and community moderation.
+- **Small-scale access** - The platform is intended for a bounded group of friends rather than an anonymous broadcast audience.
 
+## Tech stack
+
+- React and TypeScript
 - Vite
-- React
-- TypeScript
-- React Router DOM
+- React Router
+- TipTap editor
+- Material UI
+- Vitest and Playwright
 
-You don’t need to clone this template manually. You can scaffold a new project using an npx script:
+## Getting started
 
-```bash
-npx create-ally-app
-```
-
-![Demonstration of project scaffolding using the create-ally-app command](./assets/create-ally-app.gif)
-
-## Accessibility Features
-
-This template comes with a full suite of accessibility (a11y) features to ensure your application meets WCAG standards and provides an inclusive user experience. It includes:
-
-- **Scripts for accessibility testing** using [Axe](https://github.com/dequelabs/axe-core), [Pa11y](https://pa11y.org/) and [Lighthouse](https://github.com/GoogleChrome/lighthouse-ci), integrated with GitHub Actions
-- **Static accessibility checks** via the `eslint-plugin-jsx-a11y` ESLint plugin
-- **Example code** demonstrating accessible components, end-to-end accessibility testing, and color palettes with WCAG-compliant contrast ratios for both light and dark modes
-
-### Scripts
+You need Node.js 20 or newer and Yarn 1.x.
 
 ```bash
-# Run all accessibility tests
-yarn a11y:all
-
-# Run individual accessibility tests
-yarn a11y:axe        # Test with Axe Core
-yarn a11y:pa11y      # Test with Pa11y
-yarn a11y:lighthouse # Test with Lighthouse CI
-
-# Update Lighthouse config with current routes
-yarn update-lighthouse-config
-```
-
-### GitHub Actions Integration
-
-The repository includes automated accessibility testing in CI/CD:
-
-- **Pull Request Comments** - Lighthouse CI posts performance and accessibility results directly to PRs
-- **Multiple Tools** - Each PR is tested with Axe, Pa11y, and Lighthouse
-
-### Local Development
-
-Before pushing changes, you can run accessibility tests locally:
-
-```bash
-# Start your dev server
+git clone <repository-url>
+cd potluck
+yarn install
 yarn start
+```
 
-# In another terminal, run accessibility tests
+The frontend runs at [http://localhost:3000](http://localhost:3000).
+
+The app expects an API server at `http://localhost:3001` by default. To use another API URL, create a `.env.local` file:
+
+```bash
+VITE_API_URL=http://localhost:3001
+```
+
+The API is not included in this repository.
+
+## Available commands
+
+```bash
+yarn start          # Start the development server
+yarn build          # Type-check and create a production build
+yarn preview        # Preview the production build locally
+yarn type-check    # Check TypeScript without emitting files
+yarn lint           # Run ESLint
+```
+
+Accessibility checks are also available:
+
+```bash
+yarn a11y:axe
+yarn a11y:pa11y
+yarn a11y:lighthouse
 yarn a11y:all
 ```
 
-## Common Scripts
+## Project status
 
-```json
-"scripts": {
-  "build": "tsc -b && vite build",
-  "preview": "vite preview",
-  "format": "prettier --write .",
-  "format:check": "prettier --check .",
-  "lint": "eslint --max-warnings=0 .",
-  "start": "vite --port 3000",
-  "type-check": "tsc --noEmit"
-}
-```
-
-### Development & Build
-
-- `yarn start` - Starts the Vite dev server with hot module reload, runs on port 3000.
-- `yarn build` - Runs the TypeScript compiler (`tsc -b`) and builds the project with Vite.
-
-### Code Quality
-
-- `yarn format` - Formats all files using Prettier.
-- `yarn format:check` - Checks if files are formatted correctly (fails if not).
-- `yarn lint` - Runs ESLint. Fails on any warning or error.
-- `yarn type-check` - Checks TypeScript types without emitting any files.
-
-# Quick Accessibility Reference
-
-## Common Patterns
-
-- `<button>` for actions, `<a>` for navigation
-- Every form input needs a `<label>`
-- Images need `alt` text (empty `alt=""` for decorative)
-- Use headings in order (h1, h2, h3...)
-
-## Quick Tests
-
-- Tab through your page - does it make sense?
-- Turn off CSS - is content still usable?
-- Run `yarn lint` - fix any a11y warnings
-
----
-
-<picture>
-
-  <source media="(prefers-color-scheme: dark)" srcset="assets/ally-toolkit-banner-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="assets/ally-toolkit-banner-light.png">
-  <img alt="Ally Toolkit logo" src="assets/ally-toolkit-banner-light.png" width="3027.5">
-</picture>
-
-Part of **Ally Toolkit** · _Built with a focus on accessibility 🩷_
+Potluck is a speculative design project and working prototype. Its research and testing explored whether a slower, smaller, more expressive social platform could support more comfortable and genuine participation. The findings are early and based on a small, connected group, so the project is not presented as a general solution to social media design.
